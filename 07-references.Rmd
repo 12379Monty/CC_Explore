@@ -1,0 +1,8 @@
+`r if (knitr::is_html_output()) '
+# References {-}
+<div id="refs"></div>
+'`
+
+```{r appendix1, cache=F, child='_appendix1.Rmd',eval=F, echo=F}
+### CLEAR CACHE
+```

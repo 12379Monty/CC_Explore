@@ -1,0 +1,155 @@
+--- 
+title: "Classification and Clustering: Case Study with CRC Gene Expression Data"
+author: "Francois Collin"
+date: 2020
+site: bookdown::bookdown_site
+### see https://community.rstudio.com/t/bookdown-pdf-generation/12359
+knit: "bookdown::render_book"
+documentclass: book
+bibliography: [bib/CRC.bib]
+#biblio-style: apalike
+csl: csl/cell-numeric.csl
+#csl: csl/american-medical-association-alphabetical.csl
+link-citations: yes
+description: "Classification and clustering methodes are explored using colorectal data from GEO website"
+---
+
+
+<!-- ONLY THIS FILE SHOULD HAVE YAML -->
+
+<!-- THIS FILE DOESN'T HAVE TO HAVE ANY CONTENT ... -->
+ 
+
+<style>
+
+.watermark {
+  opacity: 0.2;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 500%;
+  color: #00407d;
+}
+
+</style>
+
+<!-- THIS DIDN'T DO ANYTHING
+<div class="watermark">DRAFT</div>
+-->
+
+```{r index-setup, include=F}
+ # file rmarkdown file management options: cache, figures
+ figures_DIR <- file.path('Static', 'figures/')
+ suppressMessages(dir.create(figures_DIR, recursive=T))
+ knitr::opts_chunk$set(fig.path=paste0(figures_DIR))
+ 
+
+ FN <- 'tmp'
+ # Shotcuts for knitting and redering while in R session (Invoke interactive R from R/Scripts folder)
+ kk <- function(n='') knitr::knit2html(paste("t", n, sep=''), envir=globalenv(),
+       output=paste(FN,".html", sep=''))
+
+ rr <- function(n='') rmarkdown::render(paste("t", n, sep=''), envir=globalenv(),
+       output_file=paste(FN,".html", sep='')) ##, output_dir='Scripts')
+
+ bb <- function(n='') browseURL(paste(FN,".html", sep=''))
+
+ # The usual shotcuts
+ zz <- function(n='') source(paste("t", n, sep=''))
+
+ # This is for kableExtra::kable_styling to work
+ # specify for html
+ options(knitr.table.format = 'html')
+
+ # specify for pdf
+ #options(knitr.table.format = 'latex')
+  
+library(magrittr)
+```
+
+```{r index-functionDef, include=F}
+
+KellyColors.vec <- c(
+  "#222222", "#F3C300", "#875692", "#F38400", "#A1CAF1",
+  "#BE0032", "#C2B280", "#848482", "#008856", "#E68FAC", "#0067A5",
+  "#F99379", "#604E97", "#F6A600", "#B3446C", "#DCD300", "#882D17",
+  "#8DB600", "#654522", "#E25822", "#2B3D26"
+)
+col_vec <- KellyColors.vec
+
+ # timing
+ ##################################################
+ startTimedMessage <- function(...) {
+        x <- paste0(..., collapse='')
+        message(x, appendLF=FALSE)
+        ptm <- proc.time()
+        return(ptm)
+ }
+ stopTimedMessage <- function(ptm) {
+        time <- proc.time() - ptm
+        message(" ", round(time[3],2), "s")
+ }
+
+
+ # kappa for cluserinf aggreement with labels
+ ################################################
+ getKappa <- function(Clustering.v, Labels.v)
+  {
+     require(concord)
+     # Reorder if names are availableo
+     if(!is.null(names(Clustering.v)))
+     Labels.v <- Labels.v[names(Clustering.v)]
+
+     MS_1.v  <- as.numeric(as.character(factor(Labels.v,
+                  level=c('MSS', 'MSI'), labels=c(1,2))))
+     MS_2.v  <- as.numeric(as.character(factor(Labels.v,
+                  level=c('MSS', 'MSI'), labels=c(2,1))))
+     kappa.1 <- cohen.kappa(cbind(MS_1.v, Clustering.v))
+     kappa.2 <- cohen.kappa(cbind(MS_2.v, Clustering.v))
+     max(kappa.1$kappa.c,kappa.2$kappa.c)
+
+     kappa.v <- round(max(kappa.1$kappa.c,kappa.2$kappa.c),2)
+  }
+ #dput(getKappa, file.path(help_DIR, 'getKappa.r'))
+
+ # add contingecny table to margen of plot
+ ################################################
+ mtext2by2Tbl <- function(Tbl, LL=8)
+ {
+   mtext(side=1, outer=F, line=LL,
+         paste("Pred:  ", paste(colnames(Tbl), collapse='   '), collapse='    '))
+   LL <- LL + 1
+   mtext(side=1, outer=F, line=LL,
+         paste(" 1: ", paste(Tbl[1,], collapse='   '), collapse='    '))
+
+  if(dim(Tbl)[1] >1) {
+   LL <- LL + 1
+   mtext(side=1, outer=F, line=LL,
+         paste(" 2: ", paste(Tbl[2,], collapse='   '), collapse='    '))
+  }
+ }
+ #dput(mtext2by2Tbl, file.path(help_DIR, 'mtext2by2Tbl.r'))
+
+```
+
+
+<!-- NOT SURE WHAT IS THE BEST PLACE TO PUT THIS -->
+
+```{r index-runParam, echo=FALSE}
+ # Top 10% highest variance genes
+ SelGenes <- 'Top10VarGenes'
+
+ # Predictive Modeling Parameters
+ CV <- list(Num=5, Rep=10)
+
+ # Continue to work with Train data set and top 10% most variable genes
+ # SEE NOTE ABOVE ABOIUT VARIABILITY SELECTION!
+ SelGenes <- 'Top10VarGenes'
+
+ # Clustering parameters
+ DM <-  "euclidean"
+ # Set standardize flag
+ STAND <- TRUE
+
+```
+

@@ -1,0 +1,512 @@
+# Compare Predictive Models {#comp-models}
+
+Here we compare predictive models in terms of:
+
+- Processing time
+- Prediction accuracy and ROC on train samples
+- Prediction accuracy and ROC on train `out-of-sample`
+- Prediction accuracy and ROC on test samples
+- Direct comparison of variable importance
+
+## Load Models
+
+```{r comp-models-getModels, eval=F}
+
+ # Load Train and Test Data
+ load(file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
+ load(file=file.path(WRKDIR, 'Data', 'Test.Expr.mtx'))
+ load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
+ load(file=file.path(WRKDIR, 'Data', 'Test.Label.vec'))
+
+ CLASS1 <- as.character(sort(unique(Train.Label.vec))[1])
+ CLASS2 <- as.character(sort(unique(Train.Label.vec))[2])
+
+ # Load models
+ ModelFit.vec <- list.files(file.path(WRKDIR, 'Data'), 'Fit$')
+
+ # Stratify according to batch effect correction
+ FitSetCV.vec <- sapply(strsplit(ModelFit.vec, split='\\.'),
+            function(x) paste(x[1:3], collapse='.'))
+
+ ModelFit.lst <- split(sapply(strsplit(ModelFit.vec, split='\\.'), function(x) rev(x)[1]),
+                       FitSetCV.vec)
+
+ # Get Model.col for plotting (only have one FitSetCV values here.  could have many)
+ Model.col <- as.numeric(as.factor(ModelFit.lst[[1]]))
+ names(Model.col) <- ModelFit.lst[[1]]
+
+ cat("Found", length(ModelFit.vec), 'models:\n')
+ print(ModelFit.lst)
+
+ # Load Models for single set (we cd have more than one set in FitSetCV.vec)
+ SET <- names(ModelFit.lst)[1]
+ Set.ModelFit.lst <- lapply(ModelFit.lst[[SET]],
+  function(MF) {
+   loadObj(paste(SET, MF, sep='.'), 'ModelFit')
+   ModelFit})
+ names(Set.ModelFit.lst) <- ModelFit.lst[[SET]]
+
+```
+<!-- ######################################################################## -->
+
+## Compare Times
+```{r comp-models-compTimes, cache=TRUE, cache.vars='', eval=F}
+
+  Set.ModelTimes.frm <- do.call('rbind', lapply(Set.ModelFit.lst,
+  function(LL) c(all=LL$times$everything)))###, final=LL$times$final)))
+
+  print(kable(t(Set.ModelTimes.frm), digits=2))
+
+```
+<!-- ######################################################################## -->
+
+
+## Compare Prediction Accuracy
+
+
+### Train Data Accuracy
+```{r comp-models-trainAccuracy, cache=TRUE, cache.vars='', eval=F}
+ suppressMessages(require(caret))
+
+ # Train - these are fitting errors
+ Set.Train.Pred.lst <- suppressMessages(predict(Set.ModelFit.lst))
+          #, newdata=Train.SelGenes.Expr.mtx))
+
+ Set.Train.TruthTable.frm <- do.call('rbind', lapply(Set.Train.Pred.lst,
+ function(PRED) {
+   truth.vec <- as.vector(table(PRED, Train.Label.vec))#/length(Train.Label.vec)
+   # ASSUMING MSI is FIRST LABEL of CLASS
+   names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
+   truth.vec}))
+
+ print(
+  kable(data.frame(cbind(Set.Train.TruthTable.frm,
+                  Set.Train.TruthTable.frm/length(Train.Label.vec))),
+    digits=2, align='c')
+  )
+
+```
+<!-- ######################################################################## -->
+
+
+### Out of Sample Train Data Accuracy
+```{r comp-models-OOSTrainAccuracy, cache=TRUE, cache.vars='', eval=F}
+
+  Set.ModelFit.osPred.mtx.lst <- lapply(Set.ModelFit.lst,
+ function(MF) {
+   MF.pred.mtx <- MF$pred
+   Rep.vec <- sapply(strsplit(MF$pred$Resample, split='\\.'),'[', 2)
+   rowIndex.vec <- sort(unique(MF$pred$rowIndex))
+   Pred.mtx <- do.call('cbind', lapply(split(MF$pred, Rep.vec),
+   function(RepMFpred.frm)
+      as.character(RepMFpred.frm[match(rowIndex.vec, RepMFpred.frm$rowIndex),'pred'])))
+   Pred.mtx})
+
+ # Use mode over reps as prediction
+ ############################################
+ Set.ModelFit.osPred.vec.lst <- lapply(Set.ModelFit.osPred.mtx.lst,
+ function(PRED.mtx) apply(PRED.mtx,1,function(Pred.vec)
+ names(table(Pred.vec))[which.max(table(Pred.vec))]))
+
+ Set.Train.osPredMode.TruthTable.frm <- do.call('rbind', lapply(Set.ModelFit.osPred.vec.lst,
+ function(PRED) {
+   truth.vec <- as.vector(table(PRED, Train.Label.vec))#/length(Train.Label.vec)
+   # ASSUMING MSI is FIRST LABEL of CLASS
+   names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
+   truth.vec}))
+
+ print(
+ kable(data.frame(cbind(Set.Train.osPredMode.TruthTable.frm,
+                  Set.Train.osPredMode.TruthTable.frm/length(Train.Label.vec))),
+    digits=2, align='c')
+ )
+
+ ############################################
+ # alternatively, can look at the osPred by rep
+ # and use mean for error rates
+ ############################################
+ Set.Train.osPredMean.TruthTable.frm <- do.call('rbind', lapply(Set.ModelFit.osPred.mtx.lst,
+  function(PRED.mtx) {
+   TruthTable.mtx <- do.call('rbind', lapply(1:ncol(PRED.mtx),
+   function(CC) as.vector(table(PRED.mtx[,CC], Train.Label.vec)/length(Train.Label.vec))))
+   apply(TruthTable.mtx,2,mean)}))
+  colnames(Set.Train.osPredMean.TruthTable.frm) <- c('TN', 'FP', 'FN', 'TP')
+
+  print(
+    kable(data.frame(Set.Train.osPredMean.TruthTable.frm),
+       digits=2, align='c')
+  )
+
+```
+<!-- ######################################################################## -->
+
+### Test Data Accuracy
+```{r comp-models-testAccuracy, cache=TRUE, cache.vars='', eval=F}
+ suppressMessages(require(caret))
+
+ # Test - these are fitting errors
+ Set.Test.Pred.lst <- lapply(Set.ModelFit.lst,
+          function(MF) predict(MF, newdata=Test.Expr.mtx))
+
+ Set.Test.TruthTable.frm <- do.call('rbind', lapply(Set.Test.Pred.lst,
+ function(PRED) {
+   truth.vec <- as.vector(table(PRED, Test.Label.vec))#/length(Test.Label.vec)
+   # ASSUMING MSI is FIRST LABEL of CLASS
+   names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
+   truth.vec}))
+
+ print(kable(data.frame(cbind(Set.Test.TruthTable.frm,
+                  Set.Test.TruthTable.frm/length(Test.Label.vec))),
+    digits=2, align='c'))
+
+```
+<!-- ######################################################################## -->
+
+
+## Compare Models in Terms of ROC
+
+### Training Data ROC
+```{r comp-models-CompROCTrain, cache=TRUE, cache.vars='Set.Train.roc.mtx.lst', fig.height=6, fig.width=11, eval=F}
+ # CHANGE THIS LINE TO CLEAR CACHE
+ suppressMessages(require(pROC))
+
+ ################################
+ # Train
+ ################################
+ # Get predicted probabilities
+ Set.Train.Prob.lst <- suppressMessages(predict(Set.ModelFit.lst, type='prob'))
+ Set.Train.ProbClass1.mtx <- do.call('cbind',
+    lapply(Set.Train.Prob.lst, function(x) x[,CLASS1]))
+
+ rownames(Set.Train.ProbClass1.mtx) <- names(Train.Label.vec)
+
+ # ROC
+ Set.Train.roc.mtx.lst <- lapply(colnames(Set.Train.ProbClass1.mtx), function(MM)
+    do.call('rbind', lapply(rev(sort(unique(Set.Train.ProbClass1.mtx))),
+     function(TS) {
+        TP <- sum(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec==CLASS1] > TS, na.rm=T)
+        FP <- sum(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec==CLASS2] > TS, na.rm=T)
+        c(TS=TS, TP=TP, FP=FP)}))
+   )
+ names(Set.Train.roc.mtx.lst) <- colnames(Set.Train.ProbClass1.mtx)
+ # Get auc
+ Set.Train.auc.vec <- sapply(1:ncol(Set.Train.ProbClass1.mtx), function(CC)
+   auc(Train.Label.vec, Set.Train.ProbClass1.mtx[,CC]))
+ names(Set.Train.auc.vec) <- colnames(Set.Train.ProbClass1.mtx)
+
+
+ plot(x=range(do.call('c', lapply(Set.Train.roc.mtx.lst,
+                function(LL) LL[,'FP'])))/sum(Train.Label.vec==CLASS2),
+      y=range(do.call('c', lapply(Set.Train.roc.mtx.lst,
+                function(LL) LL[,'TP'])))/sum(Train.Label.vec==CLASS1),
+      xlab='FP', ylab='TP', type='n')
+
+ for(II in 1:length(Set.Train.roc.mtx.lst))
+ lines(x=Set.Train.roc.mtx.lst[[II]][,'FP']/sum(Train.Label.vec==CLASS2),
+       y=Set.Train.roc.mtx.lst[[II]][,'TP']/sum(Train.Label.vec==CLASS1),
+       col=Model.col[names(Set.Train.roc.mtx.lst)[II]])
+ abline(0,1, col='grey')
+ legend('bottomright',
+        legend=paste(names(Set.Train.roc.mtx.lst), ':',
+          round(Set.Train.auc.vec[names(Set.Train.roc.mtx.lst)],3),sep=''),
+        col=Model.col[names(Set.Train.roc.mtx.lst)],
+        lty=1)
+ title('Model Performance on Train Set')
+
+```
+<!-- ######################################################################## -->
+
+### Out-of-sample Train: Average over Repeats
+
+```{r comp-models-CompROCOOSTrain, cache=FALSE, cache.vars='', fig.height=6, fig.width=11, eval=F}
+ suppressMessages(require(pROC))
+ # Get predicted probabilities
+ Set.ModelFit.osProbClass1.mtx.lst <- lapply(Set.ModelFit.lst,
+ function(MF) {
+   MF.pred.mtx <- MF$pred
+   Rep.vec <- sapply(strsplit(MF$pred$Resample, split='\\.'),'[', 2)
+   rowIndex.vec <- sort(unique(MF$pred$rowIndex))
+   ProbClass1.mtx <- do.call('cbind', lapply(split(MF$pred, Rep.vec),
+   function(RepMFpred.frm)
+      RepMFpred.frm[match(rowIndex.vec, RepMFpred.frm$rowIndex),CLASS1]))
+   ProbClass1.mtx})
+
+ 
+ #################################
+ # Use average osProb
+ #################################
+ Set.Train.mean_osProbClass1.mtx <- do.call('cbind', lapply(Set.ModelFit.osProbClass1.mtx.lst,
+  function(osProbClass1.mtx) apply(osProbClass1.mtx,1,mean)))
+ rownames(Set.Train.mean_osProbClass1.mtx) <- names(Train.Label.vec)
+
+ # ROC
+  Set.Train.mean_osProbClass1.roc.mtx.lst <-
+  lapply(colnames(Set.Train.mean_osProbClass1.mtx), function(MM)
+   do.call('rbind', lapply(rev(sort(unique(Set.Train.mean_osProbClass1.mtx))),
+    function(TS) {
+     TP <- sum(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec==CLASS1] > TS, na.rm=T)
+     FP <- sum(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec==CLASS2] > TS, na.rm=T)
+        c(TS=TS, TP=TP, FP=FP)}))
+   )
+ names(Set.Train.mean_osProbClass1.roc.mtx.lst) <- colnames(Set.Train.mean_osProbClass1.mtx)
+
+ # Get auc
+ Set.Train.mean_osProbClass1.auc.vec <- sapply(1:ncol(Set.Train.mean_osProbClass1.mtx), function(CC)
+   auc(Train.Label.vec, Set.Train.mean_osProbClass1.mtx[,CC]))
+ names(Set.Train.mean_osProbClass1.auc.vec) <- colnames(Set.Train.mean_osProbClass1.mtx)
+
+
+ plot(x=range(do.call('c', lapply(Set.Train.mean_osProbClass1.roc.mtx.lst,
+                function(LL) LL[,'FP'])))/sum(Train.Label.vec==CLASS2),
+      y=range(do.call('c', lapply(Set.Train.mean_osProbClass1.roc.mtx.lst,
+                function(LL) LL[,'TP'])))/sum(Train.Label.vec==CLASS1),
+      xlab='FP', ylab='TP', type='n')
+
+ for(II in 1:length(Set.Train.mean_osProbClass1.roc.mtx.lst))
+ lines(x=Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,'FP']/sum(Train.Label.vec==CLASS2),
+       y=Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,'TP']/sum(Train.Label.vec==CLASS1),
+       col=Model.col[names(Set.Train.roc.mtx.lst)[II]])
+ abline(0,1, col='grey')
+ legend('bottomright',
+        legend=paste(names(Set.Train.mean_osProbClass1.auc.vec), ':',
+          round(Set.Train.mean_osProbClass1.auc.vec,3),sep=''),
+        col=Model.col[names(Set.Train.mean_osProbClass1.auc.vec)], lty=1)
+ title('Model Performance on Train Set - OS mean Prob(MSS)')
+
+```
+<!-- ######################################################################## -->
+
+### Out-of-sample Set.Train: Individual Repeats
+
+```{r comp-models-CompROCIndivOOSTrain, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=F}
+ suppressMessages(require(pROC))
+
+ #################################
+ # Replot ROC keep individual rep osProbClass1
+ #################################
+ Set.Train.indiv_osProbClass1.mtx <- do.call('cbind', lapply(names(Set.ModelFit.osProbClass1.mtx.lst),
+  function(MODEL) {
+   osProbClass1.mtx <- Set.ModelFit.osProbClass1.mtx.lst[[MODEL]]
+   colnames(osProbClass1.mtx) <- paste(MODEL, colnames(osProbClass1.mtx),sep='.')
+   osProbClass1.mtx}))
+ rownames(Set.Train.indiv_osProbClass1.mtx) <- names(Train.Label.vec)
+
+ # ROC
+ Set.Train.indiv_osProbClass1.roc.mtx.lst <- lapply(colnames(Set.Train.indiv_osProbClass1.mtx), function(MM)
+    do.call('rbind', lapply(rev(sort(unique(Set.Train.indiv_osProbClass1.mtx))),
+     function(TS) {
+        TP <- sum(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec==CLASS1] > TS, na.rm=T)
+        FP <- sum(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec==CLASS2] > TS, na.rm=T)
+        c(TS=TS, TP=TP, FP=FP)}))
+   )
+ names(Set.Train.indiv_osProbClass1.roc.mtx.lst) <- colnames(Set.Train.indiv_osProbClass1.mtx)
+
+
+ # Get auc
+ Set.Train.indiv_osProbClass1.auc.vec <- sapply(1:ncol(Set.Train.indiv_osProbClass1.mtx), function(CC)
+   auc(Train.Label.vec, Set.Train.indiv_osProbClass1.mtx[,CC]))
+ names(Set.Train.indiv_osProbClass1.auc.vec) <- colnames(Set.Train.indiv_osProbClass1.mtx)
+
+ Set.Train.mean_indiv_osProbClass1.auc.vec <- sapply(split(Set.Train.indiv_osProbClass1.auc.vec,
+   sapply(strsplit(names(Set.Train.indiv_osProbClass1.auc.vec), split='\\.'),'[',1)),
+   mean)
+
+ plot(x=range(do.call('c', lapply(Set.Train.indiv_osProbClass1.roc.mtx.lst,
+                function(LL) LL[,'FP'])))/sum(Train.Label.vec==CLASS2),
+      y=range(do.call('c', lapply(Set.Train.indiv_osProbClass1.roc.mtx.lst,
+                function(LL) LL[,'TP'])))/sum(Train.Label.vec==CLASS1),
+      xlab='FP', ylab='TP', type='n')
+
+ for(II in 1:length(Set.Train.indiv_osProbClass1.roc.mtx.lst))
+ lines(x=Set.Train.indiv_osProbClass1.roc.mtx.lst[[II]][,'FP']/sum(Train.Label.vec==CLASS2),
+       y=Set.Train.indiv_osProbClass1.roc.mtx.lst[[II]][,'TP']/sum(Train.Label.vec==CLASS1),
+       col=Model.col[sapply(strsplit(names(Set.Train.indiv_osProbClass1.roc.mtx.lst),'\\.'),'[',1)[II]])
+ abline(0,1, col='grey')
+ legend('bottomright',
+        legend=paste(names(Set.Train.mean_indiv_osProbClass1.auc.vec), ':',
+        round(Set.Train.mean_indiv_osProbClass1.auc.vec,3),sep=''),
+       col=Model.col[names(Set.Train.mean_indiv_osProbClass1.auc.vec)],lty=1)
+ title('Model Performance on Set.Train Set - indiv OS Prob(MSS)')
+
+
+ # Boxplot individual aucs
+ boxplot(split(Set.Train.indiv_osProbClass1.auc.vec,
+   sub('Fit','', sapply(strsplit(names(Set.Train.indiv_osProbClass1.auc.vec), split='\\.'),'[',1))))
+ title('Distribution of AUC stats over CV reps')
+
+  Set.Train.indiv_osProbClass1.auc.mtx <- do.call('rbind',
+  lapply(split(Set.Train.indiv_osProbClass1.auc.vec,
+   sapply(strsplit(names(Set.Train.indiv_osProbClass1.auc.vec), split='\\.'),'[',1)),
+   function(x) {Res=x; names(Res)<- sapply(strsplit(names(Res),split='\\.'),'[',2);Res}))
+
+ # This is redundant
+ #kable(data.frame(Set.Train.indiv_osProbClass1.auc.mtx,
+                  #mean_os=Set.Train.mean_osProbClass1.auc.vec),
+                  ##Test = Test.auc.vec),
+    #digits=2, format='html',align='c')
+
+```
+<!-- ######################################################################## -->
+
+
+### Compare Predicted Probabilities
+
+With the repeated CV fitting set-up, we can examine the distribution of out-of-sample
+predictions.   This is useful to both characterize the mode of errors occuring
+in a given model - are the errors due to bias or variability? - as well as
+chracterizing samples - some samples may be mis-labelled or hard to 
+classify correctly.
+
+```{r comp-models-CompOOSSet.TrainProbClass1, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=F}
+  if(sum(rownames(Set.Train.indiv_osProbClass1.mtx) !=
+         names(Train.Label.vec)))
+  stop("Sample ordering problem.")
+
+  # Reorder by Outcome
+  row.o <- order(Train.Label.vec, names(Train.Label.vec))
+
+  Col.Models.vec <- sapply(strsplit(colnames(Set.Train.indiv_osProbClass1.mtx), split='\\.'),'[',1)
+
+  par(mfrow=c(length(unique(Col.Models.vec)),1), mar=c(0,5,2,1), oma=c(5,0,1,0))
+
+  for(MOD in unique(Col.Models.vec)) {
+   Mod.cols <- which(Col.Models.vec==MOD)
+
+   box.out <-
+   boxplot(t(Set.Train.indiv_osProbClass1.mtx[row.o,Mod.cols]),
+           col=ifelse(Train.Label.vec[row.o]==CLASS1,3,2),
+           xaxt='n', outline=F)
+   title(MOD)
+  }
+
+```
+<!-- ######################################################################## -->
+
+```{r comp-models-varImpHelp, echo=FALSE, cache=TRUE, cache.vars='caret.varImp.path', eval=F}
+ # CHANGE TO CLEAR CACHE .
+ caret.varImp.path <- file.path(help_DIR, 'caret.varImp.html')
+ static_help("caret", "varImp", out=caret.varImp.path)
+```
+
+## Look at Variable Importance
+
+The `caret` package provides methods to extract variable importance through
+the [varImp]() function.  Here we will extract these assessments
+for each model and compare with genes which have been identified as associated with
+MSS status in other studies:  
+
+- BANERJEA [@Banerjea:2004aa]
+- CROCE [@CROCE]
+- JORISSEN [@Jorissen:2009aa]
+- KOINUMA [@Koinuma:2005aa]
+- KRUHOFFER [@Kruhoffer:2005aa]
+- MORI [@Mori:2003aa]
+
+```{r comp-models-readGeneSets, echo=T, eval=F}
+  MSSMSI.GeneSets.frm <- read.table(file=file.path(EXT_DATA, "ColonCancerGeneSets.tab"),
+   header=T, sep='\t')
+
+  GeneSets.lst <- split(MSSMSI.GeneSets.frm$GeneSymbol, toupper(MSSMSI.GeneSets.frm$ListName))
+  GeneSets.lst <- GeneSets.lst[c('BANERJEA','CROCE','JORISSEN', 'KOINUMA', 'KRUHOFFER','MORI')]
+
+```
+
+```{r comp-models-varImp, cache=FALSE, eval=F, eval=F}
+ suppressMessages(require(caret))
+
+ # Load gene to probe set map
+ load(file=file.path(WRKDIR, 'Data', 'GeneNameMap.vec'))
+ 
+ # Will also need the inverted map
+ GeneNameMap2.vec <- names(GeneNameMap.vec)
+ names(GeneNameMap2.vec) <- GeneNameMap.vec
+
+  Set.ModelFit.Top20.lst <- lapply(setdiff(names(Set.ModelFit.lst),
+                                   c("knnFit","sddaLDAFit","sddaQDAFit")),
+  function(MOD) {
+    #cat(MOD,'\n')
+    FIT <- Set.ModelFit.lst[[MOD]]
+
+    if(is.element(CLASS1, colnames(varImp(FIT)$imp)))
+    impVar.vec <- varImp(FIT)$imp[,CLASS1] else
+    impVar.vec <- varImp(FIT)$imp$Overall
+
+    top20.ndx <- rev(order(impVar.vec))[1:20]
+    varImp.vec <- impVar.vec[top20.ndx]
+    names(varImp.vec) <- rownames(varImp(FIT)$imp)[top20.ndx]
+    varImp.vec
+    })
+  names(Set.ModelFit.Top20.lst) <- setdiff(names(Set.ModelFit.lst),
+                                   c("knnFit","sddaLDAFit","sddaQDAFit"))
+
+  Top20.Name.vec <- unique(do.call('c', lapply(Set.ModelFit.Top20.lst, function(VV) names(VV))))
+
+  Top20.ProbeId.vec <- GeneNameMap.vec[Top20.Name.vec]
+
+  # Put together in a matrix
+  Top20.varImp.mtx <- do.call('cbind', lapply(Set.ModelFit.Top20.lst,
+   function(LL) LL[Top20.Name.vec]))
+  rownames(Top20.varImp.mtx) <- GeneNameMap.vec[Top20.Name.vec]
+  Top20.varImp.mtx[is.na(Top20.varImp.mtx)] <- 0
+
+  # Reoder by ovrall importance
+  varImp.med.vec <- apply(Top20.varImp.mtx,1,median)
+  Top20.varImp.mtx <- Top20.varImp.mtx[rev(order(varImp.med.vec)),]
+
+
+  Top20.varImp.frm <- data.frame(PROBEID=rownames(Top20.varImp.mtx), 
+                                 Gene=GeneNameMap2.vec[rownames(Top20.varImp.mtx)],
+                                 round(Top20.varImp.mtx))
+  names(Top20.varImp.frm) <- sub('Fit', '', names(Top20.varImp.frm))
+
+
+
+  # Add geneset membership
+  Top20Genes.vec <- sapply(strsplit(Top20.varImp.frm$Gene, split='\\.'),'[',1)
+
+  Top20GeneSetElements.frm <- data.frame(do.call('cbind', lapply(GeneSets.lst,
+  function(GS) ifelse(is.element(Top20Genes.vec, GS),'Y',''))))
+  colnames(Top20GeneSetElements.frm) <- names(GeneSets.lst)
+
+  Top20.varImp.frm <- data.frame(Top20.varImp.frm, Top20GeneSetElements.frm)
+
+  o.v <- rev(order(apply(Top20.varImp.frm[,sub('Fit','',names(Set.ModelFit.Top20.lst))],
+           1, mean)))
+  print(kable(Top20.varImp.frm[o.v,], align='c', row.names=F))
+
+```
+
+## Classification: Discussion
+
+### Nearest shrunken centroids does well
+
+The [nearest shrunken centriod](http://statweb.stanford.edu/~tibs/PAM/) 
+ method described in Tibshirani et. al. [Tibshirani:2002aa] does very well
+both in terms of classification accuracy, computing time and simplicity
+of predictor.  This has been our experience with many classification
+problems based on gene expression data.
+
+
+### Lack of agreement with literature gene sets
+
+The variable importance assessment shows that the genes which
+are deemed important in the clsssifiers the we fitted
+have little overlap with the gene sets previously identified
+as being associated with MSS status.  Part of this lack of overlap
+is certanly due to the gene selection filter which we applied here
+for computing purposes.  This not a problem if we just want to
+build a classifier which predicts well.  It is somewhat of a problem 
+if we want to use biology to validate our empirically determined models.
+In that respect, the lack of agreement of gene lists across analyses
+is always a problem to contend with.
+
+### Models could be better optimized
+
+Note that we did not attempt to optimize the model tuning parameters in
+any way and just used the default search grids for each model.  While
+this may be a good choice on average, better performance could be
+obtained from some of the models by specifying a tuning parameter
+space which is better suited to the problem at hand.  This requires
+a good understanding of each model and is beyond the scope of this
+vignette.
+

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 1 Introduction | Classification and Clustering: Case Study with CRC Gene Expression Data</title>
+  <meta name="description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
+  <meta name="generator" content="bookdown 0.20.6 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 1 Introduction | Classification and Clustering: Case Study with CRC Gene Expression Data" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 1 Introduction | Classification and Clustering: Case Study with CRC Gene Expression Data" />
+  
+  <meta name="twitter:description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
+  
+
+<meta name="author" content="Francois Collin" />
+
+
+<meta name="date" content="2020-01-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="load-data.html"/>
+<script src="libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preamble</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#outline"><i class="fa fa-check"></i><b>1.1</b> Outline</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#data-preprocessing"><i class="fa fa-check"></i><b>1.2</b> Data Preprocessing</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#affymetrix-probe-sets-vs-genes"><i class="fa fa-check"></i><b>1.3</b> Affymetrix Probe Sets vs Genes</a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#building-a-classifier"><i class="fa fa-check"></i><b>1.4</b> Building a Classifier</a></li>
+<li class="chapter" data-level="1.5" data-path="intro.html"><a href="intro.html#classifier-assessment"><i class="fa fa-check"></i><b>1.5</b> Classifier Assessment</a></li>
+<li class="chapter" data-level="1.6" data-path="intro.html"><a href="intro.html#subclass-discovery"><i class="fa fa-check"></i><b>1.6</b> Subclass Discovery</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="load-data.html"><a href="load-data.html"><i class="fa fa-check"></i><b>2</b> Load Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="load-data.html"><a href="load-data.html#download-datasets"><i class="fa fa-check"></i><b>2.1</b> Download Datasets</a></li>
+<li class="chapter" data-level="2.2" data-path="load-data.html"><a href="load-data.html#peek-into-datasets"><i class="fa fa-check"></i><b>2.2</b> Peek into Datasets</a></li>
+<li class="chapter" data-level="2.3" data-path="load-data.html"><a href="load-data.html#dataset-cleaning"><i class="fa fa-check"></i><b>2.3</b> Dataset Cleaning</a></li>
+<li class="chapter" data-level="2.4" data-path="load-data.html"><a href="load-data.html#data-pooling"><i class="fa fa-check"></i><b>2.4</b> Data Pooling</a></li>
+<li class="chapter" data-level="2.5" data-path="load-data.html"><a href="load-data.html#batch-correction"><i class="fa fa-check"></i><b>2.5</b> Batch Correction</a></li>
+<li class="chapter" data-level="2.6" data-path="load-data.html"><a href="load-data.html#separate-data-set-into-train-and-test-subsets"><i class="fa fa-check"></i><b>2.6</b> Separate Data Set into Train and Test Subsets</a></li>
+<li class="chapter" data-level="2.7" data-path="load-data.html"><a href="load-data.html#save-gene-sets"><i class="fa fa-check"></i><b>2.7</b> Save Gene Sets</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Modesl</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.1</b> knn - k nearest neighbors</a></li>
+<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.2</b> rf - Random forests</a></li>
+<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.3</b> svmRadial - Support vector machines (RBF kernel)</a></li>
+<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.4</b> gbm - Boosted trees</a></li>
+<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.5</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="comp-models.html"><a href="comp-models.html"><i class="fa fa-check"></i><b>4</b> Compare Predictive Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="comp-models.html"><a href="comp-models.html#load-models"><i class="fa fa-check"></i><b>4.1</b> Load Models</a></li>
+<li class="chapter" data-level="4.2" data-path="comp-models.html"><a href="comp-models.html#compare-times"><i class="fa fa-check"></i><b>4.2</b> Compare Times</a></li>
+<li class="chapter" data-level="4.3" data-path="comp-models.html"><a href="comp-models.html#compare-prediction-accuracy"><i class="fa fa-check"></i><b>4.3</b> Compare Prediction Accuracy</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="comp-models.html"><a href="comp-models.html#train-data-accuracy"><i class="fa fa-check"></i><b>4.3.1</b> Train Data Accuracy</a></li>
+<li class="chapter" data-level="4.3.2" data-path="comp-models.html"><a href="comp-models.html#out-of-sample-train-data-accuracy"><i class="fa fa-check"></i><b>4.3.2</b> Out of Sample Train Data Accuracy</a></li>
+<li class="chapter" data-level="4.3.3" data-path="comp-models.html"><a href="comp-models.html#test-data-accuracy"><i class="fa fa-check"></i><b>4.3.3</b> Test Data Accuracy</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="comp-models.html"><a href="comp-models.html#compare-models-in-terms-of-roc"><i class="fa fa-check"></i><b>4.4</b> Compare Models in Terms of ROC</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="comp-models.html"><a href="comp-models.html#training-data-roc"><i class="fa fa-check"></i><b>4.4.1</b> Training Data ROC</a></li>
+<li class="chapter" data-level="4.4.2" data-path="comp-models.html"><a href="comp-models.html#out-of-sample-train-average-over-repeats"><i class="fa fa-check"></i><b>4.4.2</b> Out-of-sample Train: Average over Repeats</a></li>
+<li class="chapter" data-level="4.4.3" data-path="comp-models.html"><a href="comp-models.html#out-of-sample-set.train-individual-repeats"><i class="fa fa-check"></i><b>4.4.3</b> Out-of-sample Set.Train: Individual Repeats</a></li>
+<li class="chapter" data-level="4.4.4" data-path="comp-models.html"><a href="comp-models.html#compare-predicted-probabilities"><i class="fa fa-check"></i><b>4.4.4</b> Compare Predicted Probabilities</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="comp-models.html"><a href="comp-models.html#look-at-variable-importance"><i class="fa fa-check"></i><b>4.5</b> Look at Variable Importance</a></li>
+<li class="chapter" data-level="4.6" data-path="comp-models.html"><a href="comp-models.html#classification-discussion"><i class="fa fa-check"></i><b>4.6</b> Classification: Discussion</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="comp-models.html"><a href="comp-models.html#nearest-shrunken-centroids-does-well"><i class="fa fa-check"></i><b>4.6.1</b> Nearest shrunken centroids does well</a></li>
+<li class="chapter" data-level="4.6.2" data-path="comp-models.html"><a href="comp-models.html#lack-of-agreement-with-literature-gene-sets"><i class="fa fa-check"></i><b>4.6.2</b> Lack of agreement with literature gene sets</a></li>
+<li class="chapter" data-level="4.6.3" data-path="comp-models.html"><a href="comp-models.html#models-could-be-better-optimized"><i class="fa fa-check"></i><b>4.6.3</b> Models could be better optimized</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#pam-clustering"><i class="fa fa-check"></i><b>5.1</b> PAM Clustering</a></li>
+<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.2</b> Bootstrap Aggregation of Clusters</a></li>
+<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.3</b> t-SNE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.3.1</b> t-SNE + PAM</a></li>
+<li class="chapter" data-level="5.3.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.3.2</b> t-SNE + BagClust2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.4</b> Cluster Analysis: Discussion</a></li>
+<li class="chapter" data-level="5.5" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.5</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>6</b> Results Summary</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Classification and Clustering: Case Study with CRC Gene Expression Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1" number="1">
+<h1><span class="header-section-number">Section 1</span> Introduction</h1>
+<p>Approximately 15 % of colorectal carcinomas (CRC) display high level microsatellite instability (MSI-H) due to either a germ line mutation in one of the genes responsible for DNA mismatch repair or somatic inactivation of the same pathway
+<span class="citation">[<a href="#ref-Guinney:2015aa" role="doc-biblioref">1</a>]</span>. MSI is defined using the five primary microsatellite loci recommended at the 1997 National Cancer Institute-sponsored conference on MSI for the identification of MSI or replication errors in colorectal cancer <span class="citation">[<a href="#ref-Boland:1998aa" role="doc-biblioref">2</a>]</span>:</p>
+<ul>
+<li>2 mononucleotide repeat markers: BAT25 and BAT26</li>
+<li>3 dinucleotide repeat markers: D2S123, D5S346 and D17S250</li>
+</ul>
+<p>Tumors are characterized as MSI-H if two or more of the five markers show instability (i.e., have insertion/deletion mutations) and MSI-L if only one of the five markers shows instability. Note that the distinction between MSI-L and MSS can only be accomplished if a greater number of markers is utilized. MSS and MSI CRC may have different prognoses and response to treatment.</p>
+<div id="outline" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Outline</h2>
+<p>In this vignette we will download gene expression datasets from the Gene Expression Omnibus web site <a href="https://www.ncbi.nlm.nih.gov/geo/">GEO</a> which have
+MSI status as part of clinical sample characteristics and use these data to illustrate some gene expression data analysis steps:</p>
+<ul>
+<li>Data Preprocessing.</li>
+<li>Building a classifier to predict microsatellite instability status based on gene expression profiles.</li>
+<li>Discovering new sub-classes among CRC samples.</li>
+</ul>
+<p>The main objectives of this vignette are:</p>
+<ul>
+<li>to demonstrate the use of R markdown to ensure reproducible research, and</li>
+<li>to demonstrate some of the capabilities of the <code>caret</code> R package.</li>
+</ul>
+<p>The <a href="https://yihui.name/knitr/">knitr</a> R package greatly
+facilitates the use of R markdown to integrate data analysis and report writing
+into a single process. This entire report, including all data downloads and
+processing can be reproduced by running a single R markdown script. Some of the
+data analysis steps may be time consuming, but <code>kntr</code> provides easy ways to
+deal with these contingencies through neat caching capabilities.</p>
+<p>The <a href="https://topepo.github.io/caret/index.html">caret</a> R package provides
+a extensive set of tools for predictive modeling. A very large selection
+of modeling approaches can be invoked through a common interface and
+tools facilitate the process of implementing data splitting schemes to enable
+hyper-parameter tuning through cross-validation and to produce reliable
+and comparable model performance estimates.</p>
+</div>
+<div id="data-preprocessing" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Data Preprocessing</h2>
+<p>An important consideration when assembling a dataset for use in analyses aimed at answering scientific questions is how the data should pre-processed. One of the main objectives of the pre-processing step is to remove technical variability without removing the biological variability of interest. Some of the technical variability that affects microarray gene expression data are sample to sample variability due to differences in starting material quality and sample preparation effects. These sources of variability are commonly handled by a pre-processing step known as <em>normalization</em>. Even after normalization, some shared variability may be present. This shared variability may be due to samples being processed at different time points, in different labs, using different instruments, etc. These effects are commonly referred to as <em>batch effects</em>. Options to remove batch effects include <span class="citation">[<a href="#ref-Lazar:2013aa" role="doc-biblioref">3</a>]</span>:</p>
+<ul>
+<li>Quantile normalization <span class="citation">[<a href="#ref-Bolstad:2003aa" role="doc-biblioref">4</a>]</span> (the baseline approach, which doesn’t truly
+address batch effects)</li>
+<li>RUV method <span class="citation">[<a href="#ref-Gagnon-Bartsch:2012aa" role="doc-biblioref">5</a>]</span></li>
+<li>sva method <span class="citation">[<a href="#ref-Leek:2012aa" role="doc-biblioref">6</a>]</span></li>
+</ul>
+<p>Selecting the method of normalization and batch correction that is most appropriate for a given problem requires careful analysis. It is helpful to follow proper experimental design practices when collecting the data including:</p>
+<ul>
+<li>processing the samples in a manner that avoids confounding batching and biological effects</li>
+<li>incorporating controls in the dataset, both positive and negative at both the sample and gene level</li>
+</ul>
+<p>In this analysis we will simply use quantile normalization to re-normalize the
+data after pooling across datasets and verify that egregious batch effects are not present. We could subsequently repeat this analysis using a more sophisticated form of normalization and batch correction and assess the benefits that it brings to the analysis results. Such an assessment is never trivial.</p>
+</div>
+<div id="affymetrix-probe-sets-vs-genes" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Affymetrix Probe Sets vs Genes</h2>
+<p>Affymetrix expression data are organized in probe sets which target genes <span class="citation">[<a href="#ref-Irizarry:2003aa" role="doc-biblioref">7</a>]</span>.
+There may be several probe sets for a given gene and the association between the two also depends
+on which gene annotation is used (eg. HUGO vs Entrez). Probe sets
+which target a given gene sometimes yield discordant gene expression
+estimates making reducing the probe set data to gene level estimates
+somewhat problematic. For these reasons, we will use the probe set as a gene
+expression unit of analysis here. This should not affect classification
+or clustering performance. When it comes to the interpretation of a
+particular predictive model, we can bring in the gene annotation associated
+with each probe set at this point without (much) loss of generality.</p>
+<p>We should also note that some probe sets are known to cross-hybridize or
+not hybridize specifically to the targeted gene’s genomic sequence. We will not
+pre-filter genes based on this information.</p>
+</div>
+<div id="building-a-classifier" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Building a Classifier</h2>
+<p>Following pre-processing, the pooled dataset will be used to investigate the performance of
+various classification methods to predict msi status from gene expression data. The pooled dataset
+will then be split into <strong>Train</strong> and <strong>Test</strong> subsets. Following the split, the <strong>Test</strong> subset
+is to be excluded from all analyses until we are ready to evaluate the final selection of predictive models
+under consideration. During the analysis, the <strong>Train</strong> dataset will be further sub-divided into
+<strong>Fit</strong> and <strong>Validation</strong> subsets for the purpose of model selection and hype-parameter tuning.
+The Test set is not interrogated until the final model assessment step to ensure that it provides
+a reliable set of data to assess the performance of the predictive models.
+When the size of the dataset is small, it is
+tempting to rely on cross-validated measures of performance instead of a Test set. We will compare the
+two measures in this exercise to see if they lead to different orderings of the classifiers or drastically
+different measures of performance.</p>
+<p>When analyzing gene expression data for classification purposes, or to extract
+biologically meaningful gene signatures, it is customary to first subset genes.
+The primary reason for this subsetting step is for computational purposes -
+including all of the genes in the analysis may require too much memory
+or computing time for some steps. A common approach used is to
+apply a gene expression variability threshold for genes to be included in
+the analysis - genes that show little variability across samples are
+excluded. Since our computing resources are limited, we will apply a fairly aggressive filter to the data.
+We will reduce the data size by keeping only the 25% most variable genes for all subsequent analyses.
+In practice, one would be more careful about applying this filter.</p>
+</div>
+<div id="classifier-assessment" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Classifier Assessment</h2>
+<p>Many factors can be incorporated into classifier performance assessment, including:</p>
+<ul>
+<li>Predictive performance: Several metrics can be used to quantify predictive performance <span class="citation">[<a href="#ref-Vihinen:2012aa" role="doc-biblioref">8</a>]</span> and the choice is very much context dependent.</li>
+<li>Classifier cost: Some classifiers may achieve higher predictive performance but at a cost of requiring a more complete set of predictors or features. This cost may be an important factor in some applications.</li>
+<li>Classifier interpretability: In some cases, the main purpose of building a classifier may be to get some insight into the biology at work. Classifiers which implicitly or explicitly perform some sort of feature selection may provide an advantage in terms of interpretability over classifiers which rely on all features in manner that makes it difficult to determine feature importance.</li>
+</ul>
+<p>For illustration purposes, we will report several measures of predictive performance.
+We will also comment on each classifier’s cost and interpretability.</p>
+</div>
+<div id="subclass-discovery" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> Subclass Discovery</h2>
+<p>In some cases, one may be interested in analyzing gene expression data to uncover subgroups among the
+sampled population. This is one application of what it known as <em>cluster analysis</em>.
+To evaluate the performance of cluster analysis methods for the purpose of
+subclass discovery, we will treat the msi status as unknown and examine each method’s ability to
+recover this grouping in an unsupervised manner.</p>
+<p>We note in passing that in practice this application
+requires particularly careful normalization and batch effect correction. On the one hand,
+not removing systematic effects may lead samples to cluster in a way that will make uncovering
+biological clusters very challenging. On the other hand, the batch effect correction method may
+erroneously remove biological effects in the data.</p>
+<p>The layout of the report is the following:</p>
+<ul>
+<li><p>In Section <a href="load-data.html#load-data">2</a> load the CRC data from GEO
+and prepare the dataset for analysis.</p></li>
+<li><p>In Section <a href="train-models.html#train-models">3</a> we fit some classification models.</p></li>
+<li><p>In Section <a href="comp-models.html#comp-models">4</a> we evaluate the various models.</p></li>
+<li><p>In Section <a href="clustering.html#clustering">5</a> we perform some cluster analysis</p></li>
+<li><p>Concluding remarks are in Section <a href="summary.html#summary">6</a>.</p></li>
+</ul>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Guinney:2015aa">
+<p>1. Guinney, J., Dienstmann, R., Wang, X., Reyniès, A. de, Schlicker, A., Soneson, C., Marisa, L., Roepman, P., Nyamundanda, G., and Angelino, P. <em>et al.</em> The consensus molecular subtypes of colorectal cancer. Nature medicine <em>21</em>, 1350–1356. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4636487/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4636487/</a>.</p>
+</div>
+<div id="ref-Boland:1998aa">
+<p>2. Boland, C.R., Thibodeau, S.N., Hamilton, S.R., Sidransky, D., Eshleman, J.R., Burt, R.W., Meltzer, S.J., Rodriguez-Bigas, M.A., Fodde, R., and Ranzani, G.N. <em>et al.</em> A national cancer institute workshop on microsatellite instability for cancer detection and familial predisposition: Development of international criteria for the determination of microsatellite instability in colorectal cancer. Cancer Research <em>58</em>, 5248. Available at: <a href="http://cancerres.aacrjournals.org/content/58/22/5248.abstract">http://cancerres.aacrjournals.org/content/58/22/5248.abstract</a>.</p>
+</div>
+<div id="ref-Lazar:2013aa">
+<p>3. Lazar, C., Meganck, S., Taminau, J., Steenhoff, D., Coletta, A., Molter, C., Weiss-Solı́s, D.Y., Duque, R., Bersini, H., and Nowé, A. Batch effect removal methods for microarray gene expression data integration: A survey. Briefings in Bioinformatics <em>14</em>, 469–490. Available at: <a href="http://dx.doi.org/10.1093/bib/bbs037">http://dx.doi.org/10.1093/bib/bbs037</a>.</p>
+</div>
+<div id="ref-Bolstad:2003aa">
+<p>4. Bolstad, B.M., Irizarry, R.A., Åstrand, M., and Speed, T.P. A comparison of normalization methods for high density oligonucleotide array data based on variance and bias. Bioinformatics <em>19</em>, 185–193. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/19.2.185">http://dx.doi.org/10.1093/bioinformatics/19.2.185</a>.</p>
+</div>
+<div id="ref-Gagnon-Bartsch:2012aa">
+<p>5. Gagnon-Bartsch, J.A., and Speed, T.P. Using control genes to correct for unwanted variation in microarray data. Biostatistics <em>13</em>, 539–552. Available at: <a href="http://dx.doi.org/10.1093/biostatistics/kxr034">http://dx.doi.org/10.1093/biostatistics/kxr034</a>.</p>
+</div>
+<div id="ref-Leek:2012aa">
+<p>6. Leek, J.T., Johnson, W.E., Parker, H.S., Jaffe, A.E., and Storey, J.D. The sva package for removing batch effects and other unwanted variation in high-throughput experiments. Bioinformatics <em>28</em>, 882–883. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/bts034">http://dx.doi.org/10.1093/bioinformatics/bts034</a>.</p>
+</div>
+<div id="ref-Irizarry:2003aa">
+<p>7. Irizarry, R.A., Bolstad, B.M., Collin, F., Cope, L.M., Hobbs, B., and Speed, T.P. Summaries of affymetrix genechip probe level data. Nucleic Acids Research <em>31</em>, e15–e15. Available at: <a href="http://dx.doi.org/10.1093/nar/gng015">http://dx.doi.org/10.1093/nar/gng015</a>.</p>
+</div>
+<div id="ref-Vihinen:2012aa">
+<p>8. Vihinen, M. (2012). How to evaluate performance of prediction methods? Measures and their interpretation in variation effect analysis. BMC Genomics <em>13</em>, S2–S2. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="load-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ExploreCRC.pdf", "ExploreCRC.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@ find . -type f -name '*.Rmd' -exec sed -i '' s%explore-glmnet%explore-sparsity% 
 # In R
 bookdown:::bookdown_skeleton(getwd())
 
-# at cmd line
+# OR at cmd line
 nohup Rscript -e  "bookdown:::bookdown_skeleton(getwd())"    >  bookdown_skeleton.log  &
 
 ######
