@@ -3,6 +3,9 @@ Classification and Clustering - Case Study with CRC Gene Expression Data
 
 <!-- index.md is generated from index.Rmd. Please edit that file -->
 
+[![Netlify
+Status](https://api.netlify.com/api/v1/badges/aa342342-095b-4dae-b665-e467b84a3d5f/deploy-status)](https://app.netlify.com/sites/crc-explore/deploys)
+
 This repo contains a report of exploratory analyses of CRC data from
 downloaded from [GEO](https://www.ncbi.nlm.nih.gov/geo)
 
