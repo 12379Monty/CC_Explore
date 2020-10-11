@@ -1,7 +1,10 @@
 #  Load Data {#load-data}
 
 
-A search on the GEO web site identified the following datasets as potentialy useful for this exercise.  All datasets have Affymetrix gene expression data for a number of samples annotated with msi status:
+A search on the GEO web site^[this search was conducted in 2017]
+identified the following datasets as potentialy useful for this 
+exercise.  All datasets have Affymetrix gene expression data for a 
+number of samples annotated with msi status:
 
 - GSE4554 [@Watanabe:2006aa]: [HG-U133_Plus_2] (84 CRC = 33 MSI + 51 MSS)
 - GSE13067 [@Jorissen:2008aa]: [HG-U133_Plus_2] (74 CRC)
@@ -22,18 +25,13 @@ format.  Each dataset will have to be downloaded one at a time and examined.
 Following this step, we can loop again through the datasets and store the necessary
 data in a uniform manner.
 
-```{r load-data-getGEOHelp, echo=FALSE, cache=TRUE, cache.vars='GEOquery.getGEO.path',eval=F}
- # CHANGE TO CLEAR CACHE
- GEOquery.getGEO.path <- file.path(help_DIR, 'GEOquery.getGEO.html')
- static_help("GEOquery", "getGEO", out=GEOquery.getGEO.path)
-```
-<!-- ######################################################################## -->
 
 We can download data from GEO using function 
-[getGEO]() from package `GEOquery`.
+`getGEO` from package `GEOquery`.
 
 
-```{r load-data-dnldGSE, eval=FALSE, cache=FALSE, cache.vars='',eval=F}
+```{r load-data-dnldGSE, eval=FALSE, cache=T, cache.vars='',eval=F,message=F}
+
  suppressMessages(require(GEOquery))
 
  GSE_SET.vec <- c('GSE4554', 'GSE13067', 'GSE13294', 
@@ -54,24 +52,35 @@ We can download data from GEO using function
 
 ## Peek into Datasets
 
-```{r load-data- peekGSE, eval=TRUE, cache=TRUE, cache.vars='', fig.width=11, fig.height=6,eval=F}
- # CHANGE THIS LINE TO CLEAR CACHE ..
+```{r load-data-peekGSE, cache=TRUE, cache.vars='', fig.width=11, fig.height=6,eval=T}
+ # CHANGE THIS LINE TO CLEAR CACHE 
  suppressMessages(require(Biobase))
- gseFile.vec <- list.files(file.path(WRKDIR,'Data'), 'gse$')
+ gseFile.vec <- list.files(file.path('RData'), 'gse$')
+
+gsePhenoData.lst <- list()
+gseDim.lst <- list()
 
  for(gseF in gseFile.vec){
-  cat("\nPeek at ", gseF)
+  cat("\nPeek at ", gseF, '\n')
 
   loadObj(gseF, 'Set.gse')
 
+gseName <- sapply(strsplit(gseF, split='\\.'),'[',1)
+
   print(dim(exprs(Set.gse[[1]])))
   if(nrow(exprs(Set.gse[[1]])) == 0) next()  
+
+gseDim.lst[[gseName]] <- dim(exprs(Set.gse[[1]]))
+
  #################################
  # Expression Summary 
-if(F) {
+if(F) {#SKIP
   cat("\nExpression Summary:\n")
-  print(kable(t(apply(exprs(Set.gse[[1]]),2,summary))))
-}
+  knitr::kable(t(apply(exprs(Set.gse[[1]]),2,summary))) %>%
+      kableExtra::kable_styling(full_width = F)
+
+}@SKIP
+
  #################################
  # Expression Boxplots
  old_par <- par(mar=par('mar')+c(2,0,0,0))
@@ -83,10 +92,14 @@ if(F) {
 
  
  #################################
- cat("\nSample Descriptions:\n")
- print(kable(phenoData(Set.gse[[1]])@data))
+gsePhenoData.lst[[gseName]] <- phenoData(Set.gse[[1]])@data
 
+if(F) {#SKIP
+ cat("\nSample Descriptions:\n")
+ print(knitr::kable(phenoData(Set.gse[[1]])@data) %>%
+        kableExtra::kable_styling(full_width = F))
  }
+}#SKIP
 
 ```
 <!-- ######################################################################## -->
@@ -96,8 +109,9 @@ if(F) {
 
 Following a peek into the datasets, we will proceed forward keeping only the
 datasets which used the HG-U133_Plus_2 gene chip (N=54675 probe sets) and have
-msi status:
-`r KEEP_GSE.vec <- c('GSE13067', 'GSE13294','GSE35896','GSE39084', 'GSE4554');  KEEP_GSE.vec`
+msi status:  
+<!-- Reuires combing through gsePhenoData.lst names -->
+* `r KEEP_GSE.vec <- c('GSE13067', 'GSE13294','GSE35896','GSE39084', 'GSE4554');  KEEP_GSE.vec`
 
 We exclude GSE75316 from the analysis as most of the samples are already part of GSE13067 and the latter
 is a larger set.  
@@ -106,7 +120,7 @@ In the next chunk, we go through each of these datasets and store the gene expre
 sample description data in a uniform manner to facilitate subsequent pooling.  We also
 take a look at potential intra dataset batch effects. 
 
-```{r load-data-cleanGSE, echo=T, cache=TRUE, cache.vars='',eval=TRUE, fig.width=8, fig.height=6,eval=F}
+```{r load-data-cleanGSE, echo=T, cache=TRUE, cache.vars='', fig.width=8, fig.height=6,eval=T}
  # CHANGE THIS LINE TO CLEAR CACHE ..
  suppressMessages(require(hgu133plus2.db))
 
@@ -146,7 +160,6 @@ take a look at potential intra dataset batch effects.
                  sapply(strsplit(as.character(phenoData.frm$description), split=','), function(x) x[1])),
         "ERROR")
 
-  print(table(MS_Status))
 
   KEEP.ndx <- which(is.element(MS_Status, c('MSS', 'MSI', 'No', 'Low', 'High')))
 
@@ -155,6 +168,8 @@ take a look at potential intra dataset batch effects.
                              row.names=rownames(phenoData.frm))[KEEP.ndx,]
   Expr.mtx <- Expr.mtx[,rownames(sampAttr.frm)]
  
+  print(table(MS_Status[KEEP.ndx]))
+
   ###################################################################
   #  featureAttr - data.frame
   #  - rows of featureAttr match rows of Expr mtx
@@ -195,7 +210,11 @@ take a look at potential intra dataset batch effects.
        y=Expt.prcomp$rotation[,'PC2'],
        ylab=paste0('PC2 (', round(100*summary(Expt.prcomp)$importance[2,"PC2"],1),'%)'),
        pch=19, cex=1.5, col=as.numeric(as.factor(sampAttr.frm$MS_Status)))
-
+  title(SET) 
+  legend(ifelse(SET %in% c('GSE13067', 'GSE35896'), 'bottomleft', 'bottomright'),
+  legend=levels(as.factor(sampAttr.frm$MS_Status)),
+  col=1:length(levels(as.factor(sampAttr.frm$MS_Status))),
+  pch=19)
  
  } 
 
@@ -208,10 +227,13 @@ take a look at potential intra dataset batch effects.
 When pooling data from different sources, we should make sure not to introduce batch effects
 into the mix.  In the first instance we will simply pool the data sets together,
 and apply quantile normalization.  This can be seen as a very weak form of batch effect
-correction and is a minimal requirement.
+correction and is a minimal requirement.  For a more careful way to remove batch effects
+and other unwanted variation see
+Gagnon-Bartsch (2012) [@Gagnon-Bartsch:2012aa] and 
+Molania et al. (2019) [@Molania:2019aa].
 
 
-```{r load-data-poolGSE,cache=TRUE,cache.vars='',fig.width=12, fig.height=6,eval=F}
+```{r load-data-poolGSE,cache=TRUE,cache.vars='',fig.width=12, fig.height=6,eval=T}
 
  ###############################
  # Get feature attributes from one of the arrayGeneExpr objects
@@ -277,7 +299,7 @@ correction and is a minimal requirement.
  GSEPool.arrayGeneExpr$sampAttr <- PooledSampAttr.frm
  GSEPool.arrayGeneExpr$featureAttr <- featureAttr.frm
 
- save(GSEPool.arrayGeneExpr, file=file.path(WRKDIR, 'Data','GSEPool.arrayGeneExpr'))
+ save(GSEPool.arrayGeneExpr, file=file.path('RData','GSEPool.arrayGeneExpr'))
 
  ######################################################
  # Look for inter-set batch effects
@@ -323,7 +345,7 @@ correction and is a minimal requirement.
 
 We see a definite batch effect in the PCA plot based on the pooled expression data.
 The clustering is along probe set reduction method, RMA vs MAS 5.0.
-One should reslly go back to the cel files and re-anlyze all samples using one
+One should really go back to the cel files and re-analyze all samples using one
 probe set reduction method.  For the sake of illustration, we will instead try to
 remove this effect using a batch-effect correction method.
 
@@ -332,15 +354,15 @@ use 'ComBat` from  the
 [SVA](https://www.bioconductor.org/packages/release/bioc/html/sva.html)
 package.
 
-Alternatively, we could keep keep the two sets of data, those siummarized using RMA
+Alternatively, we could keep keep the two sets of data, those summarized using RMA
 and those summarized using MAS 5.0, separate, alternating using one set for
 model selection and fitting and the other for testing.  This would provide
-a string test of the generalizability and robustness of the results.
+a strong test of the generalizability and robustness of the results.
 
-```{r load-data-svaBatchAdjust, cache=TRUE, cache.vars='',fig.width=12, fig.height=6,eval=F}
+```{r load-data-svaBatchAdjust, cache=TRUE, cache.vars='',fig.width=12, fig.height=6,eval=T}
  suppressMessages(require(sva))
 
- load(file=file.path(WRKDIR, 'Data','GSEPool.arrayGeneExpr'))
+ load(file=file.path('RData','GSEPool.arrayGeneExpr'))
 
  Expr.mtx <- GSEPool.arrayGeneExpr$exprData
  sampAttr.frm <- GSEPool.arrayGeneExpr$sampAttr
@@ -363,7 +385,7 @@ a string test of the generalizability and robustness of the results.
 
  GSEPool.arrayGeneExpr$exprDataBatchAdj <- combat_edata
 
- save(GSEPool.arrayGeneExpr, file=file.path(WRKDIR, 'Data','GSEPool.arrayGeneExpr'))
+ save(GSEPool.arrayGeneExpr, file=file.path('RData','GSEPool.arrayGeneExpr'))
 
  ######################################################
  # Look for inter-set batch effects
@@ -381,9 +403,11 @@ a string test of the generalizability and robustness of the results.
 
  legend.tbl <- table(as.factor(sampAttr.frm$GSE), 
                      as.numeric(as.factor(sampAttr.frm$GSE)))
+SKIP <- function() {
  legend('topright', pch=19, cex=1.5, 
          legend=rownames(legend.tbl),
          col=as.numeric(colnames(legend.tbl)))
+}#SKIP
 
  # Annotate with MS_Status
  MSS_MSI <- as.factor(ifelse(is.element(sampAttr.frm$MS_Status, c('MSS', 'No')),
@@ -405,7 +429,7 @@ a string test of the generalizability and robustness of the results.
 ```
 <!-- ######################################################################## -->
 
-Visual inpection of the effect of the batch correction transformation
+Visual inspection of the effect of the batch correction transformation
 is a minimal requirement for verification.  One can do a better job
 at quantifying the effect of batch correction, especially of the data set
 contains control features and control samples. See Lazar et.al. [@Lazar:2013aa]
@@ -416,22 +440,22 @@ for a discussion of batch effect removal assessment.
 
 We will separate the data set into **Train** and **Test** subsets here, before
 any other filtering or data manipulation.  In particular, since we will
-be interested in evaluating the effect of gene or probe set selection
+be interested in evaluating the effect of gene or probe set selection,
 this selection must be made on the basis of the training subset only.
 This is done as a precautionary measure as gene selection based on
-variability is unlikely to have an effect on sample classification
+a variability filter is is done here is unlikely to have an effect on sample classification
 performance.
 
 Take note that the expression matrices that we save here will
-be transposed with `genes in columns`.  This is done to accumulate
+be transposed with `genes in columns`.  This is done to accomodate
 the data format expected by the `caret` package.
 
-```{r load-data-getTrainTest, cache=TRUE,cache.vars='',eval=F}
+```{r load-data-getTrainTest, cache=TRUE,cache.vars='',eval=T}
  # CHANGE THIS LINE TO CLEAR CACHE
  suppressMessages(require(caret))
 
  # Load expression  data object
- load(file.path(WRKDIR, 'Data','GSEPool.arrayGeneExpr'))
+ load(file.path('RData','GSEPool.arrayGeneExpr'))
 
  # Get expression data matrix 
  Expr.mtx <- t(GSEPool.arrayGeneExpr$exprDataBatchAdj)
@@ -446,7 +470,7 @@ the data format expected by the `caret` package.
 
  #GeneNameMap.vec[1:5]
 
- save(GeneNameMap.vec, file=file.path(WRKDIR, 'Data', 'GeneNameMap.vec'))
+ save(GeneNameMap.vec, file=file.path('RData', 'GeneNameMap.vec'))
 
  # Get sample attributes
  sampAttr.frm <- GSEPool.arrayGeneExpr$sampAttr
@@ -471,20 +495,25 @@ the data format expected by the `caret` package.
  Test.Label.vec <- Label.vec[-inTrain]
  Test.DataSource.vec <- Label.vec[-inTrain]
 
- print(kable(rbind(Train=dim(Train.Expr.mtx),
-             Test=dim(Test.Expr.mtx))))
+ knitr::kable(rbind(Train=dim(Train.Expr.mtx),
+             Test=dim(Test.Expr.mtx))) %>%
+        kableExtra::kable_styling(full_width = F)
 
- print(kable(rbind(
- Trian=table(Train.Label.vec)/length(Train.Label.vec),
- Test=table(Test.Label.vec)/length(Test.Label.vec))))
+
+ knitr::kable(rbind(
+ Train=table(Train.Label.vec)/length(Train.Label.vec),
+ Test=table(Test.Label.vec)/length(Test.Label.vec))) %>%
+        kableExtra::kable_styling(full_width = F)
+
+
 
  # Save these
- save(Train.Expr.mtx, file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
- save(Test.Expr.mtx, file=file.path(WRKDIR, 'Data', 'Test.Expr.mtx'))
- save(Train.Label.vec, file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
- save(Test.Label.vec, file=file.path(WRKDIR, 'Data', 'Test.Label.vec'))
- save(Train.DataSource.vec, file=file.path(WRKDIR, 'Data', 'Train.DataSource.vec'))
- save(Test.DataSource.vec, file=file.path(WRKDIR, 'Data', 'Test.DataSource.vec'))
+ save(Train.Expr.mtx, file=file.path('RData', 'Train.Expr.mtx'))
+ save(Test.Expr.mtx, file=file.path('RData', 'Test.Expr.mtx'))
+ save(Train.Label.vec, file=file.path('RData', 'Train.Label.vec'))
+ save(Test.Label.vec, file=file.path('RData', 'Test.Label.vec'))
+ save(Train.DataSource.vec, file=file.path('RData', 'Train.DataSource.vec'))
+ save(Test.DataSource.vec, file=file.path('RData', 'Test.DataSource.vec'))
 
 ```
 <!-- ######################################################################## -->
@@ -493,44 +522,33 @@ the data format expected by the `caret` package.
 ## Save Gene Sets
 
 Save gene sets selected by overall variability *in training samples*.
-In the interest of conserving computing resources, in the analysis 
-that follows we will use the smallest set of genes, the top 10%
+<!-- In the interest of conserving computing resources,--> In the analysis 
+that follows we will use the top `r VAR_FILTER`%
 most variable genes.  
 
 Note that we select genes based on variability in the entire training
 dataset which includes data from different GEO data sets.  This selection
-may favor the incusion of genes which differ across the different
+may favor the inclusion of genes which differ across the different
 data sets due to technical reasons.  An alternative selection would be to
 to select genes based on within data set variability.  This could be
 implemented by filtering based on the residual variance of an
-anova model `Expr ~ GSE` fitted to the gene expression data.
+ANOVA model `Expr ~ GSE` fitted to the gene expression data.
 
-```{r load-data-saveGeneSets,cache=TRUE,cache.vars='',eval=F}
+```{r load-data-saveGeneSets,cache=TRUE,cache.vars='',eval=T}
  # CHANGE THIS LINE TO CLEAR CACHE
- load(file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
+ load(file.path('RData', 'Train.Expr.mtx'))
 
  # Identify and remove low variance columns
  Train.Expr.mad.vec <- apply(Train.Expr.mtx,2,mad)
  #summary(Train.Expr.mad.vec)
 
- # In the interest of computing time, we'll be very conservative here
- # Come back and look improving this filter later
- Top10.cols <- which(Train.Expr.mad.vec > quantile(Train.Expr.mad.vec, prob=0.90))
- Train.Top10VarGenes.vec <- colnames(Train.Expr.mtx)[Top10.cols]
- #length(Train.Top10VarGenes.vec)
+ TopVar.cols <- which(Train.Expr.mad.vec > quantile(Train.Expr.mad.vec, prob=(100-VAR_FILTER)/100))
+ Train.TopVarGenes.vec <- colnames(Train.Expr.mtx)[TopVar.cols]
+ #length(Train.TopVarVarGenes.vec)
 
- save(Train.Top10VarGenes.vec, file=file.path(WRKDIR,'Data','Train.Top10VarGenes.vec'))
+ saveObj(paste0('Train.',SelGenes,'.vec'), 'Train.TopVarGenes.vec')
 
- # also save top 25 and top 50
- Top25.cols <- which(Train.Expr.mad.vec > quantile(Train.Expr.mad.vec, prob=0.75))
- Train.Top25VarGenes.vec <- colnames(Train.Expr.mtx)[Top25.cols]
- #length(Train.Top25VarGenes.vec)
- save(Train.Top25VarGenes.vec, file=file.path(WRKDIR,'Data','Train.Top25VarGenes.vec'))
-
- Top50.cols <- which(Train.Expr.mad.vec > quantile(Train.Expr.mad.vec, prob=0.50))
- Train.Top50VarGenes.vec <- colnames(Train.Expr.mtx)[Top50.cols]
- #length(Train.Top50VarGenes.vec)
- save(Train.Top50VarGenes.vec, file=file.path(WRKDIR,'Data','Train.Top50VarGenes.vec'))
+ # also save top 25 and top 50 - Nawh!
 
 ```
 <!-- ######################################################################## -->

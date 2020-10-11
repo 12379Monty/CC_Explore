@@ -1,4 +1,7 @@
 bookdown::gitbook:
+# javascript for code folding is in header.html
+  includes:
+    in_header: header.html
   css: style.css
   config:
     toc:

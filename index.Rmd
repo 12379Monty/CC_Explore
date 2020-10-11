@@ -64,7 +64,12 @@ description: "Classification and clustering methodes are explored using colorect
  # specify for pdf
  #options(knitr.table.format = 'latex')
   
+# piping
 library(magrittr)
+
+temp_DIR <- file.path('temp_files')
+suppressMessages(dir.create(temp_DIR, recursive=T))
+
 ```
 
 ```{r index-functionDef, include=F}
@@ -76,6 +81,24 @@ KellyColors.vec <- c(
   "#8DB600", "#654522", "#E25822", "#2B3D26"
 )
 col_vec <- KellyColors.vec
+
+# Save and load
+ ##################################################
+ # save single object with name ObjName  to file FileName
+ saveObj <- function(FileName='', ObjName='', DataDir=file.path('RData')){
+  assign(FileName, get(ObjName))
+  save(list=FileName, file=file.path(DataDir, FileName))
+  rm(list=FileName)
+ }
+
+ # load single object stored in FileName and assign to ObjName in local env
+ loadObj <- function(FileName='', ObjName='', DataDir=file.path('RData')){
+  load(file.path(DataDir, FileName))
+  assign(ObjName, get(FileName),pos=1)
+  rm(list=FileName)
+ }
+
+
 
  # timing
  ##################################################
@@ -136,20 +159,34 @@ col_vec <- KellyColors.vec
 <!-- NOT SURE WHAT IS THE BEST PLACE TO PUT THIS -->
 
 ```{r index-runParam, echo=FALSE}
- # Top 10% highest variance genes
- SelGenes <- 'Top10VarGenes'
+
+
+ # Top 60% highest variance genes
+ VAR_FILTER <- 60
+ SelGenes <- 'Top60pVarGenes'
 
  # Predictive Modeling Parameters
- CV <- list(Num=5, Rep=10)
+ CV <- list(Num=10, Rep=30)  ## THIS MAY BE A LOT TO ASK...
 
  # Continue to work with Train data set and top 10% most variable genes
  # SEE NOTE ABOVE ABOIUT VARIABILITY SELECTION!
- SelGenes <- 'Top10VarGenes'
+ SelGenes <- 'Top60VarGenes'
 
  # Clustering parameters
  DM <-  "euclidean"
  # Set standardize flag
  STAND <- TRUE
+
+
+
+ # This is for kableExtra::kable_styling to work
+ # specify for html
+ options(knitr.table.format = 'html')
+
+ # specify for pdf
+ #options(knitr.table.format = 'latex')
+
+
 
 ```
 

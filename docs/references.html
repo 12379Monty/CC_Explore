@@ -51,6 +51,32 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script type="text/javascript">
+// source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
 
 
 <style type="text/css">
@@ -242,77 +268,86 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>5. Gagnon-Bartsch, J.A., and Speed, T.P. Using control genes to correct for unwanted variation in microarray data. Biostatistics <em>13</em>, 539–552. Available at: <a href="http://dx.doi.org/10.1093/biostatistics/kxr034">http://dx.doi.org/10.1093/biostatistics/kxr034</a>.</p>
 </div>
 <div>
-<p>6. Leek, J.T., Johnson, W.E., Parker, H.S., Jaffe, A.E., and Storey, J.D. The sva package for removing batch effects and other unwanted variation in high-throughput experiments. Bioinformatics <em>28</em>, 882–883. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/bts034">http://dx.doi.org/10.1093/bioinformatics/bts034</a>.</p>
+<p>6. Molania, R., Gagnon-Bartsch, J.A., Dobrovic, A., and Speed, T.P. A new normalization for nanostring nCounter gene expression data. Nucleic acids research <em>47</em>, 6073–6083. Available at: <a href="https://pubmed.ncbi.nlm.nih.gov/31114909">https://pubmed.ncbi.nlm.nih.gov/31114909</a>.</p>
 </div>
 <div>
-<p>7. Irizarry, R.A., Bolstad, B.M., Collin, F., Cope, L.M., Hobbs, B., and Speed, T.P. Summaries of affymetrix genechip probe level data. Nucleic Acids Research <em>31</em>, e15–e15. Available at: <a href="http://dx.doi.org/10.1093/nar/gng015">http://dx.doi.org/10.1093/nar/gng015</a>.</p>
+<p>7. Leek, J.T., Johnson, W.E., Parker, H.S., Jaffe, A.E., and Storey, J.D. The sva package for removing batch effects and other unwanted variation in high-throughput experiments. Bioinformatics <em>28</em>, 882–883. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/bts034">http://dx.doi.org/10.1093/bioinformatics/bts034</a>.</p>
 </div>
 <div>
-<p>8. Vihinen, M. (2012). How to evaluate performance of prediction methods? Measures and their interpretation in variation effect analysis. BMC Genomics <em>13</em>, S2–S2. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/</a>.</p>
+<p>8. Irizarry, R.A., Bolstad, B.M., Collin, F., Cope, L.M., Hobbs, B., and Speed, T.P. Summaries of affymetrix genechip probe level data. Nucleic Acids Research <em>31</em>, e15–e15. Available at: <a href="http://dx.doi.org/10.1093/nar/gng015">http://dx.doi.org/10.1093/nar/gng015</a>.</p>
 </div>
 <div>
-<p>9. Watanabe, T., Kobunai, T., Toda, E., Yamamoto, Y., Kanazawa, T., Kazama, Y., Tanaka, J., Tanaka, T., Konishi, T., and Okayama, Y. <em>et al.</em> Distal colorectal cancers with microsatellite instability (msi) display distinct gene expression profiles that are different from proximal msi cancers. Cancer Research <em>66</em>, 9804. Available at: <a href="http://cancerres.aacrjournals.org/content/66/20/9804.abstract">http://cancerres.aacrjournals.org/content/66/20/9804.abstract</a>.</p>
+<p>9. Vihinen, M. (2012). How to evaluate performance of prediction methods? Measures and their interpretation in variation effect analysis. BMC Genomics <em>13</em>, S2–S2. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/</a>.</p>
 </div>
 <div>
-<p>10. Jorissen, R.N., Lipton, L., Gibbs, P., Chapman, M., Desai, J., Jones, I.T., Yeatman, T.J., East, P., Tomlinson, I.P.M., and Verspaget, H.W. <em>et al.</em> DNA copy-number alterations underlie gene expression differences between microsatellite stable and unstable colorectal cancers. Clinical Cancer Research <em>14</em>, 8061. Available at: <a href="http://clincancerres.aacrjournals.org/content/14/24/8061.abstract">http://clincancerres.aacrjournals.org/content/14/24/8061.abstract</a>.</p>
+<p>10. Watanabe, T., Kobunai, T., Toda, E., Yamamoto, Y., Kanazawa, T., Kazama, Y., Tanaka, J., Tanaka, T., Konishi, T., and Okayama, Y. <em>et al.</em> Distal colorectal cancers with microsatellite instability (msi) display distinct gene expression profiles that are different from proximal msi cancers. Cancer Research <em>66</em>, 9804. Available at: <a href="http://cancerres.aacrjournals.org/content/66/20/9804.abstract">http://cancerres.aacrjournals.org/content/66/20/9804.abstract</a>.</p>
 </div>
 <div>
-<p>11. Alhopuro, P., Sammalkorpi, H., Niittymäki, I., Biström, M., Raitila, A., Saharinen, J., Nousiainen, K., Lehtonen, H.J., Heliövaara, E., and Puhakka, J. <em>et al.</em> (2012). Candidate driver genes in microsatellite-unstable colorectal cancer. International Journal of Cancer <em>130</em>, 1558–1566. Available at: <a href="http://dx.doi.org/10.1002/ijc.26167">http://dx.doi.org/10.1002/ijc.26167</a>.</p>
+<p>11. Jorissen, R.N., Lipton, L., Gibbs, P., Chapman, M., Desai, J., Jones, I.T., Yeatman, T.J., East, P., Tomlinson, I.P.M., and Verspaget, H.W. <em>et al.</em> DNA copy-number alterations underlie gene expression differences between microsatellite stable and unstable colorectal cancers. Clinical Cancer Research <em>14</em>, 8061. Available at: <a href="http://clincancerres.aacrjournals.org/content/14/24/8061.abstract">http://clincancerres.aacrjournals.org/content/14/24/8061.abstract</a>.</p>
 </div>
 <div>
-<p>12. Watanabe, T., Kobunai, T., Yamamoto, Y., Matsuda, K., Ishihara, S., Nozawa, K., Yamada, H., Hayama, T., Inoue, E., and Tamura, J. <em>et al.</em> Chromosomal instability (cin) phenotype, cin high or cin low, predicts survival for colorectal cancer. Journal of Clinical Oncology <em>30</em>, 2256–2264. Available at: <a href="https://doi.org/10.1200/JCO.2011.38.6490">https://doi.org/10.1200/JCO.2011.38.6490</a>.</p>
+<p>12. Alhopuro, P., Sammalkorpi, H., Niittymäki, I., Biström, M., Raitila, A., Saharinen, J., Nousiainen, K., Lehtonen, H.J., Heliövaara, E., and Puhakka, J. <em>et al.</em> (2012). Candidate driver genes in microsatellite-unstable colorectal cancer. International Journal of Cancer <em>130</em>, 1558–1566. Available at: <a href="http://dx.doi.org/10.1002/ijc.26167">http://dx.doi.org/10.1002/ijc.26167</a>.</p>
 </div>
 <div>
-<p>13. Schlicker, A., Beran, G., Chresta, C.M., McWalter, G., Pritchard, A., Weston, S., Runswick, S., Davenport, S., Heathcote, K., and Castro, D.A. <em>et al.</em> (2012). Subtypes of primary colorectal tumors correlate with response to targeted treatment in colorectal cell lines. BMC Medical Genomics <em>5</em>, 66–66. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/</a>.</p>
+<p>13. Watanabe, T., Kobunai, T., Yamamoto, Y., Matsuda, K., Ishihara, S., Nozawa, K., Yamada, H., Hayama, T., Inoue, E., and Tamura, J. <em>et al.</em> Chromosomal instability (cin) phenotype, cin high or cin low, predicts survival for colorectal cancer. Journal of Clinical Oncology <em>30</em>, 2256–2264. Available at: <a href="https://doi.org/10.1200/JCO.2011.38.6490">https://doi.org/10.1200/JCO.2011.38.6490</a>.</p>
 </div>
 <div>
-<p>14. Barras, D., Missiaglia, E., Wirapati, P., Sieber, O.M., Jorissen, R.N., Love, C., Molloy, P.L., Jones, I.T., McLaughlin, S., and Gibbs, P. <em>et al.</em> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>BRAF<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>V600E<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> mutant colorectal cancer subtypes based on gene expression. Clinical Cancer Research <em>23</em>, 104. Available at: <a href="http://clincancerres.aacrjournals.org/content/23/1/104.abstract">http://clincancerres.aacrjournals.org/content/23/1/104.abstract</a>.</p>
+<p>14. Schlicker, A., Beran, G., Chresta, C.M., McWalter, G., Pritchard, A., Weston, S., Runswick, S., Davenport, S., Heathcote, K., and Castro, D.A. <em>et al.</em> (2012). Subtypes of primary colorectal tumors correlate with response to targeted treatment in colorectal cell lines. BMC Medical Genomics <em>5</em>, 66–66. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/</a>.</p>
 </div>
 <div>
-<p>15. Kirzin, S., Marisa, L., Guimbaud, R., De Reynies, A., Legrain, M., Laurent-Puig, P., Cordelier, P., Pradère, B., Bonnet, D., and Meggetto, F. <em>et al.</em> (2014). Sporadic early-onset colorectal cancer is a specific sub-type of cancer: A morphological, molecular and genetics study. PLoS ONE <em>9</em>, e103159. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/</a>.</p>
+<p>15. Barras, D., Missiaglia, E., Wirapati, P., Sieber, O.M., Jorissen, R.N., Love, C., Molloy, P.L., Jones, I.T., McLaughlin, S., and Gibbs, P. <em>et al.</em> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>BRAF<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>V600E<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> mutant colorectal cancer subtypes based on gene expression. Clinical Cancer Research <em>23</em>, 104. Available at: <a href="http://clincancerres.aacrjournals.org/content/23/1/104.abstract">http://clincancerres.aacrjournals.org/content/23/1/104.abstract</a>.</p>
 </div>
 <div>
-<p>16. Schmit, S.L., Gollub, J., Shapero, M.H., Huang, S.-C., Rennert, H.S., Finn, A., Rennert, G., and Gruber, S.B. MicroRNA polymorphisms and risk of colorectal cancer. Cancer Epidemiology Biomarkers &amp;amp; Prevention <em>24</em>, 65. Available at: <a href="http://cebp.aacrjournals.org/content/24/1/65.abstract">http://cebp.aacrjournals.org/content/24/1/65.abstract</a>.</p>
+<p>16. Kirzin, S., Marisa, L., Guimbaud, R., De Reynies, A., Legrain, M., Laurent-Puig, P., Cordelier, P., Pradère, B., Bonnet, D., and Meggetto, F. <em>et al.</em> (2014). Sporadic early-onset colorectal cancer is a specific sub-type of cancer: A morphological, molecular and genetics study. PLoS ONE <em>9</em>, e103159. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/</a>.</p>
 </div>
 <div>
-<p>17. Yagi, K., Akagi, K., Hayashi, H., Nagae, G., Tsuji, S., Isagawa, T., Midorikawa, Y., Nishimura, Y., Sakamoto, H., and Seto, Y. <em>et al.</em> Three dna methylation epigenotypes in human colorectal cancer. Clinical Cancer Research <em>16</em>, 21. Available at: <a href="http://clincancerres.aacrjournals.org/content/16/1/21.abstract">http://clincancerres.aacrjournals.org/content/16/1/21.abstract</a>.</p>
+<p>17. Schmit, S.L., Gollub, J., Shapero, M.H., Huang, S.-C., Rennert, H.S., Finn, A., Rennert, G., and Gruber, S.B. MicroRNA polymorphisms and risk of colorectal cancer. Cancer Epidemiology Biomarkers &amp;amp; Prevention <em>24</em>, 65. Available at: <a href="http://cebp.aacrjournals.org/content/24/1/65.abstract">http://cebp.aacrjournals.org/content/24/1/65.abstract</a>.</p>
 </div>
 <div>
-<p>18. Laiho, P., Kokko, A., Vanharanta, S., Salovaara, R., Sammalkorpi, H., Jarvinen, H., Mecklin, J.-P., Karttunen, T.J., Tuppurainen, K., and Davalos, V. <em>et al.</em> Serrated carcinomas form a subclass of colorectal cancer with distinct molecular basis. Oncogene <em>26</em>, 312–320. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209778">http://dx.doi.org/10.1038/sj.onc.1209778</a>.</p>
+<p>18. Yagi, K., Akagi, K., Hayashi, H., Nagae, G., Tsuji, S., Isagawa, T., Midorikawa, Y., Nishimura, Y., Sakamoto, H., and Seto, Y. <em>et al.</em> Three dna methylation epigenotypes in human colorectal cancer. Clinical Cancer Research <em>16</em>, 21. Available at: <a href="http://clincancerres.aacrjournals.org/content/16/1/21.abstract">http://clincancerres.aacrjournals.org/content/16/1/21.abstract</a>.</p>
 </div>
 <div>
-<p>19. Banerjea, A., Ahmed, S., Hands, R.E., Huang, F., Han, X., Shaw, P.M., Feakins, R., Bustin, S.A., and Dorudi, S. (2004). Colorectal cancers with microsatellite instability display mRNA expression signatures characteristic of increased immunogenicity. Molecular Cancer <em>3</em>, 21. Available at: <a href="http://dx.doi.org/10.1186/1476-4598-3-21">http://dx.doi.org/10.1186/1476-4598-3-21</a>.</p>
+<p>19. Laiho, P., Kokko, A., Vanharanta, S., Salovaara, R., Sammalkorpi, H., Jarvinen, H., Mecklin, J.-P., Karttunen, T.J., Tuppurainen, K., and Davalos, V. <em>et al.</em> Serrated carcinomas form a subclass of colorectal cancer with distinct molecular basis. Oncogene <em>26</em>, 312–320. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209778">http://dx.doi.org/10.1038/sj.onc.1209778</a>.</p>
 </div>
 <div>
-<p>20. Lanza, G., Ferracin, M., Gafà, R., Veronese, A., Spizzo, R., Pichiorri, F., Liu, C.-g., Calin, G.A., Croce, C.M., and Negrini, M. (2007). MRNA/microRNA gene expression profile in microsatellite unstable colorectal cancer. Molecular Cancer <em>6</em>, 54–54. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/</a>.</p>
+<p>20. Banerjea, A., Ahmed, S., Hands, R.E., Huang, F., Han, X., Shaw, P.M., Feakins, R., Bustin, S.A., and Dorudi, S. (2004). Colorectal cancers with microsatellite instability display mRNA expression signatures characteristic of increased immunogenicity. Molecular Cancer <em>3</em>, 21. Available at: <a href="http://dx.doi.org/10.1186/1476-4598-3-21">http://dx.doi.org/10.1186/1476-4598-3-21</a>.</p>
 </div>
 <div>
-<p>21. Jorissen, R.N., Gibbs, P., Christie, M., Prakash, S., Lipton, L., Desai, J., Kerr, D., Aaltonen, L.A., Arango, D., and Kruhøffer, M. <em>et al.</em> Metastasis-associated gene expression changes predict poor outcomes in patients with dukes’stage b and c colorectal cancer. Clinical cancer research : an official journal of the American Association for Cancer Research <em>15</em>, 7642–7651. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/</a>.</p>
+<p>21. Lanza, G., Ferracin, M., Gafà, R., Veronese, A., Spizzo, R., Pichiorri, F., Liu, C.-g., Calin, G.A., Croce, C.M., and Negrini, M. (2007). MRNA/microRNA gene expression profile in microsatellite unstable colorectal cancer. Molecular Cancer <em>6</em>, 54–54. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/</a>.</p>
 </div>
 <div>
-<p>22. Koinuma, K., Yamashita, Y., Liu, W., Hatanaka, H., Kurashina, K., Wada, T., Takada, S., Kaneda, R., Choi, Y.L., and Fujiwara, S.-I. <em>et al.</em> Epigenetic silencing of axin2 in colorectal carcinoma with microsatellite instability. Oncogene <em>25</em>, 139–146. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209009">http://dx.doi.org/10.1038/sj.onc.1209009</a>.</p>
+<p>22. Jorissen, R.N., Gibbs, P., Christie, M., Prakash, S., Lipton, L., Desai, J., Kerr, D., Aaltonen, L.A., Arango, D., and Kruhøffer, M. <em>et al.</em> Metastasis-associated gene expression changes predict poor outcomes in patients with dukes’stage b and c colorectal cancer. Clinical cancer research : an official journal of the American Association for Cancer Research <em>15</em>, 7642–7651. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/</a>.</p>
 </div>
 <div>
-<p>23. Kruhøffer, M., Jensen, J.L., Laiho, P., Dyrskjøt, L., Salovaara, R., Arango, D., Birkenkamp-Demtroder, K., Sørensen, F.B., Christensen, L.L., and Buhl, L. <em>et al.</em> Gene expression signatures for colorectal cancer microsatellite status and hnpcc. British Journal of Cancer <em>92</em>, 2240–2248. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/</a>.</p>
+<p>23. Koinuma, K., Yamashita, Y., Liu, W., Hatanaka, H., Kurashina, K., Wada, T., Takada, S., Kaneda, R., Choi, Y.L., and Fujiwara, S.-I. <em>et al.</em> Epigenetic silencing of axin2 in colorectal carcinoma with microsatellite instability. Oncogene <em>25</em>, 139–146. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209009">http://dx.doi.org/10.1038/sj.onc.1209009</a>.</p>
 </div>
 <div>
-<p>24. Mori, Y., Selaru, F.M., Sato, F., Yin, J., Simms, L.A., Xu, Y., Olaru, A., Deacu, E., Wang, S., and Taylor, J.M. <em>et al.</em> The impact of microsatellite instability on the molecular phenotype of colorectal tumors. Cancer Research <em>63</em>, 4577. Available at: <a href="http://cancerres.aacrjournals.org/content/63/15/4577.abstract">http://cancerres.aacrjournals.org/content/63/15/4577.abstract</a>.</p>
+<p>24. Kruhøffer, M., Jensen, J.L., Laiho, P., Dyrskjøt, L., Salovaara, R., Arango, D., Birkenkamp-Demtroder, K., Sørensen, F.B., Christensen, L.L., and Buhl, L. <em>et al.</em> Gene expression signatures for colorectal cancer microsatellite status and hnpcc. British Journal of Cancer <em>92</em>, 2240–2248. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/</a>.</p>
 </div>
 <div>
-<p>25. Verhaak, R.G., Hoadley, K.A., Purdom, E., Wang, V., Qi, Y., Wilkerson, M.D., Miller, C.R., Ding, L., Golub, T., and Mesirov, J.P. <em>et al.</em> An integrated genomic analysis identifies clinically relevant subtypes of glioblastoma characterized by abnormalities in pdgfra, idh1, egfr and nf1. Cancer cell <em>17</em>, 98. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/</a>.</p>
+<p>25. Mori, Y., Selaru, F.M., Sato, F., Yin, J., Simms, L.A., Xu, Y., Olaru, A., Deacu, E., Wang, S., and Taylor, J.M. <em>et al.</em> The impact of microsatellite instability on the molecular phenotype of colorectal tumors. Cancer Research <em>63</em>, 4577. Available at: <a href="http://cancerres.aacrjournals.org/content/63/15/4577.abstract">http://cancerres.aacrjournals.org/content/63/15/4577.abstract</a>.</p>
 </div>
 <div>
-<p>26. Kaufman, L., and Rousseeuw, P.J. (1990). Finding groups in data: An introduction to cluster analysis (John Wiley).</p>
+<p>26. Verhaak, R.G., Hoadley, K.A., Purdom, E., Wang, V., Qi, Y., Wilkerson, M.D., Miller, C.R., Ding, L., Golub, T., and Mesirov, J.P. <em>et al.</em> An integrated genomic analysis identifies clinically relevant subtypes of glioblastoma characterized by abnormalities in pdgfra, idh1, egfr and nf1. Cancer cell <em>17</em>, 98. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/</a>.</p>
 </div>
 <div>
-<p>27. Dudoit, S., and Fridlyand, J. Bagging to improve the accuracy of a clustering procedure. Bioinformatics <em>19</em>, 1090–1099. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/btg038">http://dx.doi.org/10.1093/bioinformatics/btg038</a>.</p>
+<p>27. Kaufman, L., and Rousseeuw, P.J. (1990). Finding groups in data: An introduction to cluster analysis (John Wiley).</p>
 </div>
 <div>
-<p>28. Li, H.G., Wu, G.Q., Hu, X.G., Zhang, J., Li, L., and Wu, X. (2011). K-means clustering with bagging and mapreduce. 2011 44th Hawaii International Conference on System Sciences, 1–8.</p>
+<p>28. Dudoit, S., and Fridlyand, J. Bagging to improve the accuracy of a clustering procedure. Bioinformatics <em>19</em>, 1090–1099. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/btg038">http://dx.doi.org/10.1093/bioinformatics/btg038</a>.</p>
+</div>
+<div>
+<p>29. Li, H.G., Wu, G.Q., Hu, X.G., Zhang, J., Li, L., and Wu, X. (2011). K-means clustering with bagging and mapreduce. 2011 44th Hawaii International Conference on System Sciences, 1–8.</p>
 </div>
 </div>
 
 </div>
+
+
+
+
+
+
             </section>
 
           </div>

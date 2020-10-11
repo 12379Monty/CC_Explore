@@ -4,7 +4,7 @@ processing file: ExploreCRC.Rmd
   |                                                                              |                                                                      |   0%  |                                                                              |.                                                                     |   1%
   ordinary text without R code
 
-  |                                                                              |.                                                                     |   2%
+  |                                                                              |..                                                                    |   2%
 label: index-setup (with options) 
 List of 1
  $ include: symbol F
@@ -17,46 +17,36 @@ label: index-functionDef (with options)
 List of 1
  $ include: symbol F
 
-  |                                                                              |...                                                                   |   5%
+  |                                                                              |....                                                                  |   5%
   ordinary text without R code
 
-  |                                                                              |....                                                                  |   6%
+  |                                                                              |.....                                                                 |   7%
 label: index-runParam (with options) 
 List of 1
  $ echo: logi FALSE
 
-
+  |                                                                              |.....                                                                 |   8%
    inline R code fragments
-
-  |                                                                              |.....                                                                 |   7%
-label: load-data-getGEOHelp (with options) 
-List of 4
- $ echo      : logi FALSE
- $ cache     : logi TRUE
- $ cache.vars: chr "GEOquery.getGEO.path"
- $ eval      : symbol F
-
-  |                                                                              |......                                                                |   8%
-  ordinary text without R code
 
   |                                                                              |......                                                                |   9%
 label: load-data-dnldGSE (with options) 
-List of 3
+List of 4
  $ eval      : logi FALSE
- $ cache     : logi FALSE
+ $ cache     : symbol T
  $ cache.vars: chr ""
+ $ message   : symbol F
 
   |                                                                              |.......                                                               |  10%
   ordinary text without R code
 
   |                                                                              |........                                                              |  11%
-label: load-data- peekGSE (with options) 
+label: load-data-peekGSE (with options) 
 List of 5
- $ eval      : logi TRUE
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ fig.width : num 11
  $ fig.height: num 6
+ $ eval      : symbol T
 
   |                                                                              |........                                                              |  12%
    inline R code fragments
@@ -67,486 +57,79 @@ List of 6
  $ echo      : symbol T
  $ cache     : logi TRUE
  $ cache.vars: chr ""
- $ eval      : logi TRUE
  $ fig.width : num 8
  $ fig.height: num 6
+ $ eval      : symbol T
 
   |                                                                              |..........                                                            |  14%
   ordinary text without R code
 
-  |                                                                              |..........                                                            |  15%
+  |                                                                              |...........                                                           |  15%
 label: load-data-poolGSE (with options) 
 List of 5
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ fig.width : num 12
  $ fig.height: num 6
- $ eval      : symbol F
+ $ eval      : symbol T
 
-  |                                                                              |...........                                                           |  16%
+  |                                                                              |............                                                          |  16%
   ordinary text without R code
 
-  |                                                                              |............                                                          |  17%
+  |                                                                              |............                                                          |  18%
 label: load-data-svaBatchAdjust (with options) 
 List of 5
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ fig.width : num 12
  $ fig.height: num 6
- $ eval      : symbol F
-
-
-  ordinary text without R code
-
-  |                                                                              |.............                                                         |  18%
-label: load-data-getTrainTest (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol F
+ $ eval      : symbol T
 
   |                                                                              |.............                                                         |  19%
   ordinary text without R code
 
   |                                                                              |..............                                                        |  20%
+label: load-data-getTrainTest (with options) 
+List of 3
+ $ cache     : logi TRUE
+ $ cache.vars: chr ""
+ $ eval      : symbol T
+
+  |                                                                              |...............                                                       |  21%
+   inline R code fragments
+
+  |                                                                              |...............                                                       |  22%
 label: load-data-saveGeneSets (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |...............                                                       |  21%
-  ordinary text without R code
-
-  |                                                                              |...............                                                       |  22%
-label: train-models-setTrainParam (with options) 
-List of 1
- $ eval: symbol F
+ $ eval      : symbol T
 
   |                                                                              |................                                                      |  23%
   ordinary text without R code
 
   |                                                                              |.................                                                     |  24%
+label: train-models-setTrainParam (with options) 
+List of 1
+ $ eval: symbol T
+
+  |                                                                              |..................                                                    |  25%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
 label: train-models-doMC (with options) 
 List of 2
  $ echo: symbol F
- $ eval: symbol F
-
-  |                                                                              |.................                                                     |  25%
-   inline R code fragments
-
-  |                                                                              |..................                                                    |  26%
-label: train-models-stepLDAFit (with options) 
-List of 4
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi FALSE
- $ echo      : logi FALSE
+ $ eval: symbol T
 
   |                                                                              |...................                                                   |  27%
-  ordinary text without R code
-
-  |                                                                              |...................                                                   |  28%
-label: train-models-stepLDAFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi FALSE
-
-  |                                                                              |....................                                                  |  28%
-  ordinary text without R code
-
-  |                                                                              |.....................                                                 |  29%
-label: train-models-stepQDAFit (with options) 
-List of 4
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi FALSE
- $ echo      : logi FALSE
-
-  |                                                                              |.....................                                                 |  30%
-  ordinary text without R code
-
-  |                                                                              |......................                                                |  31%
-label: train-models-stepQDAFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi FALSE
-
-  |                                                                              |......................                                                |  32%
-  ordinary text without R code
-
-  |                                                                              |.......................                                               |  33%
-label: train-models-knnFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |........................                                              |  34%
-  ordinary text without R code
-
-  |                                                                              |........................                                              |  35%
-label: train-models-knnFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-  |                                                                              |.........................                                             |  36%
-  ordinary text without R code
-
-  |                                                                              |..........................                                            |  37%
-label: train-models-pamFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |..........................                                            |  38%
-  ordinary text without R code
-
-  |                                                                              |...........................                                           |  39%
-label: train-models-pamFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-  |                                                                              |............................                                          |  39%
-  ordinary text without R code
-
-  |                                                                              |............................                                          |  40%
-label: train-models-rfFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |.............................                                         |  41%
-  ordinary text without R code
-
-  |                                                                              |..............................                                        |  42%
-label: train-models-rfFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-  |                                                                              |..............................                                        |  43%
-  ordinary text without R code
-
-  |                                                                              |...............................                                       |  44%
-label: train-models-svmRadialFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |...............................                                       |  45%
-  ordinary text without R code
-
-  |                                                                              |................................                                      |  46%
-label: train-models-svmRadialFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-  |                                                                              |.................................                                     |  47%
-  ordinary text without R code
-
-  |                                                                              |.................................                                     |  48%
-label: train-models-gbmFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |..................................                                    |  49%
-  ordinary text without R code
-
-  |                                                                              |...................................                                   |  50%
-label: train-models-gbmFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-
-  ordinary text without R code
-
-  |                                                                              |....................................                                  |  51%
-label: train-models-xgbLinearFit (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : logi TRUE
-
-  |                                                                              |.....................................                                 |  52%
-  ordinary text without R code
-
-  |                                                                              |.....................................                                 |  53%
-label: train-models-xgbLinearFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi TRUE
-
-  |                                                                              |......................................                                |  54%
-  ordinary text without R code
-
-  |                                                                              |.......................................                               |  55%
-label: train-models-xgbTreeFit (with options) 
-List of 4
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ echo      : logi FALSE
- $ eval      : logi FALSE
-
-  |                                                                              |.......................................                               |  56%
-  ordinary text without R code
-
-  |                                                                              |........................................                              |  57%
-label: train-models-xgbTreeFitPrint (with options) 
-List of 2
- $ echo: symbol F
- $ eval: logi FALSE
-
-  |                                                                              |........................................                              |  58%
-  ordinary text without R code
-
-  |                                                                              |.........................................                             |  59%
-label: comp-models-getModels (with options) 
-List of 1
- $ eval: symbol F
-
-  |                                                                              |..........................................                            |  60%
-  ordinary text without R code
-
-  |                                                                              |..........................................                            |  61%
-label: comp-models-compTimes (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |...........................................                           |  61%
-  ordinary text without R code
-
-  |                                                                              |............................................                          |  62%
-label: comp-models-trainAccuracy (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |............................................                          |  63%
-  ordinary text without R code
-
-  |                                                                              |.............................................                         |  64%
-label: comp-models-OOSTrainAccuracy (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |..............................................                        |  65%
-  ordinary text without R code
-
-  |                                                                              |..............................................                        |  66%
-label: comp-models-testAccuracy (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |...............................................                       |  67%
-  ordinary text without R code
-
-  |                                                                              |................................................                      |  68%
-label: comp-models-CompROCTrain (with options) 
-List of 5
- $ cache     : logi TRUE
- $ cache.vars: chr "Set.Train.roc.mtx.lst"
- $ fig.height: num 6
- $ fig.width : num 11
- $ eval      : symbol F
-
-  |                                                                              |................................................                      |  69%
-  ordinary text without R code
-
-  |                                                                              |.................................................                     |  70%
-label: comp-models-CompROCOOSTrain (with options) 
-List of 5
- $ cache     : logi FALSE
- $ cache.vars: chr ""
- $ fig.height: num 6
- $ fig.width : num 11
- $ eval      : symbol F
-
-  |                                                                              |.................................................                     |  71%
-  ordinary text without R code
-
-  |                                                                              |..................................................                    |  72%
-label: comp-models-CompROCIndivOOSTrain (with options) 
-List of 5
- $ cache     : logi FALSE
- $ cache.vars: chr "Set.Train.indiv_osProbClass1.mtx"
- $ fig.height: num 6
- $ fig.width : num 11
- $ eval      : symbol F
-
-  |                                                                              |...................................................                   |  72%
-  ordinary text without R code
-
-  |                                                                              |...................................................                   |  73%
-label: comp-models-CompOOSSet.TrainProbClass1 (with options) 
-List of 5
- $ cache     : logi FALSE
- $ cache.vars: chr ""
- $ fig.height: num 12
- $ fig.width : num 12
- $ eval      : symbol F
-
-  |                                                                              |....................................................                  |  74%
-  ordinary text without R code
-
-  |                                                                              |.....................................................                 |  75%
-label: comp-models-varImpHelp (with options) 
-List of 4
- $ echo      : logi FALSE
- $ cache     : logi TRUE
- $ cache.vars: chr "caret.varImp.path"
- $ eval      : symbol F
-
-  |                                                                              |.....................................................                 |  76%
-  ordinary text without R code
-
-  |                                                                              |......................................................                |  77%
-label: comp-models-readGeneSets (with options) 
-List of 2
- $ echo: symbol T
- $ eval: symbol F
-
-  |                                                                              |.......................................................               |  78%
-  ordinary text without R code
-
-  |                                                                              |.......................................................               |  79%
-label: comp-models-varImp (with options) 
-List of 2
- $ cache: logi FALSE
- $ eval : symbol F
-
-  |                                                                              |........................................................              |  80%
-  ordinary text without R code
-
-  |                                                                              |.........................................................             |  81%
-label: clustering-clusterPrelim (with options) 
-List of 1
- $ eval: symbol F
-
-  |                                                                              |.........................................................             |  82%
    inline R code fragments
 
-  |                                                                              |..........................................................            |  83%
-label: clustering-pamCluster (with options) 
-List of 1
- $ eval: symbol F
-
-
-  ordinary text without R code
-
-  |                                                                              |...........................................................           |  84%
-label: clustering-ViewPamCluster (with options) 
-List of 3
- $ fig.width : num 12
- $ fig.height: num 12
- $ eval      : symbol F
-
-  |                                                                              |............................................................          |  85%
-  ordinary text without R code
-
-  |                                                                              |............................................................          |  86%
-label: clustering-BagClust2 (with options) 
-List of 3
- $ cache     : symbol T
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |.............................................................         |  87%
-  ordinary text without R code
-
-  |                                                                              |..............................................................        |  88%
-label: clustering-lkBagClust2 (with options) 
-List of 3
- $ fig.height: num 12
- $ fig.width : num 12
- $ eval      : symbol F
-
-  |                                                                              |..............................................................        |  89%
-  ordinary text without R code
-
-  |                                                                              |...............................................................       |  90%
-label: clustering-tSNEPrelim (with options) 
-List of 1
- $ eval: symbol F
-
-  |                                                                              |................................................................      |  91%
-  ordinary text without R code
-
-  |                                                                              |................................................................      |  92%
-label: clustering-tSNE (with options) 
-List of 3
- $ cache     : symbol T
- $ cache.vars: chr ""
- $ eval      : symbol F
-
-  |                                                                              |.................................................................     |  93%
-  ordinary text without R code
-
-  |                                                                              |..................................................................    |  94%
-label: clustering-ViewTsnePamCluster (with options) 
+  |                                                                              |....................                                                  |  29%
+label: train-models-glmnetFit (with options) 
 List of 4
- $ fig.width : num 12
- $ fig.height: num 12
- $ results   : chr "hold"
- $ eval      : symbol F
-
-
-  ordinary text without R code
-
-  |                                                                              |...................................................................   |  95%
-label: clustering-tsneBagClust2 (with options) 
-List of 3
- $ cache     : symbol T
+ $ cache     : logi TRUE
  $ cache.vars: chr ""
- $ eval      : symbol F
+ $ echo      : symbol T
+ $ eval      : symbol T
 
-  |                                                                              |...................................................................   |  96%
-  ordinary text without R code
-
-  |                                                                              |....................................................................  |  97%
-label: clustering-lktsneBagClust2 (with options) 
-List of 3
- $ fig.height: num 12
- $ fig.width : num 12
- $ eval      : symbol F
-
-  |                                                                              |..................................................................... |  98%
-   inline R code fragments
-
-  |                                                                              |..................................................................... |  99%
-label: appendix1 (with options) 
-List of 4
- $ cache: symbol F
- $ child: chr "_appendix1.Rmd"
- $ eval : symbol F
- $ echo : symbol F
-
-  |                                                                              |......................................................................| 100%
-  ordinary text without R code
-
-
-output file: ExploreCRC.knit.md
-
-/usr/local/bin/pandoc +RTS -K512m -RTS ExploreCRC.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output ExploreCRC.html --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --email-obfuscation none --wrap preserve --standalone --section-divs --table-of-contents --toc-depth 3 --template /Library/Frameworks/R.framework/Versions/4.0/Resources/library/bookdown/templates/gitbook.html --highlight-style pygments --number-sections --css style.css --include-in-header /var/folders/nt/fdw5s4y937s4pkgsdn9m7j840000gp/T//Rtmp5K6rup/rmarkdown-str1d2572f60d11.html --mathjax --filter /usr/local/bin/pandoc-citeproc 
-
-Output created: docs/index.html
-[1] "/Users/fcollin/Documents/Projects/CC_Explore/docs/index.html"
-Warning message:
-In call_block(x) :
-  The chunk 'appendix1' has the 'child' option, and this code chunk must be empty. Its code will be ignored.

@@ -1,9 +1,9 @@
-# Train Predictive Modesl {#train-models}
+# Train Predictive Models {#train-models}
 
 We are ready to use the Training data to evaluate various predictive models.
 
 Set up training parameters:
-```{r train-models-setTrainParam, eval=F}
+```{r train-models-setTrainParam, eval=T}
  suppressMessages(require(caret))
 
  SelGenes.CV <- paste(SelGenes, '.CV.', paste(unlist(CV), collapse='_'),sep='')
@@ -15,17 +15,17 @@ Set up training parameters:
  # Load Data
  loadObj(paste0('Train.',SelGenes,'.vec'), 'SelGenes.vec')
  
- load(file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
+ load(file=file.path('RData', 'Train.Expr.mtx'))
  Train.SelGenes.Expr.mtx <- Train.Expr.mtx[, SelGenes.vec]
  rm(Train.Expr.mtx)
 
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Train.Label.vec'))
 
  #dim(Train.SelGenes.Expr.mtx);length(Train.Label.vec)
 ``` 
 <!-- ######################################################################## -->
 
-```{r train-models-doMC, echo=F, eval=F}
+```{r train-models-doMC, echo=F, eval=T}
  # Set up parallel computing.
  suppressMessages(require(doMC))
  suppressMessages(require(parallel))
@@ -42,22 +42,23 @@ Model tuning and optimization will be done based on
 This provides `r CV$Rep` cross-validated, or out-of-sample, predicted values 
 for each sample in the training set.  The distribution of predicted values
 can be examined to identify hard to predict samples.  Some of these
-samples may potentially be mis-labelled, or may be hard to fit for other
-reasons.  One might consider doing an analysis which exludes these samples
+samples may potentially be mislabelled, or may be hard to fit for other
+reasons.  One might consider doing an analysis which excludes these samples
 from the training set to see what impact they have on the fits.
 
 Some of the models which can be evaluated with `caret` include:
 
-* stepLDA - Linear Discriminant Analysis with Stepwise Feature Selection
-* stepQDA - Qaudratic Discriminant Analysis with Stepwise Feature Selection
+* glmnet -  Lasso and Elastic-Net Regularized Generalized Linear Models
 * knn - k nearest neighbors
-* pam - Nearest shrunken centroids
+* pam - Nearest shrunken centroids (see Tibshirani et al. (2002) [@Tibshirani:2002ab])
 * rf - Random forests
 * svmRadial - Support vector machines (RBF kernel)
 * gbm - Boosted trees
 * xgbLinear - eXtreme Gradient Boosting
 * xgbTree - eXtreme Gradient Boosting
-* neuralnet - neural network
+* neuralnet - neural network  
+* stepLDA - Linear Discriminant Analysis with Stepwise Feature Selection
+* stepQDA - Quadratic Discriminant Analysis with Stepwise Feature Selection
 
 Many more [models](https://topepo.github.io/caret/available-models.html)
  can be implemented and evaluated with `caret`, including `deep learning` methods.  
@@ -77,56 +78,26 @@ These methods dont work.
 * nnet - neural network
 -->
 
-<!--
-## stepLDAFit - Stepwise linear discriminant analysis
--->
-```{r train-models-stepLDAFit, cache=TRUE,cache.vars='', eval=FALSE, echo=FALSE, eval=F}
- # CHANGE THIS LINE TO CLEAR CACHE
- ################################# 
+## glmnet -  Lasso and Elastic-Net Regularized Generalized Linear Models
+
+```{r train-models-glmnetFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
- SelGenes.stepLDAFit.tm <- system.time(
-  SelGenes.stepLDAFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
-               method="stepLDA",
+ SelGenes.glmnetFit.tm <- system.time(
+ SelGenes.glmnetFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
+               method="glmnet", 
                trControl=cvControl, preProc=c('center','scale'))
  )
- print(SelGenes.stepLDAFit.tm)
+ print(SelGenes.glmnetFit.tm)
+ print(SelGenes.glmnetFit)
 
- saveObj(paste0(SelGenes.CV, '.stepLDAFit'), 'SelGenes.stepLDAFit')
+ saveObj(paste0(SelGenes.CV, '.glmnetFit'), 'SelGenes.glmnetFit')
 
-``` 
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-stepLDAFitPrint,echo=F,eval=FALSE, eval=F}
- loadObj(paste0(SelGenes.CV, '.stepLDAFit'), 'SelGenes.stepLDAFit')
- print(SelGenes.stepLDAFit)
-```
-<!-- ######################################################################## -->
-
-<!--
-## stepQDAFit - Stepwise quadratic discriminant analysis
--->
-```{r train-models-stepQDAFit, cache=TRUE,cache.vars='', eval=FALSE,echo=FALSE, eval=F}
- # CHANGE THIS LINE TO CLEAR CACHE
- ################################# 
- set.seed(12379)
- SelGenes.stepQDAFit.tm <- system.time(
-  SelGenes.stepQDAFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
-               method="stepQDA",
-               trControl=cvControl, preProc=c('center','scale'))
- )
- print(SelGenes.stepQDAFit.tm)
-
- saveObj(paste0(SelGenes.CV, '.stepQDAFit'), 'SelGenes.stepQDAFit')
-
-``` 
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-stepQDAFitPrint,echo=F,eval=FALSE, eval=F}
- loadObj(paste0(SelGenes.CV, '.stepQDAFit'), 'SelGenes.stepQDAFit')
- print(SelGenes.stepQDAFit)
 ```
 <!-- ######################################################################## -->
 
 ## knn - k nearest neighbors
-```{r train-models-knnFit, cache=TRUE,cache.vars='', eval=TRUE, eval=F}
+
+```{r train-models-knnFit, cache=TRUE,cache.vars='', echo=T, eval=T}
  # CHANGE THIS LINE TO CLEAR CACHE
  ################################# 
  set.seed(12379)
@@ -136,19 +107,16 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.knnFit.tm)
+ print(SelGenes.knnFit)
 
  saveObj(paste0(SelGenes.CV, '.knnFit'), 'SelGenes.knnFit')
 
 ```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-knnFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.knnFit'), 'SelGenes.knnFit')
- print(SelGenes.knnFit)
-```
 <!-- ######################################################################## -->
 
+## pam - nearest shrunken centroid
 
-```{r train-models-pamFit, cache=TRUE,cache.vars='',eval=TRUE, eval=F}
+```{r train-models-pamFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
  SelGenes.pamFit.tm <- system.time(
  SelGenes.pamFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -156,19 +124,16 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.pamFit.tm)
+ print(SelGenes.pamFit)
 
  saveObj(paste0(SelGenes.CV, '.pamFit'), 'SelGenes.pamFit')
 
 ```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-pamFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.pamFit'), 'SelGenes.pamFit')
- print(SelGenes.pamFit)
-```
 <!-- ######################################################################## -->
 
+
 ## rf - Random forests
-```{r train-models-rfFit, cache=TRUE,cache.vars='',eval=TRUE, eval=F}
+```{r train-models-rfFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
  SelGenes.rfFit.tm <- system.time(
  SelGenes.rfFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -176,20 +141,16 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.rfFit.tm)
+ print(SelGenes.rfFit)
 
  saveObj(paste0(SelGenes.CV, '.rfFit'), 'SelGenes.rfFit')
 
-```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-rfFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.rfFit'), 'SelGenes.rfFit')
- print(SelGenes.rfFit)
 ```
 <!-- ######################################################################## -->
 
 
 ## svmRadial - Support vector machines (RBF kernel)
-```{r train-models-svmRadialFit, cache=TRUE,cache.vars='',eval=TRUE, eval=F}
+```{r train-models-svmRadialFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
  SelGenes.svmRadialFit.tm <- system.time(
  SelGenes.svmRadialFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -197,19 +158,15 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.svmRadialFit.tm)
+ print(SelGenes.svmRadialFit)
 
  saveObj(paste0(SelGenes.CV, '.svmRadialFit'), 'SelGenes.svmRadialFit')
 
 ```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-svmRadialFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.svmRadialFit'), 'SelGenes.svmRadialFit')
- print(SelGenes.svmRadialFit)
-```
 <!-- ######################################################################## -->
 
 ## gbm - Boosted trees
-```{r train-models-gbmFit, cache=TRUE,cache.vars='',eval=TRUE, eval=F}
+```{r train-models-gbmFit, cache=TRUE,cache.vars='',ecno=T, eval=T}
  set.seed(12379)
  SelGenes.gbmFit.tm <- system.time(
  SelGenes.gbmFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -217,20 +174,16 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.gbmFit.tm)
+ print(SelGenes.gbmFit)
 
  saveObj(paste0(SelGenes.CV, '.gbmFit'), 'SelGenes.gbmFit')
 
-```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-gbmFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.gbmFit'), 'SelGenes.gbmFit')
- print(SelGenes.gbmFit)
 ```
 <!-- ######################################################################## -->
 
 
 ## xgbLinear - eXtreme Gradient Boosting
-```{r train-models-xgbLinearFit, cache=TRUE,cache.vars='',eval=TRUE, eval=F}
+```{r train-models-xgbLinearFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
  SelGenes.xgbLinearFit.tm <- system.time(
  SelGenes.xgbLinearFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -238,14 +191,10 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.xgbLinearFit.tm)
+ print(SelGenes.xgbLinearFit)
 
  saveObj(paste0(SelGenes.CV, '.xgbLinearFit'), 'SelGenes.xgbLinearFit')
 
-```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-xgbLinearFitPrint,echo=F,eval=TRUE, eval=F}
- loadObj(paste0(SelGenes.CV, '.xgbLinearFit'), 'SelGenes.xgbLinearFit')
- print(SelGenes.xgbLinearFit)
 ```
 <!-- ######################################################################## -->
 
@@ -260,14 +209,51 @@ These methods dont work.
                trControl=cvControl, preProc=c('center','scale'))
  )
  print(SelGenes.xgbTreeFit.tm)
+ print(SelGenes.xgbTreeFit)
 
  saveObj(paste0(SelGenes.CV, '.xgbTreeFit'), 'SelGenes.xgbTreeFit')
 
 ```
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-```{r train-models-xgbTreeFitPrint,echo=F,eval=FALSE}
- loadObj(paste0(SelGenes.CV, '.xgbTreeFit'), 'SelGenes.xgbTreeFit')
- print(SelGenes.xgbTreeFit)
-```
+<!-- ######################################################################## -->
+
+
+## stepLDAFit - Stepwise linear discriminant analysis
+
+```{r train-models-stepLDAFit, cache=TRUE,cache.vars='', echo=T, eval=T}
+ # CHANGE THIS LINE TO CLEAR CACHE
+ ################################# 
+ set.seed(12379)
+ SelGenes.stepLDAFit.tm <- system.time(
+  SelGenes.stepLDAFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
+               method="stepLDA",
+               trControl=cvControl, preProc=c('center','scale'))
+ )
+ print(SelGenes.stepLDAFit.tm)
+
+ print(SelGenes.stepLDAFit)
+
+ saveObj(paste0(SelGenes.CV, '.stepLDAFit'), 'SelGenes.stepLDAFit')
+
+``` 
+<!-- ######################################################################## -->
+
+
+## stepQDAFit - Stepwise quadratic discriminant analysis
+
+```{r train-models-stepQDAFit, cache=TRUE,cache.vars='', echo=T, eval=T}
+ # CHANGE THIS LINE TO CLEAR CACHE
+ ################################# 
+ set.seed(12379)
+ SelGenes.stepQDAFit.tm <- system.time(
+  SelGenes.stepQDAFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
+               method="stepQDA",
+               trControl=cvControl, preProc=c('center','scale'))
+ )
+ print(SelGenes.stepQDAFit.tm)
+ print(SelGenes.stepQDAFit)
+
+ saveObj(paste0(SelGenes.CV, '.stepQDAFit'), 'SelGenes.stepQDAFit')
+
+``` 
 <!-- ######################################################################## -->
 

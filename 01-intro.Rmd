@@ -104,7 +104,7 @@ pre-filter genes based on this information in this analysis.
 ## Building a Classifier
 
 Following pre-processing, the pooled dataset will be used to investigate the performance of
-various classification methods to predict msi status from gene expression data.  The pooled dataset
+various classification methods to predict `msi status` from gene expression data.  The pooled dataset
 will then be split into **Train** and **Test** subsets.  Following the split, the **Test** subset
 is to be excluded from all analyses until we are ready to evaluate the final selection of predictive models
  under consideration.  During the analysis, the **Train** dataset will be further sub-divided into
@@ -112,21 +112,27 @@ is to be excluded from all analyses until we are ready to evaluate the final sel
 The Test set is not interrogated until the final model assessment step to ensure that it provides
 a reliable set of data to assess the performance of the predictive models.
 When the size of the dataset is small, it is
-tempting to rely on cross-validated measures of performance instead of a  Test set.  We will compare the
-two measures in this exercise to see if they lead to different orderings of the classifiers or drastically
-different measures of performance.
+tempting to rely on cross-validated measures of performance instead of a  Test set.
+To address the question of whether a test set is truly necesary, we will compare the
+two measures of performance to see if they lead to different orderings of the 
+classifiers or drastically different measures of performance.
 
 
 When analyzing gene expression data for classification purposes, or to extract
 biologically meaningful gene signatures, it is customary to first subset genes.
-The primary reason for this subsetting step is for computational purposes -
+One reason for this subsetting step is for computational purposes -
 including all of the genes in the analysis may require too much memory
-or computing time for some steps.  A common approach used is to
-apply a gene expression variability threshold for genes to be included in
-the analysis - genes that show little variability across samples are
-excluded.  Since our computing resources are limited, we will apply a fairly aggressive filter to the data.
-We will reduce the data size by keeping only the 25% most variable genes for all subsequent analyses.
-In practice, one would be more careful about applying this filter.
+or computing time for some steps.  Another reason is to remove
+features that have no variability at all from the data set.
+A common approach used is to apply a gene expression variability threshold 
+for genes to be included in the analysis - genes that show little 
+variability across samples are excluded.  For this analysis, 
+we will reduce the data size by keeping the `r VAR_FILTER`%
+most variable genes for all subsequent analyses.
+In practice, one might be more careful about applying this filter.
+<!-- Since our computing resources are limited, we will apply a fairly 
+aggressive filter to the data.  
+-->
 
 ## Classifier Assessment
 
@@ -154,6 +160,7 @@ biological clusters very challenging.  On the other hand, the batch effect corre
 erroneously remove biological effects in the data.  
 
 
+---
 
 The layout of the report is the following:  
 

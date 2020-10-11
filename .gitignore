@@ -1,3 +1,4 @@
+temp_files
 wget*
 wget*.*
 t.txt
@@ -6,10 +7,8 @@ tr
 ty
 tmp.*
 r
-## DO NOT IGNORE RData - contains simulations that take a long time to run
-# DO ignore large objects
-#RData
-RData/filteredCountsAF_dgel
+# ignore all of RData?
+RData
 ###- renamed
 #RData/AF_dgel 
 #RData/cv_lassoAll_lst

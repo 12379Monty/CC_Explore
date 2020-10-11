@@ -51,6 +51,32 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script type="text/javascript">
+// source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
 
 
 <style type="text/css">
@@ -248,10 +274,9 @@ MSI status as part of clinical sample characteristics and use these data to illu
 </ul>
 <p>The <a href="https://yihui.name/knitr/">knitr</a> R package greatly
 facilitates the use of R markdown to integrate data analysis and report writing
-into a single process. This entire report, including all data downloads and
-processing can be reproduced by running a single R markdown script. Some of the
-data analysis steps may be time consuming, but <code>kntr</code> provides easy ways to
-deal with these contingencies through neat caching capabilities.</p>
+into a single process. Used with
+[bookdown[(<a href="https://bookdown.org/yihui/bookdown/" class="uri">https://bookdown.org/yihui/bookdown/</a>) one can
+easily write books and long-form articles from a series of R Markdown documents.</p>
 <p>The <a href="https://topepo.github.io/caret/index.html">caret</a> R package provides
 a extensive set of tools for predictive modeling. A very large selection
 of modeling approaches can be invoked through a common interface and
@@ -265,20 +290,21 @@ and comparable model performance estimates.</p>
 <ul>
 <li>Quantile normalization <span class="citation">[<a href="#ref-Bolstad:2003aa" role="doc-biblioref">4</a>]</span> (the baseline approach, which doesn’t truly
 address batch effects)</li>
-<li>RUV method <span class="citation">[<a href="#ref-Gagnon-Bartsch:2012aa" role="doc-biblioref">5</a>]</span></li>
-<li>sva method <span class="citation">[<a href="#ref-Leek:2012aa" role="doc-biblioref">6</a>]</span></li>
+<li>RUV <span class="citation">[<a href="#ref-Gagnon-Bartsch:2012aa" role="doc-biblioref">5</a>]</span> and the more recent RUV-III <span class="citation">[<a href="#ref-Molania:2019aa" role="doc-biblioref">6</a>]</span></li>
+<li>sva <span class="citation">[<a href="#ref-Leek:2012aa" role="doc-biblioref">7</a>]</span></li>
 </ul>
-<p>Selecting the method of normalization and batch correction that is most appropriate for a given problem requires careful analysis. It is helpful to follow proper experimental design practices when collecting the data including:</p>
+<p>Selecting the method of normalization and batch correction that is most appropriate for a given problem requires careful consideration of the goals of an analysis.
+It is helpful to follow proper experimental design practices when collecting the data including:</p>
 <ul>
 <li>processing the samples in a manner that avoids confounding batching and biological effects</li>
 <li>incorporating controls in the dataset, both positive and negative at both the sample and gene level</li>
 </ul>
 <p>In this analysis we will simply use quantile normalization to re-normalize the
-data after pooling across datasets and verify that egregious batch effects are not present. We could subsequently repeat this analysis using a more sophisticated form of normalization and batch correction and assess the benefits that it brings to the analysis results. Such an assessment is never trivial.</p>
+data after pooling across datasets and verify that egregious batch effects are not present. We could subsequently repeat this analysis using a more sophisticated form of normalization and batch correction and assess the benefits that it brings to the analysis results.</p>
 </div>
 <div id="affymetrix-probe-sets-vs-genes" class="section level2" number="1.3">
 <h2><span class="header-section-number">1.3</span> Affymetrix Probe Sets vs Genes</h2>
-<p>Affymetrix expression data are organized in probe sets which target genes <span class="citation">[<a href="#ref-Irizarry:2003aa" role="doc-biblioref">7</a>]</span>.
+<p>Affymetrix expression data are organized in probe sets which target genes <span class="citation">[<a href="#ref-Irizarry:2003aa" role="doc-biblioref">8</a>]</span>.
 There may be several probe sets for a given gene and the association between the two also depends
 on which gene annotation is used (eg. HUGO vs Entrez). Probe sets
 which target a given gene sometimes yield discordant gene expression
@@ -287,15 +313,15 @@ somewhat problematic. For these reasons, we will use the probe set as a gene
 expression unit of analysis here. This should not affect classification
 or clustering performance. When it comes to the interpretation of a
 particular predictive model, we can bring in the gene annotation associated
-with each probe set at this point without (much) loss of generality.</p>
+with each probe set at this point without loss of generality.</p>
 <p>We should also note that some probe sets are known to cross-hybridize or
 not hybridize specifically to the targeted gene’s genomic sequence. We will not
-pre-filter genes based on this information.</p>
+pre-filter genes based on this information in this analysis.</p>
 </div>
 <div id="building-a-classifier" class="section level2" number="1.4">
 <h2><span class="header-section-number">1.4</span> Building a Classifier</h2>
 <p>Following pre-processing, the pooled dataset will be used to investigate the performance of
-various classification methods to predict msi status from gene expression data. The pooled dataset
+various classification methods to predict <code>msi status</code> from gene expression data. The pooled dataset
 will then be split into <strong>Train</strong> and <strong>Test</strong> subsets. Following the split, the <strong>Test</strong> subset
 is to be excluded from all analyses until we are ready to evaluate the final selection of predictive models
 under consideration. During the analysis, the <strong>Train</strong> dataset will be further sub-divided into
@@ -303,25 +329,31 @@ under consideration. During the analysis, the <strong>Train</strong> dataset wil
 The Test set is not interrogated until the final model assessment step to ensure that it provides
 a reliable set of data to assess the performance of the predictive models.
 When the size of the dataset is small, it is
-tempting to rely on cross-validated measures of performance instead of a Test set. We will compare the
-two measures in this exercise to see if they lead to different orderings of the classifiers or drastically
-different measures of performance.</p>
+tempting to rely on cross-validated measures of performance instead of a Test set.
+To address the question of whether a test set is truly necesary, we will compare the
+two measures of performance to see if they lead to different orderings of the
+classifiers or drastically different measures of performance.</p>
 <p>When analyzing gene expression data for classification purposes, or to extract
 biologically meaningful gene signatures, it is customary to first subset genes.
-The primary reason for this subsetting step is for computational purposes -
+One reason for this subsetting step is for computational purposes -
 including all of the genes in the analysis may require too much memory
-or computing time for some steps. A common approach used is to
-apply a gene expression variability threshold for genes to be included in
-the analysis - genes that show little variability across samples are
-excluded. Since our computing resources are limited, we will apply a fairly aggressive filter to the data.
-We will reduce the data size by keeping only the 25% most variable genes for all subsequent analyses.
-In practice, one would be more careful about applying this filter.</p>
+or computing time for some steps. Another reason is to remove
+features that have no variability at all from the data set.
+A common approach used is to apply a gene expression variability threshold
+for genes to be included in the analysis - genes that show little
+variability across samples are excluded. For this analysis,
+we will reduce the data size by keeping the 60%
+most variable genes for all subsequent analyses.
+In practice, one might be more careful about applying this filter.
+<!-- Since our computing resources are limited, we will apply a fairly 
+aggressive filter to the data.  
+--></p>
 </div>
 <div id="classifier-assessment" class="section level2" number="1.5">
 <h2><span class="header-section-number">1.5</span> Classifier Assessment</h2>
 <p>Many factors can be incorporated into classifier performance assessment, including:</p>
 <ul>
-<li>Predictive performance: Several metrics can be used to quantify predictive performance <span class="citation">[<a href="#ref-Vihinen:2012aa" role="doc-biblioref">8</a>]</span> and the choice is very much context dependent.</li>
+<li>Predictive performance: Several metrics can be used to quantify predictive performance <span class="citation">[<a href="#ref-Vihinen:2012aa" role="doc-biblioref">9</a>]</span> and the choice is very much context dependent.</li>
 <li>Classifier cost: Some classifiers may achieve higher predictive performance but at a cost of requiring a more complete set of predictors or features. This cost may be an important factor in some applications.</li>
 <li>Classifier interpretability: In some cases, the main purpose of building a classifier may be to get some insight into the biology at work. Classifiers which implicitly or explicitly perform some sort of feature selection may provide an advantage in terms of interpretability over classifiers which rely on all features in manner that makes it difficult to determine feature importance.</li>
 </ul>
@@ -340,6 +372,7 @@ requires particularly careful normalization and batch effect correction. On the 
 not removing systematic effects may lead samples to cluster in a way that will make uncovering
 biological clusters very challenging. On the other hand, the batch effect correction method may
 erroneously remove biological effects in the data.</p>
+<hr />
 <p>The layout of the report is the following:</p>
 <ul>
 <li><p>In Section <a href="load-data.html#load-data">2</a> load the CRC data from GEO
@@ -369,14 +402,17 @@ and prepare the dataset for analysis.</p></li>
 <div id="ref-Gagnon-Bartsch:2012aa">
 <p>5. Gagnon-Bartsch, J.A., and Speed, T.P. Using control genes to correct for unwanted variation in microarray data. Biostatistics <em>13</em>, 539–552. Available at: <a href="http://dx.doi.org/10.1093/biostatistics/kxr034">http://dx.doi.org/10.1093/biostatistics/kxr034</a>.</p>
 </div>
+<div id="ref-Molania:2019aa">
+<p>6. Molania, R., Gagnon-Bartsch, J.A., Dobrovic, A., and Speed, T.P. A new normalization for nanostring nCounter gene expression data. Nucleic acids research <em>47</em>, 6073–6083. Available at: <a href="https://pubmed.ncbi.nlm.nih.gov/31114909">https://pubmed.ncbi.nlm.nih.gov/31114909</a>.</p>
+</div>
 <div id="ref-Leek:2012aa">
-<p>6. Leek, J.T., Johnson, W.E., Parker, H.S., Jaffe, A.E., and Storey, J.D. The sva package for removing batch effects and other unwanted variation in high-throughput experiments. Bioinformatics <em>28</em>, 882–883. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/bts034">http://dx.doi.org/10.1093/bioinformatics/bts034</a>.</p>
+<p>7. Leek, J.T., Johnson, W.E., Parker, H.S., Jaffe, A.E., and Storey, J.D. The sva package for removing batch effects and other unwanted variation in high-throughput experiments. Bioinformatics <em>28</em>, 882–883. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/bts034">http://dx.doi.org/10.1093/bioinformatics/bts034</a>.</p>
 </div>
 <div id="ref-Irizarry:2003aa">
-<p>7. Irizarry, R.A., Bolstad, B.M., Collin, F., Cope, L.M., Hobbs, B., and Speed, T.P. Summaries of affymetrix genechip probe level data. Nucleic Acids Research <em>31</em>, e15–e15. Available at: <a href="http://dx.doi.org/10.1093/nar/gng015">http://dx.doi.org/10.1093/nar/gng015</a>.</p>
+<p>8. Irizarry, R.A., Bolstad, B.M., Collin, F., Cope, L.M., Hobbs, B., and Speed, T.P. Summaries of affymetrix genechip probe level data. Nucleic Acids Research <em>31</em>, e15–e15. Available at: <a href="http://dx.doi.org/10.1093/nar/gng015">http://dx.doi.org/10.1093/nar/gng015</a>.</p>
 </div>
 <div id="ref-Vihinen:2012aa">
-<p>8. Vihinen, M. (2012). How to evaluate performance of prediction methods? Measures and their interpretation in variation effect analysis. BMC Genomics <em>13</em>, S2–S2. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/</a>.</p>
+<p>9. Vihinen, M. (2012). How to evaluate performance of prediction methods? Measures and their interpretation in variation effect analysis. BMC Genomics <em>13</em>, S2–S2. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3303716/</a>.</p>
 </div>
 </div>
             </section>

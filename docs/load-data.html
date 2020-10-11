@@ -51,6 +51,32 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script type="text/javascript">
+// source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Hide Global") elem.value = "Show Global";
+    else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
 
 
 <style type="text/css">
@@ -225,19 +251,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="load-data" class="section level1" number="2">
 <h1><span class="header-section-number">Section 2</span> Load Data</h1>
-<p>A search on the GEO web site identified the following datasets as potentialy useful for this exercise. All datasets have Affymetrix gene expression data for a number of samples annotated with msi status:</p>
+<p>A search on the GEO web site<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+identified the following datasets as potentialy useful for this
+exercise. All datasets have Affymetrix gene expression data for a
+number of samples annotated with msi status:</p>
 <ul>
-<li>GSE4554 <span class="citation">[<a href="#ref-Watanabe:2006aa" role="doc-biblioref">9</a>]</span>: [HG-U133_Plus_2] (84 CRC = 33 MSI + 51 MSS)</li>
-<li>GSE13067 <span class="citation">[<a href="#ref-Jorissen:2008aa" role="doc-biblioref">10</a>]</span>: [HG-U133_Plus_2] (74 CRC)</li>
-<li>GSE13294 <span class="citation">[<a href="#ref-Jorissen:2008aa" role="doc-biblioref">10</a>]</span>: [HG-U133_Plus_2] (89 MSI + 140 MSS + 58 MSI + 77 MSS)</li>
-<li>GSE24514 <span class="citation">[<a href="#ref-Alhopuro:2012aa" role="doc-biblioref">11</a>]</span>: [HGU133A] (34 MSI,15 N)</li>
-<li>GSE30540 <span class="citation">[<a href="#ref-Watanabe:2012aa" role="doc-biblioref">12</a>]</span>: [HG-U133_Plus_2] (35 stage II and stage III)</li>
-<li>GSE35896 <span class="citation">[<a href="#ref-Schlicker:2012aa" role="doc-biblioref">13</a>]</span>: [HG-U133_Plus_2] (62 CRC samples)</li>
-<li>GSE75316 <span class="citation">[<a href="#ref-Barras:2017aa" role="doc-biblioref">14</a>]</span>: [HG-U133_Plus_2] (59 CRC samples)</li>
-<li>GSE39084 <span class="citation">[<a href="#ref-Kirzin:2014aa" role="doc-biblioref">15</a>]</span>: [HG-U133_Plus_2] (70 CRC samples)</li>
-<li>GSE26682 <span class="citation">[<a href="#ref-Schmit:2015aa" role="doc-biblioref">16</a>]</span>: [HG-U133A], [HG-U133_Plus_2] (???)</li>
-<li>GSE14526 <span class="citation">[<a href="#ref-Yagi:2010aa" role="doc-biblioref">17</a>]</span>: [HG-U133_Plus_2]</li>
-<li>GSE4045 <span class="citation">[<a href="#ref-Laiho:2006aa" role="doc-biblioref">18</a>]</span>: [HG-U133A]</li>
+<li>GSE4554 <span class="citation">[<a href="#ref-Watanabe:2006aa" role="doc-biblioref">10</a>]</span>: [HG-U133_Plus_2] (84 CRC = 33 MSI + 51 MSS)</li>
+<li>GSE13067 <span class="citation">[<a href="#ref-Jorissen:2008aa" role="doc-biblioref">11</a>]</span>: [HG-U133_Plus_2] (74 CRC)</li>
+<li>GSE13294 <span class="citation">[<a href="#ref-Jorissen:2008aa" role="doc-biblioref">11</a>]</span>: [HG-U133_Plus_2] (89 MSI + 140 MSS + 58 MSI + 77 MSS)</li>
+<li>GSE24514 <span class="citation">[<a href="#ref-Alhopuro:2012aa" role="doc-biblioref">12</a>]</span>: [HGU133A] (34 MSI,15 N)</li>
+<li>GSE30540 <span class="citation">[<a href="#ref-Watanabe:2012aa" role="doc-biblioref">13</a>]</span>: [HG-U133_Plus_2] (35 stage II and stage III)</li>
+<li>GSE35896 <span class="citation">[<a href="#ref-Schlicker:2012aa" role="doc-biblioref">14</a>]</span>: [HG-U133_Plus_2] (62 CRC samples)</li>
+<li>GSE75316 <span class="citation">[<a href="#ref-Barras:2017aa" role="doc-biblioref">15</a>]</span>: [HG-U133_Plus_2] (59 CRC samples)</li>
+<li>GSE39084 <span class="citation">[<a href="#ref-Kirzin:2014aa" role="doc-biblioref">16</a>]</span>: [HG-U133_Plus_2] (70 CRC samples)</li>
+<li>GSE26682 <span class="citation">[<a href="#ref-Schmit:2015aa" role="doc-biblioref">17</a>]</span>: [HG-U133A], [HG-U133_Plus_2] (???)</li>
+<li>GSE14526 <span class="citation">[<a href="#ref-Yagi:2010aa" role="doc-biblioref">18</a>]</span>: [HG-U133_Plus_2]</li>
+<li>GSE4045 <span class="citation">[<a href="#ref-Laiho:2006aa" role="doc-biblioref">19</a>]</span>: [HG-U133A]</li>
 </ul>
 <div id="download-datasets" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Download Datasets</h2>
@@ -245,9 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 format. Each dataset will have to be downloaded one at a time and examined.
 Following this step, we can loop again through the datasets and store the necessary
 data in a uniform manner.</p>
-<!-- ######################################################################## -->
 <p>We can download data from GEO using function
-<a href="">getGEO</a> from package <code>GEOquery</code>.</p>
+<code>getGEO</code> from package <code>GEOquery</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="load-data.html#cb1-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(GEOquery))</span>
 <span id="cb1-2"><a href="load-data.html#cb1-2" aria-hidden="true"></a></span>
 <span id="cb1-3"><a href="load-data.html#cb1-3" aria-hidden="true"></a> GSE_SET.vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;GSE4554&#39;</span>, <span class="st">&#39;GSE13067&#39;</span>, <span class="st">&#39;GSE13294&#39;</span>, </span>
@@ -266,332 +294,454 @@ data in a uniform manner.</p>
 </div>
 <div id="peek-into-datasets" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Peek into Datasets</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="load-data.html#cb2-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE ..</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="load-data.html#cb2-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE </span></span>
 <span id="cb2-2"><a href="load-data.html#cb2-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(Biobase))</span>
-<span id="cb2-3"><a href="load-data.html#cb2-3" aria-hidden="true"></a> gseFile.vec &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="kw">file.path</span>(WRKDIR,<span class="st">&#39;Data&#39;</span>), <span class="st">&#39;gse$&#39;</span>)</span>
+<span id="cb2-3"><a href="load-data.html#cb2-3" aria-hidden="true"></a> gseFile.vec &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>), <span class="st">&#39;gse$&#39;</span>)</span>
 <span id="cb2-4"><a href="load-data.html#cb2-4" aria-hidden="true"></a></span>
-<span id="cb2-5"><a href="load-data.html#cb2-5" aria-hidden="true"></a> <span class="cf">for</span>(gseF <span class="cf">in</span> gseFile.vec){</span>
-<span id="cb2-6"><a href="load-data.html#cb2-6" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Peek at &quot;</span>, gseF)</span>
+<span id="cb2-5"><a href="load-data.html#cb2-5" aria-hidden="true"></a>gsePhenoData.lst &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
+<span id="cb2-6"><a href="load-data.html#cb2-6" aria-hidden="true"></a>gseDim.lst &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
 <span id="cb2-7"><a href="load-data.html#cb2-7" aria-hidden="true"></a></span>
-<span id="cb2-8"><a href="load-data.html#cb2-8" aria-hidden="true"></a>  <span class="kw">loadObj</span>(gseF, <span class="st">&#39;Set.gse&#39;</span>)</span>
-<span id="cb2-9"><a href="load-data.html#cb2-9" aria-hidden="true"></a></span>
-<span id="cb2-10"><a href="load-data.html#cb2-10" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">dim</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])))</span>
-<span id="cb2-11"><a href="load-data.html#cb2-11" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">nrow</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="cf">next</span>()  </span>
-<span id="cb2-12"><a href="load-data.html#cb2-12" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb2-13"><a href="load-data.html#cb2-13" aria-hidden="true"></a> <span class="co"># Expression Summary </span></span>
-<span id="cb2-14"><a href="load-data.html#cb2-14" aria-hidden="true"></a><span class="cf">if</span>(F) {</span>
-<span id="cb2-15"><a href="load-data.html#cb2-15" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Expression Summary:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb2-16"><a href="load-data.html#cb2-16" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">kable</span>(<span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]]),<span class="dv">2</span>,summary))))</span>
-<span id="cb2-17"><a href="load-data.html#cb2-17" aria-hidden="true"></a>}</span>
-<span id="cb2-18"><a href="load-data.html#cb2-18" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb2-19"><a href="load-data.html#cb2-19" aria-hidden="true"></a> <span class="co"># Expression Boxplots</span></span>
-<span id="cb2-20"><a href="load-data.html#cb2-20" aria-hidden="true"></a> old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">par</span>(<span class="st">&#39;mar&#39;</span>)<span class="op">+</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb2-21"><a href="load-data.html#cb2-21" aria-hidden="true"></a></span>
-<span id="cb2-22"><a href="load-data.html#cb2-22" aria-hidden="true"></a> <span class="kw">boxplot</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]]), <span class="dt">outline=</span>F, <span class="dt">las=</span><span class="dv">2</span>) </span>
-<span id="cb2-23"><a href="load-data.html#cb2-23" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&quot;Boxplots of expression values for&quot;</span>, gseF))</span>
-<span id="cb2-24"><a href="load-data.html#cb2-24" aria-hidden="true"></a></span>
-<span id="cb2-25"><a href="load-data.html#cb2-25" aria-hidden="true"></a> <span class="kw">par</span>(old_par)</span>
+<span id="cb2-8"><a href="load-data.html#cb2-8" aria-hidden="true"></a> <span class="cf">for</span>(gseF <span class="cf">in</span> gseFile.vec){</span>
+<span id="cb2-9"><a href="load-data.html#cb2-9" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Peek at &quot;</span>, gseF, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb2-10"><a href="load-data.html#cb2-10" aria-hidden="true"></a></span>
+<span id="cb2-11"><a href="load-data.html#cb2-11" aria-hidden="true"></a>  <span class="kw">loadObj</span>(gseF, <span class="st">&#39;Set.gse&#39;</span>)</span>
+<span id="cb2-12"><a href="load-data.html#cb2-12" aria-hidden="true"></a></span>
+<span id="cb2-13"><a href="load-data.html#cb2-13" aria-hidden="true"></a>gseName &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(gseF, <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)</span>
+<span id="cb2-14"><a href="load-data.html#cb2-14" aria-hidden="true"></a></span>
+<span id="cb2-15"><a href="load-data.html#cb2-15" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">dim</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])))</span>
+<span id="cb2-16"><a href="load-data.html#cb2-16" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">nrow</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="cf">next</span>()  </span>
+<span id="cb2-17"><a href="load-data.html#cb2-17" aria-hidden="true"></a></span>
+<span id="cb2-18"><a href="load-data.html#cb2-18" aria-hidden="true"></a>gseDim.lst[[gseName]] &lt;-<span class="st"> </span><span class="kw">dim</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]]))</span>
+<span id="cb2-19"><a href="load-data.html#cb2-19" aria-hidden="true"></a></span>
+<span id="cb2-20"><a href="load-data.html#cb2-20" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb2-21"><a href="load-data.html#cb2-21" aria-hidden="true"></a> <span class="co"># Expression Summary </span></span>
+<span id="cb2-22"><a href="load-data.html#cb2-22" aria-hidden="true"></a><span class="cf">if</span>(F) {<span class="co">#SKIP</span></span>
+<span id="cb2-23"><a href="load-data.html#cb2-23" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Expression Summary:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-24"><a href="load-data.html#cb2-24" aria-hidden="true"></a>  knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">t</span>(<span class="kw">apply</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]]),<span class="dv">2</span>,summary))) <span class="op">%&gt;%</span></span>
+<span id="cb2-25"><a href="load-data.html#cb2-25" aria-hidden="true"></a><span class="st">      </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span>
 <span id="cb2-26"><a href="load-data.html#cb2-26" aria-hidden="true"></a></span>
-<span id="cb2-27"><a href="load-data.html#cb2-27" aria-hidden="true"></a> </span>
-<span id="cb2-28"><a href="load-data.html#cb2-28" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb2-29"><a href="load-data.html#cb2-29" aria-hidden="true"></a> <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Sample Descriptions:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb2-30"><a href="load-data.html#cb2-30" aria-hidden="true"></a> <span class="kw">print</span>(<span class="kw">kable</span>(<span class="kw">phenoData</span>(Set.gse[[<span class="dv">1</span>]])<span class="op">@</span>data))</span>
-<span id="cb2-31"><a href="load-data.html#cb2-31" aria-hidden="true"></a></span>
-<span id="cb2-32"><a href="load-data.html#cb2-32" aria-hidden="true"></a> }</span></code></pre></div>
-<!-- ######################################################################## -->
+<span id="cb2-27"><a href="load-data.html#cb2-27" aria-hidden="true"></a>}<span class="op">@</span>SKIP</span>
+<span id="cb2-28"><a href="load-data.html#cb2-28" aria-hidden="true"></a></span>
+<span id="cb2-29"><a href="load-data.html#cb2-29" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb2-30"><a href="load-data.html#cb2-30" aria-hidden="true"></a> <span class="co"># Expression Boxplots</span></span>
+<span id="cb2-31"><a href="load-data.html#cb2-31" aria-hidden="true"></a> old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">par</span>(<span class="st">&#39;mar&#39;</span>)<span class="op">+</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb2-32"><a href="load-data.html#cb2-32" aria-hidden="true"></a></span>
+<span id="cb2-33"><a href="load-data.html#cb2-33" aria-hidden="true"></a> <span class="kw">boxplot</span>(<span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]]), <span class="dt">outline=</span>F, <span class="dt">las=</span><span class="dv">2</span>) </span>
+<span id="cb2-34"><a href="load-data.html#cb2-34" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&quot;Boxplots of expression values for&quot;</span>, gseF))</span>
+<span id="cb2-35"><a href="load-data.html#cb2-35" aria-hidden="true"></a></span>
+<span id="cb2-36"><a href="load-data.html#cb2-36" aria-hidden="true"></a> <span class="kw">par</span>(old_par)</span>
+<span id="cb2-37"><a href="load-data.html#cb2-37" aria-hidden="true"></a></span>
+<span id="cb2-38"><a href="load-data.html#cb2-38" aria-hidden="true"></a> </span>
+<span id="cb2-39"><a href="load-data.html#cb2-39" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb2-40"><a href="load-data.html#cb2-40" aria-hidden="true"></a>gsePhenoData.lst[[gseName]] &lt;-<span class="st"> </span><span class="kw">phenoData</span>(Set.gse[[<span class="dv">1</span>]])<span class="op">@</span>data</span>
+<span id="cb2-41"><a href="load-data.html#cb2-41" aria-hidden="true"></a></span>
+<span id="cb2-42"><a href="load-data.html#cb2-42" aria-hidden="true"></a><span class="cf">if</span>(F) {<span class="co">#SKIP</span></span>
+<span id="cb2-43"><a href="load-data.html#cb2-43" aria-hidden="true"></a> <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Sample Descriptions:</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-44"><a href="load-data.html#cb2-44" aria-hidden="true"></a> <span class="kw">print</span>(knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">phenoData</span>(Set.gse[[<span class="dv">1</span>]])<span class="op">@</span>data) <span class="op">%&gt;%</span></span>
+<span id="cb2-45"><a href="load-data.html#cb2-45" aria-hidden="true"></a><span class="st">        </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F))</span>
+<span id="cb2-46"><a href="load-data.html#cb2-46" aria-hidden="true"></a> }</span>
+<span id="cb2-47"><a href="load-data.html#cb2-47" aria-hidden="true"></a>}<span class="co">#SKIP</span></span></code></pre></div>
+<pre><code>## 
+## Peek at  GSE13067.gse 
+## [1] 54675    74</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-1.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE13294.gse 
+## [1] 54675   155</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-2.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE14526.gse 
+## [1] 0 8
+## 
+## Peek at  GSE24514.gse 
+## [1] 22283    49</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-3.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE26682.gse 
+## [1] 19473   176</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-4.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE30540.gse 
+## [1] 54675    35</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-5.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE35896.gse 
+## [1] 54675    62</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-6.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE39084.gse 
+## [1] 54675    70</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-7.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE4045.gse 
+## [1] 22283    37</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-8.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE4554.gse 
+## [1] 54675    84</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-9.png" width="1056" /></p>
+<pre><code>## 
+## Peek at  GSE75316.gse 
+## [1] 54675    59</code></pre>
+<p><img src="Static/figures/load-data-peekGSE-10.png" width="1056" />
+<!-- ######################################################################## --></p>
 </div>
 <div id="dataset-cleaning" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Dataset Cleaning</h2>
 <p>Following a peek into the datasets, we will proceed forward keeping only the
 datasets which used the HG-U133_Plus_2 gene chip (N=54675 probe sets) and have
-msi status:
-GSE13067, GSE13294, GSE35896, GSE39084, GSE4554</p>
+msi status:<br />
+<!-- Reuires combing through gsePhenoData.lst names -->
+* GSE13067, GSE13294, GSE35896, GSE39084, GSE4554</p>
 <p>We exclude GSE75316 from the analysis as most of the samples are already part of GSE13067 and the latter
 is a larger set.</p>
 <p>In the next chunk, we go through each of these datasets and store the gene expression and
 sample description data in a uniform manner to facilitate subsequent pooling. We also
 take a look at potential intra dataset batch effects.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="load-data.html#cb3-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE ..</span></span>
-<span id="cb3-2"><a href="load-data.html#cb3-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(hgu133plus2.db))</span>
-<span id="cb3-3"><a href="load-data.html#cb3-3" aria-hidden="true"></a></span>
-<span id="cb3-4"><a href="load-data.html#cb3-4" aria-hidden="true"></a> <span class="cf">for</span>(SET <span class="cf">in</span> KEEP_GSE.vec){</span>
-<span id="cb3-5"><a href="load-data.html#cb3-5" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">Processing &quot;</span>, SET, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
-<span id="cb3-6"><a href="load-data.html#cb3-6" aria-hidden="true"></a></span>
-<span id="cb3-7"><a href="load-data.html#cb3-7" aria-hidden="true"></a>  <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET, <span class="st">&#39;.gse&#39;</span>), <span class="st">&#39;Set.gse&#39;</span>)</span>
-<span id="cb3-8"><a href="load-data.html#cb3-8" aria-hidden="true"></a></span>
-<span id="cb3-9"><a href="load-data.html#cb3-9" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-10"><a href="load-data.html#cb3-10" aria-hidden="true"></a>  <span class="co">#  Expr - matrix</span></span>
-<span id="cb3-11"><a href="load-data.html#cb3-11" aria-hidden="true"></a>  <span class="co">#  - rows are features</span></span>
-<span id="cb3-12"><a href="load-data.html#cb3-12" aria-hidden="true"></a>  <span class="co">#  - columns are samples</span></span>
-<span id="cb3-13"><a href="load-data.html#cb3-13" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-14"><a href="load-data.html#cb3-14" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span><span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])</span>
-<span id="cb3-15"><a href="load-data.html#cb3-15" aria-hidden="true"></a></span>
-<span id="cb3-16"><a href="load-data.html#cb3-16" aria-hidden="true"></a>  <span class="cf">if</span>(SET <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;GSE4554&#39;</span>, <span class="st">&#39;GSE4045&#39;</span>))  Expr.mtx &lt;-<span class="st"> </span><span class="kw">log2</span>(<span class="kw">pmax</span>(Expr.mtx, <span class="kw">min</span>(Expr.mtx[Expr.mtx<span class="op">&gt;</span><span class="dv">0</span>])))</span>
-<span id="cb3-17"><a href="load-data.html#cb3-17" aria-hidden="true"></a></span>
-<span id="cb3-18"><a href="load-data.html#cb3-18" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-19"><a href="load-data.html#cb3-19" aria-hidden="true"></a>  <span class="co">#  SampAttr - data.frame</span></span>
-<span id="cb3-20"><a href="load-data.html#cb3-20" aria-hidden="true"></a>  <span class="co">#  - rows are samples</span></span>
-<span id="cb3-21"><a href="load-data.html#cb3-21" aria-hidden="true"></a>  <span class="co">#  - columns are atttibutes of the samples</span></span>
-<span id="cb3-22"><a href="load-data.html#cb3-22" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-23"><a href="load-data.html#cb3-23" aria-hidden="true"></a>  phenoData.frm &lt;-<span class="st"> </span><span class="kw">phenoData</span>(Set.gse[[<span class="dv">1</span>]])<span class="op">@</span>data</span>
-<span id="cb3-24"><a href="load-data.html#cb3-24" aria-hidden="true"></a></span>
-<span id="cb3-25"><a href="load-data.html#cb3-25" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">nrow</span>(phenoData.frm) <span class="op">!=</span><span class="st"> </span><span class="kw">ncol</span>(Expr.mtx)) <span class="kw">stop</span>(<span class="st">&quot;Expression-sampAttr Mismatch for &quot;</span>, SET)</span>
-<span id="cb3-26"><a href="load-data.html#cb3-26" aria-hidden="true"></a></span>
-<span id="cb3-27"><a href="load-data.html#cb3-27" aria-hidden="true"></a>  MS_Status &lt;-<span class="st"> </span><span class="cf">switch</span>(SET,</span>
-<span id="cb3-28"><a href="load-data.html#cb3-28" aria-hidden="true"></a>      <span class="dt">GSE13067 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
-<span id="cb3-29"><a href="load-data.html#cb3-29" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>title, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
-<span id="cb3-30"><a href="load-data.html#cb3-30" aria-hidden="true"></a>      <span class="dt">GSE13294 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
-<span id="cb3-31"><a href="load-data.html#cb3-31" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>title, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
-<span id="cb3-32"><a href="load-data.html#cb3-32" aria-hidden="true"></a>      <span class="dt">GSE35896 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
-<span id="cb3-33"><a href="load-data.html#cb3-33" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>characteristics_ch1<span class="fl">.7</span>, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
-<span id="cb3-34"><a href="load-data.html#cb3-34" aria-hidden="true"></a>      <span class="dt">GSE39084 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
-<span id="cb3-35"><a href="load-data.html#cb3-35" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>characteristics_ch1<span class="fl">.16</span>, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
-<span id="cb3-36"><a href="load-data.html#cb3-36" aria-hidden="true"></a>      <span class="dt">GSE4554 =</span>  <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>, <span class="st">&#39;&#39;</span>,</span>
-<span id="cb3-37"><a href="load-data.html#cb3-37" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(phenoData.frm<span class="op">$</span>description), <span class="dt">split=</span><span class="st">&#39;,&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])),</span>
-<span id="cb3-38"><a href="load-data.html#cb3-38" aria-hidden="true"></a>        <span class="st">&quot;ERROR&quot;</span>)</span>
-<span id="cb3-39"><a href="load-data.html#cb3-39" aria-hidden="true"></a></span>
-<span id="cb3-40"><a href="load-data.html#cb3-40" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">table</span>(MS_Status))</span>
-<span id="cb3-41"><a href="load-data.html#cb3-41" aria-hidden="true"></a></span>
-<span id="cb3-42"><a href="load-data.html#cb3-42" aria-hidden="true"></a>  KEEP.ndx &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">is.element</span>(MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;MSI&#39;</span>, <span class="st">&#39;No&#39;</span>, <span class="st">&#39;Low&#39;</span>, <span class="st">&#39;High&#39;</span>)))</span>
-<span id="cb3-43"><a href="load-data.html#cb3-43" aria-hidden="true"></a></span>
-<span id="cb3-44"><a href="load-data.html#cb3-44" aria-hidden="true"></a>  sampAttr.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Sample_Id=</span><span class="kw">rownames</span>(phenoData.frm),</span>
-<span id="cb3-45"><a href="load-data.html#cb3-45" aria-hidden="true"></a>                             <span class="dt">MS_Status=</span>MS_Status, </span>
-<span id="cb3-46"><a href="load-data.html#cb3-46" aria-hidden="true"></a>                             <span class="dt">row.names=</span><span class="kw">rownames</span>(phenoData.frm))[KEEP.ndx,]</span>
-<span id="cb3-47"><a href="load-data.html#cb3-47" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[,<span class="kw">rownames</span>(sampAttr.frm)]</span>
-<span id="cb3-48"><a href="load-data.html#cb3-48" aria-hidden="true"></a> </span>
-<span id="cb3-49"><a href="load-data.html#cb3-49" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-50"><a href="load-data.html#cb3-50" aria-hidden="true"></a>  <span class="co">#  featureAttr - data.frame</span></span>
-<span id="cb3-51"><a href="load-data.html#cb3-51" aria-hidden="true"></a>  <span class="co">#  - rows of featureAttr match rows of Expr mtx</span></span>
-<span id="cb3-52"><a href="load-data.html#cb3-52" aria-hidden="true"></a>  <span class="co">#  - columns of featureAttr are atttibutes of the features - eg geneSymbol</span></span>
-<span id="cb3-53"><a href="load-data.html#cb3-53" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
-<span id="cb3-54"><a href="load-data.html#cb3-54" aria-hidden="true"></a>  <span class="co"># This deosn;t work!</span></span>
-<span id="cb3-55"><a href="load-data.html#cb3-55" aria-hidden="true"></a>  <span class="co">#featureAttr.frm &lt;- featureData(Set.gse[[1]])@data</span></span>
-<span id="cb3-56"><a href="load-data.html#cb3-56" aria-hidden="true"></a>  <span class="co">#dim(featureAttr.frm)</span></span>
-<span id="cb3-57"><a href="load-data.html#cb3-57" aria-hidden="true"></a>  <span class="co">#Symbol.vec &lt;- mget(featureAttr.frm$ID, hgu133plus2SYMBOL)</span></span>
-<span id="cb3-58"><a href="load-data.html#cb3-58" aria-hidden="true"></a>  <span class="co">#featureAttr.frm$Symbol &lt;- Symbol.vec[rownames(featureAttr.frm)]</span></span>
-<span id="cb3-59"><a href="load-data.html#cb3-59" aria-hidden="true"></a> </span>
-<span id="cb3-60"><a href="load-data.html#cb3-60" aria-hidden="true"></a>  Symbol.vec &lt;-<span class="st"> </span><span class="kw">mget</span>(<span class="kw">rownames</span>(Expr.mtx), hgu133plus2SYMBOL)</span>
-<span id="cb3-61"><a href="load-data.html#cb3-61" aria-hidden="true"></a>  featureAttr.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Symbol=</span><span class="kw">unlist</span>(Symbol.vec))</span>
-<span id="cb3-62"><a href="load-data.html#cb3-62" aria-hidden="true"></a>  <span class="kw">rownames</span>(featureAttr.frm) &lt;-<span class="st"> </span><span class="kw">rownames</span>(Expr.mtx)</span>
-<span id="cb3-63"><a href="load-data.html#cb3-63" aria-hidden="true"></a> </span>
-<span id="cb3-64"><a href="load-data.html#cb3-64" aria-hidden="true"></a>  <span class="co">###################################################</span></span>
-<span id="cb3-65"><a href="load-data.html#cb3-65" aria-hidden="true"></a>  <span class="co"># Save in arrayGeneExpr object</span></span>
-<span id="cb3-66"><a href="load-data.html#cb3-66" aria-hidden="true"></a>  <span class="co">###################################################</span></span>
-<span id="cb3-67"><a href="load-data.html#cb3-67" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">colnames</span>(Expr.mtx) <span class="op">!=</span><span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm))) <span class="kw">stop</span>(<span class="st">&quot;Column order error&quot;</span>)</span>
-<span id="cb3-68"><a href="load-data.html#cb3-68" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">rownames</span>(Expr.mtx) <span class="op">!=</span><span class="st"> </span><span class="kw">rownames</span>(featureAttr.frm))) <span class="kw">stop</span>(<span class="st">&quot;Row order error&quot;</span>)</span>
-<span id="cb3-69"><a href="load-data.html#cb3-69" aria-hidden="true"></a> </span>
-<span id="cb3-70"><a href="load-data.html#cb3-70" aria-hidden="true"></a>  Set.arrayGeneExpr &lt;-<span class="st">  </span><span class="kw">list</span>(<span class="dt">exprData=</span><span class="ot">NA</span>, <span class="dt">exprType=</span><span class="ot">NA</span>, <span class="dt">Norm=</span><span class="ot">NA</span>,</span>
-<span id="cb3-71"><a href="load-data.html#cb3-71" aria-hidden="true"></a>                                   <span class="dt">sampAttr=</span><span class="ot">NA</span>, <span class="dt">featureAttr=</span><span class="ot">NA</span>)</span>
-<span id="cb3-72"><a href="load-data.html#cb3-72" aria-hidden="true"></a>  <span class="kw">class</span>(Set.arrayGeneExpr) &lt;-<span class="st"> &quot;arrayGeneExpr&quot;</span></span>
-<span id="cb3-73"><a href="load-data.html#cb3-73" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>exprData &lt;-<span class="st"> </span>Expr.mtx</span>
-<span id="cb3-74"><a href="load-data.html#cb3-74" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>sampAttr &lt;-<span class="st"> </span>sampAttr.frm</span>
-<span id="cb3-75"><a href="load-data.html#cb3-75" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>featureAttr &lt;-<span class="st"> </span>featureAttr.frm</span>
-<span id="cb3-76"><a href="load-data.html#cb3-76" aria-hidden="true"></a> </span>
-<span id="cb3-77"><a href="load-data.html#cb3-77" aria-hidden="true"></a>  <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
-<span id="cb3-78"><a href="load-data.html#cb3-78" aria-hidden="true"></a> </span>
-<span id="cb3-79"><a href="load-data.html#cb3-79" aria-hidden="true"></a>  <span class="co">######################################################</span></span>
-<span id="cb3-80"><a href="load-data.html#cb3-80" aria-hidden="true"></a>  <span class="co"># Look for intra-set batch effects</span></span>
-<span id="cb3-81"><a href="load-data.html#cb3-81" aria-hidden="true"></a>  <span class="co">######################################################</span></span>
-<span id="cb3-82"><a href="load-data.html#cb3-82" aria-hidden="true"></a>  Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(Expr.mtx)</span>
-<span id="cb3-83"><a href="load-data.html#cb3-83" aria-hidden="true"></a>  </span>
-<span id="cb3-84"><a href="load-data.html#cb3-84" aria-hidden="true"></a>  <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
-<span id="cb3-85"><a href="load-data.html#cb3-85" aria-hidden="true"></a>       <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb3-86"><a href="load-data.html#cb3-86" aria-hidden="true"></a>       <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
-<span id="cb3-87"><a href="load-data.html#cb3-87" aria-hidden="true"></a>       <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb3-88"><a href="load-data.html#cb3-88" aria-hidden="true"></a>       <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>MS_Status)))</span>
-<span id="cb3-89"><a href="load-data.html#cb3-89" aria-hidden="true"></a></span>
-<span id="cb3-90"><a href="load-data.html#cb3-90" aria-hidden="true"></a> </span>
-<span id="cb3-91"><a href="load-data.html#cb3-91" aria-hidden="true"></a> } </span></code></pre></div>
-<!-- ######################################################################## -->
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="load-data.html#cb13-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE ..</span></span>
+<span id="cb13-2"><a href="load-data.html#cb13-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(hgu133plus2.db))</span>
+<span id="cb13-3"><a href="load-data.html#cb13-3" aria-hidden="true"></a></span>
+<span id="cb13-4"><a href="load-data.html#cb13-4" aria-hidden="true"></a> <span class="cf">for</span>(SET <span class="cf">in</span> KEEP_GSE.vec){</span>
+<span id="cb13-5"><a href="load-data.html#cb13-5" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">Processing &quot;</span>, SET, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb13-6"><a href="load-data.html#cb13-6" aria-hidden="true"></a></span>
+<span id="cb13-7"><a href="load-data.html#cb13-7" aria-hidden="true"></a>  <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET, <span class="st">&#39;.gse&#39;</span>), <span class="st">&#39;Set.gse&#39;</span>)</span>
+<span id="cb13-8"><a href="load-data.html#cb13-8" aria-hidden="true"></a></span>
+<span id="cb13-9"><a href="load-data.html#cb13-9" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-10"><a href="load-data.html#cb13-10" aria-hidden="true"></a>  <span class="co">#  Expr - matrix</span></span>
+<span id="cb13-11"><a href="load-data.html#cb13-11" aria-hidden="true"></a>  <span class="co">#  - rows are features</span></span>
+<span id="cb13-12"><a href="load-data.html#cb13-12" aria-hidden="true"></a>  <span class="co">#  - columns are samples</span></span>
+<span id="cb13-13"><a href="load-data.html#cb13-13" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-14"><a href="load-data.html#cb13-14" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span><span class="kw">exprs</span>(Set.gse[[<span class="dv">1</span>]])</span>
+<span id="cb13-15"><a href="load-data.html#cb13-15" aria-hidden="true"></a></span>
+<span id="cb13-16"><a href="load-data.html#cb13-16" aria-hidden="true"></a>  <span class="cf">if</span>(SET <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;GSE4554&#39;</span>, <span class="st">&#39;GSE4045&#39;</span>))  Expr.mtx &lt;-<span class="st"> </span><span class="kw">log2</span>(<span class="kw">pmax</span>(Expr.mtx, <span class="kw">min</span>(Expr.mtx[Expr.mtx<span class="op">&gt;</span><span class="dv">0</span>])))</span>
+<span id="cb13-17"><a href="load-data.html#cb13-17" aria-hidden="true"></a></span>
+<span id="cb13-18"><a href="load-data.html#cb13-18" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-19"><a href="load-data.html#cb13-19" aria-hidden="true"></a>  <span class="co">#  SampAttr - data.frame</span></span>
+<span id="cb13-20"><a href="load-data.html#cb13-20" aria-hidden="true"></a>  <span class="co">#  - rows are samples</span></span>
+<span id="cb13-21"><a href="load-data.html#cb13-21" aria-hidden="true"></a>  <span class="co">#  - columns are atttibutes of the samples</span></span>
+<span id="cb13-22"><a href="load-data.html#cb13-22" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-23"><a href="load-data.html#cb13-23" aria-hidden="true"></a>  phenoData.frm &lt;-<span class="st"> </span><span class="kw">phenoData</span>(Set.gse[[<span class="dv">1</span>]])<span class="op">@</span>data</span>
+<span id="cb13-24"><a href="load-data.html#cb13-24" aria-hidden="true"></a></span>
+<span id="cb13-25"><a href="load-data.html#cb13-25" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">nrow</span>(phenoData.frm) <span class="op">!=</span><span class="st"> </span><span class="kw">ncol</span>(Expr.mtx)) <span class="kw">stop</span>(<span class="st">&quot;Expression-sampAttr Mismatch for &quot;</span>, SET)</span>
+<span id="cb13-26"><a href="load-data.html#cb13-26" aria-hidden="true"></a></span>
+<span id="cb13-27"><a href="load-data.html#cb13-27" aria-hidden="true"></a>  MS_Status &lt;-<span class="st"> </span><span class="cf">switch</span>(SET,</span>
+<span id="cb13-28"><a href="load-data.html#cb13-28" aria-hidden="true"></a>      <span class="dt">GSE13067 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
+<span id="cb13-29"><a href="load-data.html#cb13-29" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>title, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
+<span id="cb13-30"><a href="load-data.html#cb13-30" aria-hidden="true"></a>      <span class="dt">GSE13294 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
+<span id="cb13-31"><a href="load-data.html#cb13-31" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>title, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
+<span id="cb13-32"><a href="load-data.html#cb13-32" aria-hidden="true"></a>      <span class="dt">GSE35896 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
+<span id="cb13-33"><a href="load-data.html#cb13-33" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>characteristics_ch1<span class="fl">.7</span>, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
+<span id="cb13-34"><a href="load-data.html#cb13-34" aria-hidden="true"></a>      <span class="dt">GSE39084 =</span> <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>,<span class="st">&#39;&#39;</span>, </span>
+<span id="cb13-35"><a href="load-data.html#cb13-35" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(phenoData.frm<span class="op">$</span>characteristics_ch1<span class="fl">.16</span>, <span class="dt">split=</span><span class="st">&#39;:&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])), </span>
+<span id="cb13-36"><a href="load-data.html#cb13-36" aria-hidden="true"></a>      <span class="dt">GSE4554 =</span>  <span class="kw">gsub</span>(<span class="st">&#39; &#39;</span>, <span class="st">&#39;&#39;</span>,</span>
+<span id="cb13-37"><a href="load-data.html#cb13-37" aria-hidden="true"></a>                 <span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(phenoData.frm<span class="op">$</span>description), <span class="dt">split=</span><span class="st">&#39;,&#39;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])),</span>
+<span id="cb13-38"><a href="load-data.html#cb13-38" aria-hidden="true"></a>        <span class="st">&quot;ERROR&quot;</span>)</span>
+<span id="cb13-39"><a href="load-data.html#cb13-39" aria-hidden="true"></a></span>
+<span id="cb13-40"><a href="load-data.html#cb13-40" aria-hidden="true"></a></span>
+<span id="cb13-41"><a href="load-data.html#cb13-41" aria-hidden="true"></a>  KEEP.ndx &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">is.element</span>(MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;MSI&#39;</span>, <span class="st">&#39;No&#39;</span>, <span class="st">&#39;Low&#39;</span>, <span class="st">&#39;High&#39;</span>)))</span>
+<span id="cb13-42"><a href="load-data.html#cb13-42" aria-hidden="true"></a></span>
+<span id="cb13-43"><a href="load-data.html#cb13-43" aria-hidden="true"></a>  sampAttr.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Sample_Id=</span><span class="kw">rownames</span>(phenoData.frm),</span>
+<span id="cb13-44"><a href="load-data.html#cb13-44" aria-hidden="true"></a>                             <span class="dt">MS_Status=</span>MS_Status, </span>
+<span id="cb13-45"><a href="load-data.html#cb13-45" aria-hidden="true"></a>                             <span class="dt">row.names=</span><span class="kw">rownames</span>(phenoData.frm))[KEEP.ndx,]</span>
+<span id="cb13-46"><a href="load-data.html#cb13-46" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[,<span class="kw">rownames</span>(sampAttr.frm)]</span>
+<span id="cb13-47"><a href="load-data.html#cb13-47" aria-hidden="true"></a> </span>
+<span id="cb13-48"><a href="load-data.html#cb13-48" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">table</span>(MS_Status[KEEP.ndx]))</span>
+<span id="cb13-49"><a href="load-data.html#cb13-49" aria-hidden="true"></a></span>
+<span id="cb13-50"><a href="load-data.html#cb13-50" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-51"><a href="load-data.html#cb13-51" aria-hidden="true"></a>  <span class="co">#  featureAttr - data.frame</span></span>
+<span id="cb13-52"><a href="load-data.html#cb13-52" aria-hidden="true"></a>  <span class="co">#  - rows of featureAttr match rows of Expr mtx</span></span>
+<span id="cb13-53"><a href="load-data.html#cb13-53" aria-hidden="true"></a>  <span class="co">#  - columns of featureAttr are atttibutes of the features - eg geneSymbol</span></span>
+<span id="cb13-54"><a href="load-data.html#cb13-54" aria-hidden="true"></a>  <span class="co">###################################################################</span></span>
+<span id="cb13-55"><a href="load-data.html#cb13-55" aria-hidden="true"></a>  <span class="co"># This deosn;t work!</span></span>
+<span id="cb13-56"><a href="load-data.html#cb13-56" aria-hidden="true"></a>  <span class="co">#featureAttr.frm &lt;- featureData(Set.gse[[1]])@data</span></span>
+<span id="cb13-57"><a href="load-data.html#cb13-57" aria-hidden="true"></a>  <span class="co">#dim(featureAttr.frm)</span></span>
+<span id="cb13-58"><a href="load-data.html#cb13-58" aria-hidden="true"></a>  <span class="co">#Symbol.vec &lt;- mget(featureAttr.frm$ID, hgu133plus2SYMBOL)</span></span>
+<span id="cb13-59"><a href="load-data.html#cb13-59" aria-hidden="true"></a>  <span class="co">#featureAttr.frm$Symbol &lt;- Symbol.vec[rownames(featureAttr.frm)]</span></span>
+<span id="cb13-60"><a href="load-data.html#cb13-60" aria-hidden="true"></a> </span>
+<span id="cb13-61"><a href="load-data.html#cb13-61" aria-hidden="true"></a>  Symbol.vec &lt;-<span class="st"> </span><span class="kw">mget</span>(<span class="kw">rownames</span>(Expr.mtx), hgu133plus2SYMBOL)</span>
+<span id="cb13-62"><a href="load-data.html#cb13-62" aria-hidden="true"></a>  featureAttr.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Symbol=</span><span class="kw">unlist</span>(Symbol.vec))</span>
+<span id="cb13-63"><a href="load-data.html#cb13-63" aria-hidden="true"></a>  <span class="kw">rownames</span>(featureAttr.frm) &lt;-<span class="st"> </span><span class="kw">rownames</span>(Expr.mtx)</span>
+<span id="cb13-64"><a href="load-data.html#cb13-64" aria-hidden="true"></a> </span>
+<span id="cb13-65"><a href="load-data.html#cb13-65" aria-hidden="true"></a>  <span class="co">###################################################</span></span>
+<span id="cb13-66"><a href="load-data.html#cb13-66" aria-hidden="true"></a>  <span class="co"># Save in arrayGeneExpr object</span></span>
+<span id="cb13-67"><a href="load-data.html#cb13-67" aria-hidden="true"></a>  <span class="co">###################################################</span></span>
+<span id="cb13-68"><a href="load-data.html#cb13-68" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">colnames</span>(Expr.mtx) <span class="op">!=</span><span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm))) <span class="kw">stop</span>(<span class="st">&quot;Column order error&quot;</span>)</span>
+<span id="cb13-69"><a href="load-data.html#cb13-69" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">rownames</span>(Expr.mtx) <span class="op">!=</span><span class="st"> </span><span class="kw">rownames</span>(featureAttr.frm))) <span class="kw">stop</span>(<span class="st">&quot;Row order error&quot;</span>)</span>
+<span id="cb13-70"><a href="load-data.html#cb13-70" aria-hidden="true"></a> </span>
+<span id="cb13-71"><a href="load-data.html#cb13-71" aria-hidden="true"></a>  Set.arrayGeneExpr &lt;-<span class="st">  </span><span class="kw">list</span>(<span class="dt">exprData=</span><span class="ot">NA</span>, <span class="dt">exprType=</span><span class="ot">NA</span>, <span class="dt">Norm=</span><span class="ot">NA</span>,</span>
+<span id="cb13-72"><a href="load-data.html#cb13-72" aria-hidden="true"></a>                                   <span class="dt">sampAttr=</span><span class="ot">NA</span>, <span class="dt">featureAttr=</span><span class="ot">NA</span>)</span>
+<span id="cb13-73"><a href="load-data.html#cb13-73" aria-hidden="true"></a>  <span class="kw">class</span>(Set.arrayGeneExpr) &lt;-<span class="st"> &quot;arrayGeneExpr&quot;</span></span>
+<span id="cb13-74"><a href="load-data.html#cb13-74" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>exprData &lt;-<span class="st"> </span>Expr.mtx</span>
+<span id="cb13-75"><a href="load-data.html#cb13-75" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>sampAttr &lt;-<span class="st"> </span>sampAttr.frm</span>
+<span id="cb13-76"><a href="load-data.html#cb13-76" aria-hidden="true"></a>  Set.arrayGeneExpr<span class="op">$</span>featureAttr &lt;-<span class="st"> </span>featureAttr.frm</span>
+<span id="cb13-77"><a href="load-data.html#cb13-77" aria-hidden="true"></a> </span>
+<span id="cb13-78"><a href="load-data.html#cb13-78" aria-hidden="true"></a>  <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
+<span id="cb13-79"><a href="load-data.html#cb13-79" aria-hidden="true"></a> </span>
+<span id="cb13-80"><a href="load-data.html#cb13-80" aria-hidden="true"></a>  <span class="co">######################################################</span></span>
+<span id="cb13-81"><a href="load-data.html#cb13-81" aria-hidden="true"></a>  <span class="co"># Look for intra-set batch effects</span></span>
+<span id="cb13-82"><a href="load-data.html#cb13-82" aria-hidden="true"></a>  <span class="co">######################################################</span></span>
+<span id="cb13-83"><a href="load-data.html#cb13-83" aria-hidden="true"></a>  Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(Expr.mtx)</span>
+<span id="cb13-84"><a href="load-data.html#cb13-84" aria-hidden="true"></a>  </span>
+<span id="cb13-85"><a href="load-data.html#cb13-85" aria-hidden="true"></a>  <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
+<span id="cb13-86"><a href="load-data.html#cb13-86" aria-hidden="true"></a>       <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb13-87"><a href="load-data.html#cb13-87" aria-hidden="true"></a>       <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
+<span id="cb13-88"><a href="load-data.html#cb13-88" aria-hidden="true"></a>       <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb13-89"><a href="load-data.html#cb13-89" aria-hidden="true"></a>       <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>MS_Status)))</span>
+<span id="cb13-90"><a href="load-data.html#cb13-90" aria-hidden="true"></a>  <span class="kw">title</span>(SET) </span>
+<span id="cb13-91"><a href="load-data.html#cb13-91" aria-hidden="true"></a>  <span class="kw">legend</span>(<span class="kw">ifelse</span>(SET <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;GSE13067&#39;</span>, <span class="st">&#39;GSE35896&#39;</span>), <span class="st">&#39;bottomleft&#39;</span>, <span class="st">&#39;bottomright&#39;</span>),</span>
+<span id="cb13-92"><a href="load-data.html#cb13-92" aria-hidden="true"></a>  <span class="dt">legend=</span><span class="kw">levels</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>MS_Status)),</span>
+<span id="cb13-93"><a href="load-data.html#cb13-93" aria-hidden="true"></a>  <span class="dt">col=</span><span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(<span class="kw">levels</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>MS_Status))),</span>
+<span id="cb13-94"><a href="load-data.html#cb13-94" aria-hidden="true"></a>  <span class="dt">pch=</span><span class="dv">19</span>)</span>
+<span id="cb13-95"><a href="load-data.html#cb13-95" aria-hidden="true"></a> </span>
+<span id="cb13-96"><a href="load-data.html#cb13-96" aria-hidden="true"></a> } </span></code></pre></div>
+<pre><code>## 
+## 
+## Processing  GSE13067 
+## 
+## MSI MSS 
+##  11  63</code></pre>
+<p><img src="Static/figures/load-data-cleanGSE-1.png" width="768" /></p>
+<pre><code>## 
+## 
+## Processing  GSE13294 
+## 
+## MSI MSS 
+##  78  77</code></pre>
+<p><img src="Static/figures/load-data-cleanGSE-2.png" width="768" /></p>
+<pre><code>## 
+## 
+## Processing  GSE35896 
+## 
+## MSI MSS 
+##   5  56</code></pre>
+<p><img src="Static/figures/load-data-cleanGSE-3.png" width="768" /></p>
+<pre><code>## 
+## 
+## Processing  GSE39084 
+## 
+## High  Low   No 
+##   16    3   51</code></pre>
+<p><img src="Static/figures/load-data-cleanGSE-4.png" width="768" /></p>
+<pre><code>## 
+## 
+## Processing  GSE4554 
+## 
+## MSI MSS 
+##  33  50</code></pre>
+<p><img src="Static/figures/load-data-cleanGSE-5.png" width="768" />
+<!-- ######################################################################## --></p>
 </div>
 <div id="data-pooling" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Data Pooling</h2>
 <p>When pooling data from different sources, we should make sure not to introduce batch effects
 into the mix. In the first instance we will simply pool the data sets together,
 and apply quantile normalization. This can be seen as a very weak form of batch effect
-correction and is a minimal requirement.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="load-data.html#cb4-1" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-2"><a href="load-data.html#cb4-2" aria-hidden="true"></a> <span class="co"># Get feature attributes from one of the arrayGeneExpr objects</span></span>
-<span id="cb4-3"><a href="load-data.html#cb4-3" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-4"><a href="load-data.html#cb4-4" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(KEEP_GSE.vec[<span class="dv">1</span>],<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
-<span id="cb4-5"><a href="load-data.html#cb4-5" aria-hidden="true"></a></span>
-<span id="cb4-6"><a href="load-data.html#cb4-6" aria-hidden="true"></a> featureAttr.frm &lt;-<span class="st"> </span>Set.arrayGeneExpr<span class="op">$</span>featureAttr</span>
-<span id="cb4-7"><a href="load-data.html#cb4-7" aria-hidden="true"></a> featureAttr.frm<span class="op">$</span>Symbol[<span class="kw">is.na</span>(featureAttr.frm<span class="op">$</span>Symbol)] &lt;-</span>
-<span id="cb4-8"><a href="load-data.html#cb4-8" aria-hidden="true"></a><span class="st">        </span><span class="kw">rownames</span>(featureAttr.frm)[<span class="kw">is.na</span>(featureAttr.frm<span class="op">$</span>Symbol)]</span>
-<span id="cb4-9"><a href="load-data.html#cb4-9" aria-hidden="true"></a> featureAttr.frm[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,,drop=F]</span>
-<span id="cb4-10"><a href="load-data.html#cb4-10" aria-hidden="true"></a></span>
-<span id="cb4-11"><a href="load-data.html#cb4-11" aria-hidden="true"></a> geneId.vec &lt;-<span class="st"> </span><span class="kw">rownames</span>(featureAttr.frm)</span>
-<span id="cb4-12"><a href="load-data.html#cb4-12" aria-hidden="true"></a></span>
-<span id="cb4-13"><a href="load-data.html#cb4-13" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-14"><a href="load-data.html#cb4-14" aria-hidden="true"></a></span>
-<span id="cb4-15"><a href="load-data.html#cb4-15" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-16"><a href="load-data.html#cb4-16" aria-hidden="true"></a> <span class="co"># Pool the expression data</span></span>
-<span id="cb4-17"><a href="load-data.html#cb4-17" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-18"><a href="load-data.html#cb4-18" aria-hidden="true"></a> PooledExpr.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(KEEP_GSE.vec,</span>
-<span id="cb4-19"><a href="load-data.html#cb4-19" aria-hidden="true"></a>  <span class="cf">function</span>(SET) {</span>
-<span id="cb4-20"><a href="load-data.html#cb4-20" aria-hidden="true"></a>    <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
-<span id="cb4-21"><a href="load-data.html#cb4-21" aria-hidden="true"></a>    Set.arrayGeneExpr<span class="op">$</span>exprData[geneId.vec,]</span>
-<span id="cb4-22"><a href="load-data.html#cb4-22" aria-hidden="true"></a> }))</span>
-<span id="cb4-23"><a href="load-data.html#cb4-23" aria-hidden="true"></a></span>
-<span id="cb4-24"><a href="load-data.html#cb4-24" aria-hidden="true"></a> <span class="co">#dim(PooledExpr.mtx)</span></span>
-<span id="cb4-25"><a href="load-data.html#cb4-25" aria-hidden="true"></a> <span class="co">#PooledExpr.mtx[1:5, 1:5]</span></span>
-<span id="cb4-26"><a href="load-data.html#cb4-26" aria-hidden="true"></a></span>
-<span id="cb4-27"><a href="load-data.html#cb4-27" aria-hidden="true"></a> <span class="co"># Apply quantile normalization</span></span>
-<span id="cb4-28"><a href="load-data.html#cb4-28" aria-hidden="true"></a> median.Expr.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">apply</span>(PooledExpr.mtx,<span class="dv">2</span>,sort), <span class="dv">1</span>, median)</span>
-<span id="cb4-29"><a href="load-data.html#cb4-29" aria-hidden="true"></a> <span class="co">#summary(median.Expr.vec)</span></span>
-<span id="cb4-30"><a href="load-data.html#cb4-30" aria-hidden="true"></a></span>
-<span id="cb4-31"><a href="load-data.html#cb4-31" aria-hidden="true"></a> PooledNormedExpr.mtx &lt;-<span class="st"> </span><span class="kw">apply</span>(PooledExpr.mtx, <span class="dv">2</span>, <span class="cf">function</span>(x)</span>
-<span id="cb4-32"><a href="load-data.html#cb4-32" aria-hidden="true"></a>     median.Expr.vec[<span class="kw">rank</span>(x)])</span>
-<span id="cb4-33"><a href="load-data.html#cb4-33" aria-hidden="true"></a> <span class="kw">rownames</span>(PooledNormedExpr.mtx) &lt;-<span class="st"> </span><span class="kw">rownames</span>(PooledExpr.mtx)</span>
-<span id="cb4-34"><a href="load-data.html#cb4-34" aria-hidden="true"></a></span>
-<span id="cb4-35"><a href="load-data.html#cb4-35" aria-hidden="true"></a></span>
-<span id="cb4-36"><a href="load-data.html#cb4-36" aria-hidden="true"></a> <span class="co">#summary(apply(PooledExpr.mtx, 2, mean))</span></span>
-<span id="cb4-37"><a href="load-data.html#cb4-37" aria-hidden="true"></a> <span class="co">#summary(apply(PooledNormedExpr.mtx, 2, mean))</span></span>
-<span id="cb4-38"><a href="load-data.html#cb4-38" aria-hidden="true"></a></span>
-<span id="cb4-39"><a href="load-data.html#cb4-39" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-40"><a href="load-data.html#cb4-40" aria-hidden="true"></a> <span class="co"># Pool the sample attribute data</span></span>
-<span id="cb4-41"><a href="load-data.html#cb4-41" aria-hidden="true"></a> <span class="co">###############################</span></span>
-<span id="cb4-42"><a href="load-data.html#cb4-42" aria-hidden="true"></a> PooledSampAttr.frm &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(KEEP_GSE.vec,</span>
-<span id="cb4-43"><a href="load-data.html#cb4-43" aria-hidden="true"></a>  <span class="cf">function</span>(SET) {</span>
-<span id="cb4-44"><a href="load-data.html#cb4-44" aria-hidden="true"></a>   <span class="co">#cat(SET,&#39;\n&#39;)</span></span>
-<span id="cb4-45"><a href="load-data.html#cb4-45" aria-hidden="true"></a>    <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
-<span id="cb4-46"><a href="load-data.html#cb4-46" aria-hidden="true"></a>    <span class="kw">data.frame</span>(<span class="dt">GSE=</span><span class="kw">rep</span>(SET,<span class="kw">nrow</span>(Set.arrayGeneExpr<span class="op">$</span>sampAttr)),</span>
-<span id="cb4-47"><a href="load-data.html#cb4-47" aria-hidden="true"></a>               <span class="dt">Sample_Id=</span>Set.arrayGeneExpr<span class="op">$</span>sampAttr<span class="op">$</span>Sample_Id,</span>
-<span id="cb4-48"><a href="load-data.html#cb4-48" aria-hidden="true"></a>               <span class="dt">MS_Status=</span>Set.arrayGeneExpr<span class="op">$</span>sampAttr<span class="op">$</span>MS_Status,</span>
-<span id="cb4-49"><a href="load-data.html#cb4-49" aria-hidden="true"></a>               <span class="dt">row.names=</span><span class="kw">rownames</span>(Set.arrayGeneExpr<span class="op">$</span>sampAttr))</span>
-<span id="cb4-50"><a href="load-data.html#cb4-50" aria-hidden="true"></a>  }))</span>
-<span id="cb4-51"><a href="load-data.html#cb4-51" aria-hidden="true"></a></span>
-<span id="cb4-52"><a href="load-data.html#cb4-52" aria-hidden="true"></a> <span class="co">#dim(PooledSampAttr.frm)</span></span>
-<span id="cb4-53"><a href="load-data.html#cb4-53" aria-hidden="true"></a> <span class="co">#PooledSampAttr.frm[1:5, ]</span></span>
-<span id="cb4-54"><a href="load-data.html#cb4-54" aria-hidden="true"></a></span>
-<span id="cb4-55"><a href="load-data.html#cb4-55" aria-hidden="true"></a> <span class="co"># Assemble arrayGeneExpr object for pooled data and save</span></span>
-<span id="cb4-56"><a href="load-data.html#cb4-56" aria-hidden="true"></a> GSEPool.arrayGeneExpr &lt;-<span class="st">  </span><span class="kw">list</span>(<span class="dt">exprData=</span><span class="ot">NA</span>, <span class="dt">exprType=</span><span class="ot">NA</span>, <span class="dt">Norm=</span><span class="ot">NA</span>,</span>
-<span id="cb4-57"><a href="load-data.html#cb4-57" aria-hidden="true"></a>                                  <span class="dt">sampAttr=</span><span class="ot">NA</span>, <span class="dt">featureAttr=</span><span class="ot">NA</span>)</span>
-<span id="cb4-58"><a href="load-data.html#cb4-58" aria-hidden="true"></a> <span class="kw">class</span>(GSEPool.arrayGeneExpr) &lt;-<span class="st"> &quot;arrayGeneExpr&quot;</span></span>
-<span id="cb4-59"><a href="load-data.html#cb4-59" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprData &lt;-<span class="st"> </span>PooledNormedExpr.mtx</span>
-<span id="cb4-60"><a href="load-data.html#cb4-60" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprType &lt;-<span class="st"> &#39;MAS5_RMA&#39;</span></span>
-<span id="cb4-61"><a href="load-data.html#cb4-61" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>Norm &lt;-<span class="st"> &#39;Quantile&#39;</span></span>
-<span id="cb4-62"><a href="load-data.html#cb4-62" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr &lt;-<span class="st"> </span>PooledSampAttr.frm</span>
-<span id="cb4-63"><a href="load-data.html#cb4-63" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>featureAttr &lt;-<span class="st"> </span>featureAttr.frm</span>
-<span id="cb4-64"><a href="load-data.html#cb4-64" aria-hidden="true"></a></span>
-<span id="cb4-65"><a href="load-data.html#cb4-65" aria-hidden="true"></a> <span class="kw">save</span>(GSEPool.arrayGeneExpr, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
-<span id="cb4-66"><a href="load-data.html#cb4-66" aria-hidden="true"></a></span>
-<span id="cb4-67"><a href="load-data.html#cb4-67" aria-hidden="true"></a> <span class="co">######################################################</span></span>
-<span id="cb4-68"><a href="load-data.html#cb4-68" aria-hidden="true"></a> <span class="co"># Look for inter-set batch effects</span></span>
-<span id="cb4-69"><a href="load-data.html#cb4-69" aria-hidden="true"></a> <span class="co">######################################################</span></span>
-<span id="cb4-70"><a href="load-data.html#cb4-70" aria-hidden="true"></a> Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(PooledNormedExpr.mtx)</span>
-<span id="cb4-71"><a href="load-data.html#cb4-71" aria-hidden="true"></a>  </span>
-<span id="cb4-72"><a href="load-data.html#cb4-72" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb4-73"><a href="load-data.html#cb4-73" aria-hidden="true"></a> <span class="co"># Annotate with Batch</span></span>
-<span id="cb4-74"><a href="load-data.html#cb4-74" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
-<span id="cb4-75"><a href="load-data.html#cb4-75" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb4-76"><a href="load-data.html#cb4-76" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
-<span id="cb4-77"><a href="load-data.html#cb4-77" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb4-78"><a href="load-data.html#cb4-78" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE)))</span>
-<span id="cb4-79"><a href="load-data.html#cb4-79" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is Batch&#39;</span>)</span>
-<span id="cb4-80"><a href="load-data.html#cb4-80" aria-hidden="true"></a></span>
-<span id="cb4-81"><a href="load-data.html#cb4-81" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE), </span>
-<span id="cb4-82"><a href="load-data.html#cb4-82" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE)))</span>
-<span id="cb4-83"><a href="load-data.html#cb4-83" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
-<span id="cb4-84"><a href="load-data.html#cb4-84" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
-<span id="cb4-85"><a href="load-data.html#cb4-85" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span>
-<span id="cb4-86"><a href="load-data.html#cb4-86" aria-hidden="true"></a></span>
-<span id="cb4-87"><a href="load-data.html#cb4-87" aria-hidden="true"></a> <span class="co"># Annotate with MS_Status</span></span>
-<span id="cb4-88"><a href="load-data.html#cb4-88" aria-hidden="true"></a> MSS_MSI &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.element</span>(PooledSampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)),</span>
-<span id="cb4-89"><a href="load-data.html#cb4-89" aria-hidden="true"></a>          <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>))</span>
-<span id="cb4-90"><a href="load-data.html#cb4-90" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
-<span id="cb4-91"><a href="load-data.html#cb4-91" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb4-92"><a href="load-data.html#cb4-92" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
-<span id="cb4-93"><a href="load-data.html#cb4-93" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb4-94"><a href="load-data.html#cb4-94" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
-<span id="cb4-95"><a href="load-data.html#cb4-95" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is MSS_MSI&#39;</span>)</span>
-<span id="cb4-96"><a href="load-data.html#cb4-96" aria-hidden="true"></a></span>
-<span id="cb4-97"><a href="load-data.html#cb4-97" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(MSS_MSI), </span>
-<span id="cb4-98"><a href="load-data.html#cb4-98" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
-<span id="cb4-99"><a href="load-data.html#cb4-99" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
-<span id="cb4-100"><a href="load-data.html#cb4-100" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
-<span id="cb4-101"><a href="load-data.html#cb4-101" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span></code></pre></div>
-<!-- ######################################################################## -->
+correction and is a minimal requirement. For a more careful way to remove batch effects
+and other unwanted variation see
+Gagnon-Bartsch (2012) <span class="citation">[<a href="#ref-Gagnon-Bartsch:2012aa" role="doc-biblioref">5</a>]</span> and
+Molania et al. (2019) <span class="citation">[<a href="#ref-Molania:2019aa" role="doc-biblioref">6</a>]</span>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="load-data.html#cb19-1" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb19-2"><a href="load-data.html#cb19-2" aria-hidden="true"></a> <span class="co"># Get feature attributes from one of the arrayGeneExpr objects</span></span>
+<span id="cb19-3"><a href="load-data.html#cb19-3" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb19-4"><a href="load-data.html#cb19-4" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(KEEP_GSE.vec[<span class="dv">1</span>],<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
+<span id="cb19-5"><a href="load-data.html#cb19-5" aria-hidden="true"></a></span>
+<span id="cb19-6"><a href="load-data.html#cb19-6" aria-hidden="true"></a> featureAttr.frm &lt;-<span class="st"> </span>Set.arrayGeneExpr<span class="op">$</span>featureAttr</span>
+<span id="cb19-7"><a href="load-data.html#cb19-7" aria-hidden="true"></a> featureAttr.frm<span class="op">$</span>Symbol[<span class="kw">is.na</span>(featureAttr.frm<span class="op">$</span>Symbol)] &lt;-</span>
+<span id="cb19-8"><a href="load-data.html#cb19-8" aria-hidden="true"></a><span class="st">        </span><span class="kw">rownames</span>(featureAttr.frm)[<span class="kw">is.na</span>(featureAttr.frm<span class="op">$</span>Symbol)]</span>
+<span id="cb19-9"><a href="load-data.html#cb19-9" aria-hidden="true"></a> featureAttr.frm[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,,drop=F]</span></code></pre></div>
+<pre><code>##              Symbol
+## 1007_s_at 1007_s_at
+## 1053_at        RFC2
+## 117_at        HSPA6
+## 121_at         PAX8
+## 1255_g_at    GUCA1A</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="load-data.html#cb21-1" aria-hidden="true"></a> geneId.vec &lt;-<span class="st"> </span><span class="kw">rownames</span>(featureAttr.frm)</span>
+<span id="cb21-2"><a href="load-data.html#cb21-2" aria-hidden="true"></a></span>
+<span id="cb21-3"><a href="load-data.html#cb21-3" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb21-4"><a href="load-data.html#cb21-4" aria-hidden="true"></a></span>
+<span id="cb21-5"><a href="load-data.html#cb21-5" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb21-6"><a href="load-data.html#cb21-6" aria-hidden="true"></a> <span class="co"># Pool the expression data</span></span>
+<span id="cb21-7"><a href="load-data.html#cb21-7" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb21-8"><a href="load-data.html#cb21-8" aria-hidden="true"></a> PooledExpr.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(KEEP_GSE.vec,</span>
+<span id="cb21-9"><a href="load-data.html#cb21-9" aria-hidden="true"></a>  <span class="cf">function</span>(SET) {</span>
+<span id="cb21-10"><a href="load-data.html#cb21-10" aria-hidden="true"></a>    <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
+<span id="cb21-11"><a href="load-data.html#cb21-11" aria-hidden="true"></a>    Set.arrayGeneExpr<span class="op">$</span>exprData[geneId.vec,]</span>
+<span id="cb21-12"><a href="load-data.html#cb21-12" aria-hidden="true"></a> }))</span>
+<span id="cb21-13"><a href="load-data.html#cb21-13" aria-hidden="true"></a></span>
+<span id="cb21-14"><a href="load-data.html#cb21-14" aria-hidden="true"></a> <span class="co">#dim(PooledExpr.mtx)</span></span>
+<span id="cb21-15"><a href="load-data.html#cb21-15" aria-hidden="true"></a> <span class="co">#PooledExpr.mtx[1:5, 1:5]</span></span>
+<span id="cb21-16"><a href="load-data.html#cb21-16" aria-hidden="true"></a></span>
+<span id="cb21-17"><a href="load-data.html#cb21-17" aria-hidden="true"></a> <span class="co"># Apply quantile normalization</span></span>
+<span id="cb21-18"><a href="load-data.html#cb21-18" aria-hidden="true"></a> median.Expr.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">apply</span>(PooledExpr.mtx,<span class="dv">2</span>,sort), <span class="dv">1</span>, median)</span>
+<span id="cb21-19"><a href="load-data.html#cb21-19" aria-hidden="true"></a> <span class="co">#summary(median.Expr.vec)</span></span>
+<span id="cb21-20"><a href="load-data.html#cb21-20" aria-hidden="true"></a></span>
+<span id="cb21-21"><a href="load-data.html#cb21-21" aria-hidden="true"></a> PooledNormedExpr.mtx &lt;-<span class="st"> </span><span class="kw">apply</span>(PooledExpr.mtx, <span class="dv">2</span>, <span class="cf">function</span>(x)</span>
+<span id="cb21-22"><a href="load-data.html#cb21-22" aria-hidden="true"></a>     median.Expr.vec[<span class="kw">rank</span>(x)])</span>
+<span id="cb21-23"><a href="load-data.html#cb21-23" aria-hidden="true"></a> <span class="kw">rownames</span>(PooledNormedExpr.mtx) &lt;-<span class="st"> </span><span class="kw">rownames</span>(PooledExpr.mtx)</span>
+<span id="cb21-24"><a href="load-data.html#cb21-24" aria-hidden="true"></a></span>
+<span id="cb21-25"><a href="load-data.html#cb21-25" aria-hidden="true"></a></span>
+<span id="cb21-26"><a href="load-data.html#cb21-26" aria-hidden="true"></a> <span class="co">#summary(apply(PooledExpr.mtx, 2, mean))</span></span>
+<span id="cb21-27"><a href="load-data.html#cb21-27" aria-hidden="true"></a> <span class="co">#summary(apply(PooledNormedExpr.mtx, 2, mean))</span></span>
+<span id="cb21-28"><a href="load-data.html#cb21-28" aria-hidden="true"></a></span>
+<span id="cb21-29"><a href="load-data.html#cb21-29" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb21-30"><a href="load-data.html#cb21-30" aria-hidden="true"></a> <span class="co"># Pool the sample attribute data</span></span>
+<span id="cb21-31"><a href="load-data.html#cb21-31" aria-hidden="true"></a> <span class="co">###############################</span></span>
+<span id="cb21-32"><a href="load-data.html#cb21-32" aria-hidden="true"></a> PooledSampAttr.frm &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(KEEP_GSE.vec,</span>
+<span id="cb21-33"><a href="load-data.html#cb21-33" aria-hidden="true"></a>  <span class="cf">function</span>(SET) {</span>
+<span id="cb21-34"><a href="load-data.html#cb21-34" aria-hidden="true"></a>   <span class="co">#cat(SET,&#39;\n&#39;)</span></span>
+<span id="cb21-35"><a href="load-data.html#cb21-35" aria-hidden="true"></a>    <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SET,<span class="st">&#39;.arrayGeneExpr&#39;</span>), <span class="st">&#39;Set.arrayGeneExpr&#39;</span>)</span>
+<span id="cb21-36"><a href="load-data.html#cb21-36" aria-hidden="true"></a>    <span class="kw">data.frame</span>(<span class="dt">GSE=</span><span class="kw">rep</span>(SET,<span class="kw">nrow</span>(Set.arrayGeneExpr<span class="op">$</span>sampAttr)),</span>
+<span id="cb21-37"><a href="load-data.html#cb21-37" aria-hidden="true"></a>               <span class="dt">Sample_Id=</span>Set.arrayGeneExpr<span class="op">$</span>sampAttr<span class="op">$</span>Sample_Id,</span>
+<span id="cb21-38"><a href="load-data.html#cb21-38" aria-hidden="true"></a>               <span class="dt">MS_Status=</span>Set.arrayGeneExpr<span class="op">$</span>sampAttr<span class="op">$</span>MS_Status,</span>
+<span id="cb21-39"><a href="load-data.html#cb21-39" aria-hidden="true"></a>               <span class="dt">row.names=</span><span class="kw">rownames</span>(Set.arrayGeneExpr<span class="op">$</span>sampAttr))</span>
+<span id="cb21-40"><a href="load-data.html#cb21-40" aria-hidden="true"></a>  }))</span>
+<span id="cb21-41"><a href="load-data.html#cb21-41" aria-hidden="true"></a></span>
+<span id="cb21-42"><a href="load-data.html#cb21-42" aria-hidden="true"></a> <span class="co">#dim(PooledSampAttr.frm)</span></span>
+<span id="cb21-43"><a href="load-data.html#cb21-43" aria-hidden="true"></a> <span class="co">#PooledSampAttr.frm[1:5, ]</span></span>
+<span id="cb21-44"><a href="load-data.html#cb21-44" aria-hidden="true"></a></span>
+<span id="cb21-45"><a href="load-data.html#cb21-45" aria-hidden="true"></a> <span class="co"># Assemble arrayGeneExpr object for pooled data and save</span></span>
+<span id="cb21-46"><a href="load-data.html#cb21-46" aria-hidden="true"></a> GSEPool.arrayGeneExpr &lt;-<span class="st">  </span><span class="kw">list</span>(<span class="dt">exprData=</span><span class="ot">NA</span>, <span class="dt">exprType=</span><span class="ot">NA</span>, <span class="dt">Norm=</span><span class="ot">NA</span>,</span>
+<span id="cb21-47"><a href="load-data.html#cb21-47" aria-hidden="true"></a>                                  <span class="dt">sampAttr=</span><span class="ot">NA</span>, <span class="dt">featureAttr=</span><span class="ot">NA</span>)</span>
+<span id="cb21-48"><a href="load-data.html#cb21-48" aria-hidden="true"></a> <span class="kw">class</span>(GSEPool.arrayGeneExpr) &lt;-<span class="st"> &quot;arrayGeneExpr&quot;</span></span>
+<span id="cb21-49"><a href="load-data.html#cb21-49" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprData &lt;-<span class="st"> </span>PooledNormedExpr.mtx</span>
+<span id="cb21-50"><a href="load-data.html#cb21-50" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprType &lt;-<span class="st"> &#39;MAS5_RMA&#39;</span></span>
+<span id="cb21-51"><a href="load-data.html#cb21-51" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>Norm &lt;-<span class="st"> &#39;Quantile&#39;</span></span>
+<span id="cb21-52"><a href="load-data.html#cb21-52" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr &lt;-<span class="st"> </span>PooledSampAttr.frm</span>
+<span id="cb21-53"><a href="load-data.html#cb21-53" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>featureAttr &lt;-<span class="st"> </span>featureAttr.frm</span>
+<span id="cb21-54"><a href="load-data.html#cb21-54" aria-hidden="true"></a></span>
+<span id="cb21-55"><a href="load-data.html#cb21-55" aria-hidden="true"></a> <span class="kw">save</span>(GSEPool.arrayGeneExpr, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
+<span id="cb21-56"><a href="load-data.html#cb21-56" aria-hidden="true"></a></span>
+<span id="cb21-57"><a href="load-data.html#cb21-57" aria-hidden="true"></a> <span class="co">######################################################</span></span>
+<span id="cb21-58"><a href="load-data.html#cb21-58" aria-hidden="true"></a> <span class="co"># Look for inter-set batch effects</span></span>
+<span id="cb21-59"><a href="load-data.html#cb21-59" aria-hidden="true"></a> <span class="co">######################################################</span></span>
+<span id="cb21-60"><a href="load-data.html#cb21-60" aria-hidden="true"></a> Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(PooledNormedExpr.mtx)</span>
+<span id="cb21-61"><a href="load-data.html#cb21-61" aria-hidden="true"></a>  </span>
+<span id="cb21-62"><a href="load-data.html#cb21-62" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb21-63"><a href="load-data.html#cb21-63" aria-hidden="true"></a> <span class="co"># Annotate with Batch</span></span>
+<span id="cb21-64"><a href="load-data.html#cb21-64" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
+<span id="cb21-65"><a href="load-data.html#cb21-65" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb21-66"><a href="load-data.html#cb21-66" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
+<span id="cb21-67"><a href="load-data.html#cb21-67" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb21-68"><a href="load-data.html#cb21-68" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE)))</span>
+<span id="cb21-69"><a href="load-data.html#cb21-69" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is Batch&#39;</span>)</span>
+<span id="cb21-70"><a href="load-data.html#cb21-70" aria-hidden="true"></a></span>
+<span id="cb21-71"><a href="load-data.html#cb21-71" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE), </span>
+<span id="cb21-72"><a href="load-data.html#cb21-72" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(PooledSampAttr.frm<span class="op">$</span>GSE)))</span>
+<span id="cb21-73"><a href="load-data.html#cb21-73" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
+<span id="cb21-74"><a href="load-data.html#cb21-74" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
+<span id="cb21-75"><a href="load-data.html#cb21-75" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span>
+<span id="cb21-76"><a href="load-data.html#cb21-76" aria-hidden="true"></a></span>
+<span id="cb21-77"><a href="load-data.html#cb21-77" aria-hidden="true"></a> <span class="co"># Annotate with MS_Status</span></span>
+<span id="cb21-78"><a href="load-data.html#cb21-78" aria-hidden="true"></a> MSS_MSI &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.element</span>(PooledSampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)),</span>
+<span id="cb21-79"><a href="load-data.html#cb21-79" aria-hidden="true"></a>          <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>))</span>
+<span id="cb21-80"><a href="load-data.html#cb21-80" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
+<span id="cb21-81"><a href="load-data.html#cb21-81" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb21-82"><a href="load-data.html#cb21-82" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
+<span id="cb21-83"><a href="load-data.html#cb21-83" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb21-84"><a href="load-data.html#cb21-84" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
+<span id="cb21-85"><a href="load-data.html#cb21-85" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is MSS_MSI&#39;</span>)</span>
+<span id="cb21-86"><a href="load-data.html#cb21-86" aria-hidden="true"></a></span>
+<span id="cb21-87"><a href="load-data.html#cb21-87" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(MSS_MSI), </span>
+<span id="cb21-88"><a href="load-data.html#cb21-88" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
+<span id="cb21-89"><a href="load-data.html#cb21-89" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
+<span id="cb21-90"><a href="load-data.html#cb21-90" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
+<span id="cb21-91"><a href="load-data.html#cb21-91" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span></code></pre></div>
+<p><img src="Static/figures/load-data-poolGSE-1.png" width="1152" />
+<!-- ######################################################################## --></p>
 </div>
 <div id="batch-correction" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Batch Correction</h2>
 <p>We see a definite batch effect in the PCA plot based on the pooled expression data.
 The clustering is along probe set reduction method, RMA vs MAS 5.0.
-One should reslly go back to the cel files and re-anlyze all samples using one
+One should really go back to the cel files and re-analyze all samples using one
 probe set reduction method. For the sake of illustration, we will instead try to
 remove this effect using a batch-effect correction method.</p>
 <p>Given that we don’t have a good set of control genes as required by the RUV method, we’ll
 use ’ComBat` from the
 <a href="https://www.bioconductor.org/packages/release/bioc/html/sva.html">SVA</a>
 package.</p>
-<p>Alternatively, we could keep keep the two sets of data, those siummarized using RMA
+<p>Alternatively, we could keep keep the two sets of data, those summarized using RMA
 and those summarized using MAS 5.0, separate, alternating using one set for
 model selection and fitting and the other for testing. This would provide
-a string test of the generalizability and robustness of the results.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="load-data.html#cb5-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(sva))</span>
-<span id="cb5-2"><a href="load-data.html#cb5-2" aria-hidden="true"></a></span>
-<span id="cb5-3"><a href="load-data.html#cb5-3" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
-<span id="cb5-4"><a href="load-data.html#cb5-4" aria-hidden="true"></a></span>
-<span id="cb5-5"><a href="load-data.html#cb5-5" aria-hidden="true"></a> Expr.mtx &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>exprData</span>
-<span id="cb5-6"><a href="load-data.html#cb5-6" aria-hidden="true"></a> sampAttr.frm &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr</span>
-<span id="cb5-7"><a href="load-data.html#cb5-7" aria-hidden="true"></a></span>
-<span id="cb5-8"><a href="load-data.html#cb5-8" aria-hidden="true"></a></span>
-<span id="cb5-9"><a href="load-data.html#cb5-9" aria-hidden="true"></a> <span class="co"># Applying theComBatfunction to adjust for known batches</span></span>
-<span id="cb5-10"><a href="load-data.html#cb5-10" aria-hidden="true"></a> <span class="co"># Note: we could here use a binray batch: RMA vs MAS5.</span></span>
-<span id="cb5-11"><a href="load-data.html#cb5-11" aria-hidden="true"></a> batch &lt;-<span class="st"> </span><span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)</span>
-<span id="cb5-12"><a href="load-data.html#cb5-12" aria-hidden="true"></a></span>
-<span id="cb5-13"><a href="load-data.html#cb5-13" aria-hidden="true"></a> <span class="kw">with</span>(sampAttr.frm, <span class="kw">table</span>(GSE, MS_Status))</span>
-<span id="cb5-14"><a href="load-data.html#cb5-14" aria-hidden="true"></a></span>
-<span id="cb5-15"><a href="load-data.html#cb5-15" aria-hidden="true"></a> MSS &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)))</span>
-<span id="cb5-16"><a href="load-data.html#cb5-16" aria-hidden="true"></a> modcombat =<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>MSS)</span>
-<span id="cb5-17"><a href="load-data.html#cb5-17" aria-hidden="true"></a></span>
-<span id="cb5-18"><a href="load-data.html#cb5-18" aria-hidden="true"></a> combat_edata =<span class="st"> </span><span class="kw">ComBat</span>(<span class="dt">dat=</span>Expr.mtx, </span>
-<span id="cb5-19"><a href="load-data.html#cb5-19" aria-hidden="true"></a>                       <span class="dt">batch=</span>batch, </span>
-<span id="cb5-20"><a href="load-data.html#cb5-20" aria-hidden="true"></a>                       <span class="dt">mod=</span>modcombat, </span>
-<span id="cb5-21"><a href="load-data.html#cb5-21" aria-hidden="true"></a>                       <span class="dt">par.prior=</span><span class="ot">TRUE</span>, </span>
-<span id="cb5-22"><a href="load-data.html#cb5-22" aria-hidden="true"></a>                       <span class="dt">prior.plots=</span><span class="ot">FALSE</span>)</span>
-<span id="cb5-23"><a href="load-data.html#cb5-23" aria-hidden="true"></a></span>
-<span id="cb5-24"><a href="load-data.html#cb5-24" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj &lt;-<span class="st"> </span>combat_edata</span>
-<span id="cb5-25"><a href="load-data.html#cb5-25" aria-hidden="true"></a></span>
-<span id="cb5-26"><a href="load-data.html#cb5-26" aria-hidden="true"></a> <span class="kw">save</span>(GSEPool.arrayGeneExpr, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
-<span id="cb5-27"><a href="load-data.html#cb5-27" aria-hidden="true"></a></span>
-<span id="cb5-28"><a href="load-data.html#cb5-28" aria-hidden="true"></a> <span class="co">######################################################</span></span>
-<span id="cb5-29"><a href="load-data.html#cb5-29" aria-hidden="true"></a> <span class="co"># Look for inter-set batch effects</span></span>
-<span id="cb5-30"><a href="load-data.html#cb5-30" aria-hidden="true"></a> <span class="co">######################################################</span></span>
-<span id="cb5-31"><a href="load-data.html#cb5-31" aria-hidden="true"></a> Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
-<span id="cb5-32"><a href="load-data.html#cb5-32" aria-hidden="true"></a>  </span>
-<span id="cb5-33"><a href="load-data.html#cb5-33" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
-<span id="cb5-34"><a href="load-data.html#cb5-34" aria-hidden="true"></a> <span class="co"># Annotate with Batch</span></span>
-<span id="cb5-35"><a href="load-data.html#cb5-35" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
-<span id="cb5-36"><a href="load-data.html#cb5-36" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb5-37"><a href="load-data.html#cb5-37" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
-<span id="cb5-38"><a href="load-data.html#cb5-38" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb5-39"><a href="load-data.html#cb5-39" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)))</span>
-<span id="cb5-40"><a href="load-data.html#cb5-40" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is Batch&#39;</span>)</span>
-<span id="cb5-41"><a href="load-data.html#cb5-41" aria-hidden="true"></a></span>
-<span id="cb5-42"><a href="load-data.html#cb5-42" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE), </span>
-<span id="cb5-43"><a href="load-data.html#cb5-43" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)))</span>
-<span id="cb5-44"><a href="load-data.html#cb5-44" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
-<span id="cb5-45"><a href="load-data.html#cb5-45" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
-<span id="cb5-46"><a href="load-data.html#cb5-46" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span>
-<span id="cb5-47"><a href="load-data.html#cb5-47" aria-hidden="true"></a></span>
-<span id="cb5-48"><a href="load-data.html#cb5-48" aria-hidden="true"></a> <span class="co"># Annotate with MS_Status</span></span>
-<span id="cb5-49"><a href="load-data.html#cb5-49" aria-hidden="true"></a> MSS_MSI &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)),</span>
-<span id="cb5-50"><a href="load-data.html#cb5-50" aria-hidden="true"></a>          <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>))</span>
-<span id="cb5-51"><a href="load-data.html#cb5-51" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
-<span id="cb5-52"><a href="load-data.html#cb5-52" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb5-53"><a href="load-data.html#cb5-53" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
-<span id="cb5-54"><a href="load-data.html#cb5-54" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
-<span id="cb5-55"><a href="load-data.html#cb5-55" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
-<span id="cb5-56"><a href="load-data.html#cb5-56" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is MSS_MSI&#39;</span>)</span>
-<span id="cb5-57"><a href="load-data.html#cb5-57" aria-hidden="true"></a></span>
-<span id="cb5-58"><a href="load-data.html#cb5-58" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(MSS_MSI), </span>
-<span id="cb5-59"><a href="load-data.html#cb5-59" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
-<span id="cb5-60"><a href="load-data.html#cb5-60" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
-<span id="cb5-61"><a href="load-data.html#cb5-61" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
-<span id="cb5-62"><a href="load-data.html#cb5-62" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span></code></pre></div>
-<!-- ######################################################################## -->
-<p>Visual inpection of the effect of the batch correction transformation
+a strong test of the generalizability and robustness of the results.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="load-data.html#cb22-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(sva))</span>
+<span id="cb22-2"><a href="load-data.html#cb22-2" aria-hidden="true"></a></span>
+<span id="cb22-3"><a href="load-data.html#cb22-3" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
+<span id="cb22-4"><a href="load-data.html#cb22-4" aria-hidden="true"></a></span>
+<span id="cb22-5"><a href="load-data.html#cb22-5" aria-hidden="true"></a> Expr.mtx &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>exprData</span>
+<span id="cb22-6"><a href="load-data.html#cb22-6" aria-hidden="true"></a> sampAttr.frm &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr</span>
+<span id="cb22-7"><a href="load-data.html#cb22-7" aria-hidden="true"></a></span>
+<span id="cb22-8"><a href="load-data.html#cb22-8" aria-hidden="true"></a></span>
+<span id="cb22-9"><a href="load-data.html#cb22-9" aria-hidden="true"></a> <span class="co"># Applying theComBatfunction to adjust for known batches</span></span>
+<span id="cb22-10"><a href="load-data.html#cb22-10" aria-hidden="true"></a> <span class="co"># Note: we could here use a binray batch: RMA vs MAS5.</span></span>
+<span id="cb22-11"><a href="load-data.html#cb22-11" aria-hidden="true"></a> batch &lt;-<span class="st"> </span><span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)</span>
+<span id="cb22-12"><a href="load-data.html#cb22-12" aria-hidden="true"></a></span>
+<span id="cb22-13"><a href="load-data.html#cb22-13" aria-hidden="true"></a> <span class="kw">with</span>(sampAttr.frm, <span class="kw">table</span>(GSE, MS_Status))</span></code></pre></div>
+<pre><code>##           MS_Status
+## GSE        High Low MSI MSS No
+##   GSE13067    0   0  11  63  0
+##   GSE13294    0   0  78  77  0
+##   GSE35896    0   0   5  56  0
+##   GSE39084   16   3   0   0 51
+##   GSE4554     0   0  33  50  0</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="load-data.html#cb24-1" aria-hidden="true"></a> MSS &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)))</span>
+<span id="cb24-2"><a href="load-data.html#cb24-2" aria-hidden="true"></a> modcombat =<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>MSS)</span>
+<span id="cb24-3"><a href="load-data.html#cb24-3" aria-hidden="true"></a></span>
+<span id="cb24-4"><a href="load-data.html#cb24-4" aria-hidden="true"></a> combat_edata =<span class="st"> </span><span class="kw">ComBat</span>(<span class="dt">dat=</span>Expr.mtx, </span>
+<span id="cb24-5"><a href="load-data.html#cb24-5" aria-hidden="true"></a>                       <span class="dt">batch=</span>batch, </span>
+<span id="cb24-6"><a href="load-data.html#cb24-6" aria-hidden="true"></a>                       <span class="dt">mod=</span>modcombat, </span>
+<span id="cb24-7"><a href="load-data.html#cb24-7" aria-hidden="true"></a>                       <span class="dt">par.prior=</span><span class="ot">TRUE</span>, </span>
+<span id="cb24-8"><a href="load-data.html#cb24-8" aria-hidden="true"></a>                       <span class="dt">prior.plots=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## Found5batches</code></pre>
+<pre><code>## Adjusting for1covariate(s) or covariate level(s)</code></pre>
+<pre><code>## Standardizing Data across genes</code></pre>
+<pre><code>## Fitting L/S model and finding priors</code></pre>
+<pre><code>## Finding parametric adjustments</code></pre>
+<pre><code>## Adjusting the Data</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="load-data.html#cb31-1" aria-hidden="true"></a> GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj &lt;-<span class="st"> </span>combat_edata</span>
+<span id="cb31-2"><a href="load-data.html#cb31-2" aria-hidden="true"></a></span>
+<span id="cb31-3"><a href="load-data.html#cb31-3" aria-hidden="true"></a> <span class="kw">save</span>(GSEPool.arrayGeneExpr, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
+<span id="cb31-4"><a href="load-data.html#cb31-4" aria-hidden="true"></a></span>
+<span id="cb31-5"><a href="load-data.html#cb31-5" aria-hidden="true"></a> <span class="co">######################################################</span></span>
+<span id="cb31-6"><a href="load-data.html#cb31-6" aria-hidden="true"></a> <span class="co"># Look for inter-set batch effects</span></span>
+<span id="cb31-7"><a href="load-data.html#cb31-7" aria-hidden="true"></a> <span class="co">######################################################</span></span>
+<span id="cb31-8"><a href="load-data.html#cb31-8" aria-hidden="true"></a> Expt.prcomp &lt;-<span class="st"> </span><span class="kw">prcomp</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
+<span id="cb31-9"><a href="load-data.html#cb31-9" aria-hidden="true"></a>  </span>
+<span id="cb31-10"><a href="load-data.html#cb31-10" aria-hidden="true"></a> <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb31-11"><a href="load-data.html#cb31-11" aria-hidden="true"></a> <span class="co"># Annotate with Batch</span></span>
+<span id="cb31-12"><a href="load-data.html#cb31-12" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
+<span id="cb31-13"><a href="load-data.html#cb31-13" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb31-14"><a href="load-data.html#cb31-14" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
+<span id="cb31-15"><a href="load-data.html#cb31-15" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb31-16"><a href="load-data.html#cb31-16" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)))</span>
+<span id="cb31-17"><a href="load-data.html#cb31-17" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is Batch&#39;</span>)</span>
+<span id="cb31-18"><a href="load-data.html#cb31-18" aria-hidden="true"></a></span>
+<span id="cb31-19"><a href="load-data.html#cb31-19" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE), </span>
+<span id="cb31-20"><a href="load-data.html#cb31-20" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(sampAttr.frm<span class="op">$</span>GSE)))</span>
+<span id="cb31-21"><a href="load-data.html#cb31-21" aria-hidden="true"></a>SKIP &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb31-22"><a href="load-data.html#cb31-22" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
+<span id="cb31-23"><a href="load-data.html#cb31-23" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
+<span id="cb31-24"><a href="load-data.html#cb31-24" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span>
+<span id="cb31-25"><a href="load-data.html#cb31-25" aria-hidden="true"></a>}<span class="co">#SKIP</span></span>
+<span id="cb31-26"><a href="load-data.html#cb31-26" aria-hidden="true"></a></span>
+<span id="cb31-27"><a href="load-data.html#cb31-27" aria-hidden="true"></a> <span class="co"># Annotate with MS_Status</span></span>
+<span id="cb31-28"><a href="load-data.html#cb31-28" aria-hidden="true"></a> MSS_MSI &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">ifelse</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)),</span>
+<span id="cb31-29"><a href="load-data.html#cb31-29" aria-hidden="true"></a>          <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>))</span>
+<span id="cb31-30"><a href="load-data.html#cb31-30" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC1&#39;</span>],</span>
+<span id="cb31-31"><a href="load-data.html#cb31-31" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC1 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC1&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb31-32"><a href="load-data.html#cb31-32" aria-hidden="true"></a>      <span class="dt">y=</span>Expt.prcomp<span class="op">$</span>rotation[,<span class="st">&#39;PC2&#39;</span>],</span>
+<span id="cb31-33"><a href="load-data.html#cb31-33" aria-hidden="true"></a>      <span class="dt">ylab=</span><span class="kw">paste0</span>(<span class="st">&#39;PC2 (&#39;</span>, <span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span><span class="kw">summary</span>(Expt.prcomp)<span class="op">$</span>importance[<span class="dv">2</span>,<span class="st">&quot;PC2&quot;</span>],<span class="dv">1</span>),<span class="st">&#39;%)&#39;</span>),</span>
+<span id="cb31-34"><a href="load-data.html#cb31-34" aria-hidden="true"></a>      <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
+<span id="cb31-35"><a href="load-data.html#cb31-35" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Color is MSS_MSI&#39;</span>)</span>
+<span id="cb31-36"><a href="load-data.html#cb31-36" aria-hidden="true"></a></span>
+<span id="cb31-37"><a href="load-data.html#cb31-37" aria-hidden="true"></a> legend.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">as.factor</span>(MSS_MSI), </span>
+<span id="cb31-38"><a href="load-data.html#cb31-38" aria-hidden="true"></a>                     <span class="kw">as.numeric</span>(<span class="kw">as.factor</span>(MSS_MSI)))</span>
+<span id="cb31-39"><a href="load-data.html#cb31-39" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;topright&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="fl">1.5</span>, </span>
+<span id="cb31-40"><a href="load-data.html#cb31-40" aria-hidden="true"></a>         <span class="dt">legend=</span><span class="kw">rownames</span>(legend.tbl),</span>
+<span id="cb31-41"><a href="load-data.html#cb31-41" aria-hidden="true"></a>         <span class="dt">col=</span><span class="kw">as.numeric</span>(<span class="kw">colnames</span>(legend.tbl)))</span></code></pre></div>
+<p><img src="Static/figures/load-data-svaBatchAdjust-2.png" width="1152" />
+<!-- ######################################################################## --></p>
+<p>Visual inspection of the effect of the batch correction transformation
 is a minimal requirement for verification. One can do a better job
 at quantifying the effect of batch correction, especially of the data set
 contains control features and control samples. See Lazar et.al. <span class="citation">[<a href="#ref-Lazar:2013aa" role="doc-biblioref">3</a>]</span>
@@ -601,112 +751,165 @@ for a discussion of batch effect removal assessment.</p>
 <h2><span class="header-section-number">2.6</span> Separate Data Set into Train and Test Subsets</h2>
 <p>We will separate the data set into <strong>Train</strong> and <strong>Test</strong> subsets here, before
 any other filtering or data manipulation. In particular, since we will
-be interested in evaluating the effect of gene or probe set selection
+be interested in evaluating the effect of gene or probe set selection,
 this selection must be made on the basis of the training subset only.
 This is done as a precautionary measure as gene selection based on
-variability is unlikely to have an effect on sample classification
+a variability filter is is done here is unlikely to have an effect on sample classification
 performance.</p>
 <p>Take note that the expression matrices that we save here will
-be transposed with <code>genes in columns</code>. This is done to accumulate
+be transposed with <code>genes in columns</code>. This is done to accomodate
 the data format expected by the <code>caret</code> package.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="load-data.html#cb6-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
-<span id="cb6-2"><a href="load-data.html#cb6-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
-<span id="cb6-3"><a href="load-data.html#cb6-3" aria-hidden="true"></a></span>
-<span id="cb6-4"><a href="load-data.html#cb6-4" aria-hidden="true"></a> <span class="co"># Load expression  data object</span></span>
-<span id="cb6-5"><a href="load-data.html#cb6-5" aria-hidden="true"></a> <span class="kw">load</span>(<span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
-<span id="cb6-6"><a href="load-data.html#cb6-6" aria-hidden="true"></a></span>
-<span id="cb6-7"><a href="load-data.html#cb6-7" aria-hidden="true"></a> <span class="co"># Get expression data matrix </span></span>
-<span id="cb6-8"><a href="load-data.html#cb6-8" aria-hidden="true"></a> Expr.mtx &lt;-<span class="st"> </span><span class="kw">t</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
-<span id="cb6-9"><a href="load-data.html#cb6-9" aria-hidden="true"></a></span>
-<span id="cb6-10"><a href="load-data.html#cb6-10" aria-hidden="true"></a> <span class="co"># Use gene names where possible</span></span>
-<span id="cb6-11"><a href="load-data.html#cb6-11" aria-hidden="true"></a> <span class="kw">colnames</span>(Expr.mtx) &lt;-<span class="st"> </span></span>
-<span id="cb6-12"><a href="load-data.html#cb6-12" aria-hidden="true"></a><span class="st"> </span><span class="kw">make.names</span>(GSEPool.arrayGeneExpr<span class="op">$</span>featureAttr[<span class="kw">colnames</span>(Expr.mtx),], <span class="dt">unique=</span>T)</span>
-<span id="cb6-13"><a href="load-data.html#cb6-13" aria-hidden="true"></a></span>
-<span id="cb6-14"><a href="load-data.html#cb6-14" aria-hidden="true"></a> <span class="co"># Keep map</span></span>
-<span id="cb6-15"><a href="load-data.html#cb6-15" aria-hidden="true"></a> GeneNameMap.vec &lt;-<span class="st"> </span><span class="kw">rownames</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
-<span id="cb6-16"><a href="load-data.html#cb6-16" aria-hidden="true"></a> <span class="kw">names</span>(GeneNameMap.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Expr.mtx)</span>
-<span id="cb6-17"><a href="load-data.html#cb6-17" aria-hidden="true"></a></span>
-<span id="cb6-18"><a href="load-data.html#cb6-18" aria-hidden="true"></a> <span class="co">#GeneNameMap.vec[1:5]</span></span>
-<span id="cb6-19"><a href="load-data.html#cb6-19" aria-hidden="true"></a></span>
-<span id="cb6-20"><a href="load-data.html#cb6-20" aria-hidden="true"></a> <span class="kw">save</span>(GeneNameMap.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;GeneNameMap.vec&#39;</span>))</span>
-<span id="cb6-21"><a href="load-data.html#cb6-21" aria-hidden="true"></a></span>
-<span id="cb6-22"><a href="load-data.html#cb6-22" aria-hidden="true"></a> <span class="co"># Get sample attributes</span></span>
-<span id="cb6-23"><a href="load-data.html#cb6-23" aria-hidden="true"></a> sampAttr.frm &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr</span>
-<span id="cb6-24"><a href="load-data.html#cb6-24" aria-hidden="true"></a></span>
-<span id="cb6-25"><a href="load-data.html#cb6-25" aria-hidden="true"></a> DataSource.vec &lt;-<span class="st"> </span>sampAttr.frm<span class="op">$</span>GSE</span>
-<span id="cb6-26"><a href="load-data.html#cb6-26" aria-hidden="true"></a> <span class="kw">names</span>(DataSource.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm)</span>
-<span id="cb6-27"><a href="load-data.html#cb6-27" aria-hidden="true"></a></span>
-<span id="cb6-28"><a href="load-data.html#cb6-28" aria-hidden="true"></a> Label.vec &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)), <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>)</span>
-<span id="cb6-29"><a href="load-data.html#cb6-29" aria-hidden="true"></a> <span class="kw">names</span>(Label.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm)</span>
-<span id="cb6-30"><a href="load-data.html#cb6-30" aria-hidden="true"></a> <span class="kw">rm</span>(GSEPool.arrayGeneExpr)</span>
-<span id="cb6-31"><a href="load-data.html#cb6-31" aria-hidden="true"></a></span>
-<span id="cb6-32"><a href="load-data.html#cb6-32" aria-hidden="true"></a> <span class="co"># split Into Train and Test</span></span>
-<span id="cb6-33"><a href="load-data.html#cb6-33" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb6-34"><a href="load-data.html#cb6-34" aria-hidden="true"></a> inTrain &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(<span class="dt">y=</span>Label.vec, <span class="dt">p=</span><span class="fl">0.75</span>, <span class="dt">list=</span>F)</span>
-<span id="cb6-35"><a href="load-data.html#cb6-35" aria-hidden="true"></a></span>
-<span id="cb6-36"><a href="load-data.html#cb6-36" aria-hidden="true"></a> Train.Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[inTrain,]</span>
-<span id="cb6-37"><a href="load-data.html#cb6-37" aria-hidden="true"></a> Train.Label.vec &lt;-<span class="st"> </span>Label.vec[inTrain]</span>
-<span id="cb6-38"><a href="load-data.html#cb6-38" aria-hidden="true"></a> Train.DataSource.vec &lt;-<span class="st"> </span>DataSource.vec[inTrain]</span>
-<span id="cb6-39"><a href="load-data.html#cb6-39" aria-hidden="true"></a></span>
-<span id="cb6-40"><a href="load-data.html#cb6-40" aria-hidden="true"></a></span>
-<span id="cb6-41"><a href="load-data.html#cb6-41" aria-hidden="true"></a> Test.Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[<span class="op">-</span>inTrain,]</span>
-<span id="cb6-42"><a href="load-data.html#cb6-42" aria-hidden="true"></a> Test.Label.vec &lt;-<span class="st"> </span>Label.vec[<span class="op">-</span>inTrain]</span>
-<span id="cb6-43"><a href="load-data.html#cb6-43" aria-hidden="true"></a> Test.DataSource.vec &lt;-<span class="st"> </span>Label.vec[<span class="op">-</span>inTrain]</span>
-<span id="cb6-44"><a href="load-data.html#cb6-44" aria-hidden="true"></a></span>
-<span id="cb6-45"><a href="load-data.html#cb6-45" aria-hidden="true"></a> <span class="kw">print</span>(<span class="kw">kable</span>(<span class="kw">rbind</span>(<span class="dt">Train=</span><span class="kw">dim</span>(Train.Expr.mtx),</span>
-<span id="cb6-46"><a href="load-data.html#cb6-46" aria-hidden="true"></a>             <span class="dt">Test=</span><span class="kw">dim</span>(Test.Expr.mtx))))</span>
-<span id="cb6-47"><a href="load-data.html#cb6-47" aria-hidden="true"></a></span>
-<span id="cb6-48"><a href="load-data.html#cb6-48" aria-hidden="true"></a> <span class="kw">print</span>(<span class="kw">kable</span>(<span class="kw">rbind</span>(</span>
-<span id="cb6-49"><a href="load-data.html#cb6-49" aria-hidden="true"></a> <span class="dt">Trian=</span><span class="kw">table</span>(Train.Label.vec)<span class="op">/</span><span class="kw">length</span>(Train.Label.vec),</span>
-<span id="cb6-50"><a href="load-data.html#cb6-50" aria-hidden="true"></a> <span class="dt">Test=</span><span class="kw">table</span>(Test.Label.vec)<span class="op">/</span><span class="kw">length</span>(Test.Label.vec))))</span>
-<span id="cb6-51"><a href="load-data.html#cb6-51" aria-hidden="true"></a></span>
-<span id="cb6-52"><a href="load-data.html#cb6-52" aria-hidden="true"></a> <span class="co"># Save these</span></span>
-<span id="cb6-53"><a href="load-data.html#cb6-53" aria-hidden="true"></a> <span class="kw">save</span>(Train.Expr.mtx, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
-<span id="cb6-54"><a href="load-data.html#cb6-54" aria-hidden="true"></a> <span class="kw">save</span>(Test.Expr.mtx, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Test.Expr.mtx&#39;</span>))</span>
-<span id="cb6-55"><a href="load-data.html#cb6-55" aria-hidden="true"></a> <span class="kw">save</span>(Train.Label.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
-<span id="cb6-56"><a href="load-data.html#cb6-56" aria-hidden="true"></a> <span class="kw">save</span>(Test.Label.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Test.Label.vec&#39;</span>))</span>
-<span id="cb6-57"><a href="load-data.html#cb6-57" aria-hidden="true"></a> <span class="kw">save</span>(Train.DataSource.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.DataSource.vec&#39;</span>))</span>
-<span id="cb6-58"><a href="load-data.html#cb6-58" aria-hidden="true"></a> <span class="kw">save</span>(Test.DataSource.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Test.DataSource.vec&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="load-data.html#cb32-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
+<span id="cb32-2"><a href="load-data.html#cb32-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
+<span id="cb32-3"><a href="load-data.html#cb32-3" aria-hidden="true"></a></span>
+<span id="cb32-4"><a href="load-data.html#cb32-4" aria-hidden="true"></a> <span class="co"># Load expression  data object</span></span>
+<span id="cb32-5"><a href="load-data.html#cb32-5" aria-hidden="true"></a> <span class="kw">load</span>(<span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>,<span class="st">&#39;GSEPool.arrayGeneExpr&#39;</span>))</span>
+<span id="cb32-6"><a href="load-data.html#cb32-6" aria-hidden="true"></a></span>
+<span id="cb32-7"><a href="load-data.html#cb32-7" aria-hidden="true"></a> <span class="co"># Get expression data matrix </span></span>
+<span id="cb32-8"><a href="load-data.html#cb32-8" aria-hidden="true"></a> Expr.mtx &lt;-<span class="st"> </span><span class="kw">t</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
+<span id="cb32-9"><a href="load-data.html#cb32-9" aria-hidden="true"></a></span>
+<span id="cb32-10"><a href="load-data.html#cb32-10" aria-hidden="true"></a> <span class="co"># Use gene names where possible</span></span>
+<span id="cb32-11"><a href="load-data.html#cb32-11" aria-hidden="true"></a> <span class="kw">colnames</span>(Expr.mtx) &lt;-<span class="st"> </span></span>
+<span id="cb32-12"><a href="load-data.html#cb32-12" aria-hidden="true"></a><span class="st"> </span><span class="kw">make.names</span>(GSEPool.arrayGeneExpr<span class="op">$</span>featureAttr[<span class="kw">colnames</span>(Expr.mtx),], <span class="dt">unique=</span>T)</span>
+<span id="cb32-13"><a href="load-data.html#cb32-13" aria-hidden="true"></a></span>
+<span id="cb32-14"><a href="load-data.html#cb32-14" aria-hidden="true"></a> <span class="co"># Keep map</span></span>
+<span id="cb32-15"><a href="load-data.html#cb32-15" aria-hidden="true"></a> GeneNameMap.vec &lt;-<span class="st"> </span><span class="kw">rownames</span>(GSEPool.arrayGeneExpr<span class="op">$</span>exprDataBatchAdj)</span>
+<span id="cb32-16"><a href="load-data.html#cb32-16" aria-hidden="true"></a> <span class="kw">names</span>(GeneNameMap.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Expr.mtx)</span>
+<span id="cb32-17"><a href="load-data.html#cb32-17" aria-hidden="true"></a></span>
+<span id="cb32-18"><a href="load-data.html#cb32-18" aria-hidden="true"></a> <span class="co">#GeneNameMap.vec[1:5]</span></span>
+<span id="cb32-19"><a href="load-data.html#cb32-19" aria-hidden="true"></a></span>
+<span id="cb32-20"><a href="load-data.html#cb32-20" aria-hidden="true"></a> <span class="kw">save</span>(GeneNameMap.vec, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;GeneNameMap.vec&#39;</span>))</span>
+<span id="cb32-21"><a href="load-data.html#cb32-21" aria-hidden="true"></a></span>
+<span id="cb32-22"><a href="load-data.html#cb32-22" aria-hidden="true"></a> <span class="co"># Get sample attributes</span></span>
+<span id="cb32-23"><a href="load-data.html#cb32-23" aria-hidden="true"></a> sampAttr.frm &lt;-<span class="st"> </span>GSEPool.arrayGeneExpr<span class="op">$</span>sampAttr</span>
+<span id="cb32-24"><a href="load-data.html#cb32-24" aria-hidden="true"></a></span>
+<span id="cb32-25"><a href="load-data.html#cb32-25" aria-hidden="true"></a> DataSource.vec &lt;-<span class="st"> </span>sampAttr.frm<span class="op">$</span>GSE</span>
+<span id="cb32-26"><a href="load-data.html#cb32-26" aria-hidden="true"></a> <span class="kw">names</span>(DataSource.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm)</span>
+<span id="cb32-27"><a href="load-data.html#cb32-27" aria-hidden="true"></a></span>
+<span id="cb32-28"><a href="load-data.html#cb32-28" aria-hidden="true"></a> Label.vec &lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="kw">is.element</span>(sampAttr.frm<span class="op">$</span>MS_Status, <span class="kw">c</span>(<span class="st">&#39;MSS&#39;</span>, <span class="st">&#39;No&#39;</span>)), <span class="st">&#39;MSS&#39;</span>,<span class="st">&#39;MSI&#39;</span>)</span>
+<span id="cb32-29"><a href="load-data.html#cb32-29" aria-hidden="true"></a> <span class="kw">names</span>(Label.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(sampAttr.frm)</span>
+<span id="cb32-30"><a href="load-data.html#cb32-30" aria-hidden="true"></a> <span class="kw">rm</span>(GSEPool.arrayGeneExpr)</span>
+<span id="cb32-31"><a href="load-data.html#cb32-31" aria-hidden="true"></a></span>
+<span id="cb32-32"><a href="load-data.html#cb32-32" aria-hidden="true"></a> <span class="co"># split Into Train and Test</span></span>
+<span id="cb32-33"><a href="load-data.html#cb32-33" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb32-34"><a href="load-data.html#cb32-34" aria-hidden="true"></a> inTrain &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(<span class="dt">y=</span>Label.vec, <span class="dt">p=</span><span class="fl">0.75</span>, <span class="dt">list=</span>F)</span>
+<span id="cb32-35"><a href="load-data.html#cb32-35" aria-hidden="true"></a></span>
+<span id="cb32-36"><a href="load-data.html#cb32-36" aria-hidden="true"></a> Train.Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[inTrain,]</span>
+<span id="cb32-37"><a href="load-data.html#cb32-37" aria-hidden="true"></a> Train.Label.vec &lt;-<span class="st"> </span>Label.vec[inTrain]</span>
+<span id="cb32-38"><a href="load-data.html#cb32-38" aria-hidden="true"></a> Train.DataSource.vec &lt;-<span class="st"> </span>DataSource.vec[inTrain]</span>
+<span id="cb32-39"><a href="load-data.html#cb32-39" aria-hidden="true"></a></span>
+<span id="cb32-40"><a href="load-data.html#cb32-40" aria-hidden="true"></a></span>
+<span id="cb32-41"><a href="load-data.html#cb32-41" aria-hidden="true"></a> Test.Expr.mtx &lt;-<span class="st"> </span>Expr.mtx[<span class="op">-</span>inTrain,]</span>
+<span id="cb32-42"><a href="load-data.html#cb32-42" aria-hidden="true"></a> Test.Label.vec &lt;-<span class="st"> </span>Label.vec[<span class="op">-</span>inTrain]</span>
+<span id="cb32-43"><a href="load-data.html#cb32-43" aria-hidden="true"></a> Test.DataSource.vec &lt;-<span class="st"> </span>Label.vec[<span class="op">-</span>inTrain]</span>
+<span id="cb32-44"><a href="load-data.html#cb32-44" aria-hidden="true"></a></span>
+<span id="cb32-45"><a href="load-data.html#cb32-45" aria-hidden="true"></a> knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">rbind</span>(<span class="dt">Train=</span><span class="kw">dim</span>(Train.Expr.mtx),</span>
+<span id="cb32-46"><a href="load-data.html#cb32-46" aria-hidden="true"></a>             <span class="dt">Test=</span><span class="kw">dim</span>(Test.Expr.mtx))) <span class="op">%&gt;%</span></span>
+<span id="cb32-47"><a href="load-data.html#cb32-47" aria-hidden="true"></a><span class="st">        </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span></code></pre></div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;">
+Train
+</td>
+<td style="text-align:right;">
+333
+</td>
+<td style="text-align:right;">
+54675
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+54675
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="load-data.html#cb33-1" aria-hidden="true"></a> knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">rbind</span>(</span>
+<span id="cb33-2"><a href="load-data.html#cb33-2" aria-hidden="true"></a> <span class="dt">Train=</span><span class="kw">table</span>(Train.Label.vec)<span class="op">/</span><span class="kw">length</span>(Train.Label.vec),</span>
+<span id="cb33-3"><a href="load-data.html#cb33-3" aria-hidden="true"></a> <span class="dt">Test=</span><span class="kw">table</span>(Test.Label.vec)<span class="op">/</span><span class="kw">length</span>(Test.Label.vec))) <span class="op">%&gt;%</span></span>
+<span id="cb33-4"><a href="load-data.html#cb33-4" aria-hidden="true"></a><span class="st">        </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span></code></pre></div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+MSI
+</th>
+<th style="text-align:right;">
+MSS
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Train
+</td>
+<td style="text-align:right;">
+0.3303303
+</td>
+<td style="text-align:right;">
+0.6696697
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Test
+</td>
+<td style="text-align:right;">
+0.3272727
+</td>
+<td style="text-align:right;">
+0.6727273
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="load-data.html#cb34-1" aria-hidden="true"></a> <span class="co"># Save these</span></span>
+<span id="cb34-2"><a href="load-data.html#cb34-2" aria-hidden="true"></a> <span class="kw">save</span>(Train.Expr.mtx, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
+<span id="cb34-3"><a href="load-data.html#cb34-3" aria-hidden="true"></a> <span class="kw">save</span>(Test.Expr.mtx, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Test.Expr.mtx&#39;</span>))</span>
+<span id="cb34-4"><a href="load-data.html#cb34-4" aria-hidden="true"></a> <span class="kw">save</span>(Train.Label.vec, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
+<span id="cb34-5"><a href="load-data.html#cb34-5" aria-hidden="true"></a> <span class="kw">save</span>(Test.Label.vec, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Test.Label.vec&#39;</span>))</span>
+<span id="cb34-6"><a href="load-data.html#cb34-6" aria-hidden="true"></a> <span class="kw">save</span>(Train.DataSource.vec, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.DataSource.vec&#39;</span>))</span>
+<span id="cb34-7"><a href="load-data.html#cb34-7" aria-hidden="true"></a> <span class="kw">save</span>(Test.DataSource.vec, <span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Test.DataSource.vec&#39;</span>))</span></code></pre></div>
 <!-- ######################################################################## -->
 </div>
 <div id="save-gene-sets" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> Save Gene Sets</h2>
 <p>Save gene sets selected by overall variability <em>in training samples</em>.
-In the interest of conserving computing resources, in the analysis
-that follows we will use the smallest set of genes, the top 10%
+<!-- In the interest of conserving computing resources,--> In the analysis
+that follows we will use the top 60%
 most variable genes.</p>
 <p>Note that we select genes based on variability in the entire training
 dataset which includes data from different GEO data sets. This selection
-may favor the incusion of genes which differ across the different
+may favor the inclusion of genes which differ across the different
 data sets due to technical reasons. An alternative selection would be to
 to select genes based on within data set variability. This could be
 implemented by filtering based on the residual variance of an
-anova model <code>Expr ~ GSE</code> fitted to the gene expression data.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="load-data.html#cb7-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
-<span id="cb7-2"><a href="load-data.html#cb7-2" aria-hidden="true"></a> <span class="kw">load</span>(<span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
-<span id="cb7-3"><a href="load-data.html#cb7-3" aria-hidden="true"></a></span>
-<span id="cb7-4"><a href="load-data.html#cb7-4" aria-hidden="true"></a> <span class="co"># Identify and remove low variance columns</span></span>
-<span id="cb7-5"><a href="load-data.html#cb7-5" aria-hidden="true"></a> Train.Expr.mad.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(Train.Expr.mtx,<span class="dv">2</span>,mad)</span>
-<span id="cb7-6"><a href="load-data.html#cb7-6" aria-hidden="true"></a> <span class="co">#summary(Train.Expr.mad.vec)</span></span>
-<span id="cb7-7"><a href="load-data.html#cb7-7" aria-hidden="true"></a></span>
-<span id="cb7-8"><a href="load-data.html#cb7-8" aria-hidden="true"></a> <span class="co"># In the interest of computing time, we&#39;ll be very conservative here</span></span>
-<span id="cb7-9"><a href="load-data.html#cb7-9" aria-hidden="true"></a> <span class="co"># Come back and look improving this filter later</span></span>
-<span id="cb7-10"><a href="load-data.html#cb7-10" aria-hidden="true"></a> Top10.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Train.Expr.mad.vec <span class="op">&gt;</span><span class="st"> </span><span class="kw">quantile</span>(Train.Expr.mad.vec, <span class="dt">prob=</span><span class="fl">0.90</span>))</span>
-<span id="cb7-11"><a href="load-data.html#cb7-11" aria-hidden="true"></a> Train.Top10VarGenes.vec &lt;-<span class="st"> </span><span class="kw">colnames</span>(Train.Expr.mtx)[Top10.cols]</span>
-<span id="cb7-12"><a href="load-data.html#cb7-12" aria-hidden="true"></a> <span class="co">#length(Train.Top10VarGenes.vec)</span></span>
-<span id="cb7-13"><a href="load-data.html#cb7-13" aria-hidden="true"></a></span>
-<span id="cb7-14"><a href="load-data.html#cb7-14" aria-hidden="true"></a> <span class="kw">save</span>(Train.Top10VarGenes.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR,<span class="st">&#39;Data&#39;</span>,<span class="st">&#39;Train.Top10VarGenes.vec&#39;</span>))</span>
-<span id="cb7-15"><a href="load-data.html#cb7-15" aria-hidden="true"></a></span>
-<span id="cb7-16"><a href="load-data.html#cb7-16" aria-hidden="true"></a> <span class="co"># also save top 25 and top 50</span></span>
-<span id="cb7-17"><a href="load-data.html#cb7-17" aria-hidden="true"></a> Top25.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Train.Expr.mad.vec <span class="op">&gt;</span><span class="st"> </span><span class="kw">quantile</span>(Train.Expr.mad.vec, <span class="dt">prob=</span><span class="fl">0.75</span>))</span>
-<span id="cb7-18"><a href="load-data.html#cb7-18" aria-hidden="true"></a> Train.Top25VarGenes.vec &lt;-<span class="st"> </span><span class="kw">colnames</span>(Train.Expr.mtx)[Top25.cols]</span>
-<span id="cb7-19"><a href="load-data.html#cb7-19" aria-hidden="true"></a> <span class="co">#length(Train.Top25VarGenes.vec)</span></span>
-<span id="cb7-20"><a href="load-data.html#cb7-20" aria-hidden="true"></a> <span class="kw">save</span>(Train.Top25VarGenes.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR,<span class="st">&#39;Data&#39;</span>,<span class="st">&#39;Train.Top25VarGenes.vec&#39;</span>))</span>
-<span id="cb7-21"><a href="load-data.html#cb7-21" aria-hidden="true"></a></span>
-<span id="cb7-22"><a href="load-data.html#cb7-22" aria-hidden="true"></a> Top50.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Train.Expr.mad.vec <span class="op">&gt;</span><span class="st"> </span><span class="kw">quantile</span>(Train.Expr.mad.vec, <span class="dt">prob=</span><span class="fl">0.50</span>))</span>
-<span id="cb7-23"><a href="load-data.html#cb7-23" aria-hidden="true"></a> Train.Top50VarGenes.vec &lt;-<span class="st"> </span><span class="kw">colnames</span>(Train.Expr.mtx)[Top50.cols]</span>
-<span id="cb7-24"><a href="load-data.html#cb7-24" aria-hidden="true"></a> <span class="co">#length(Train.Top50VarGenes.vec)</span></span>
-<span id="cb7-25"><a href="load-data.html#cb7-25" aria-hidden="true"></a> <span class="kw">save</span>(Train.Top50VarGenes.vec, <span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR,<span class="st">&#39;Data&#39;</span>,<span class="st">&#39;Train.Top50VarGenes.vec&#39;</span>))</span></code></pre></div>
+ANOVA model <code>Expr ~ GSE</code> fitted to the gene expression data.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="load-data.html#cb35-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
+<span id="cb35-2"><a href="load-data.html#cb35-2" aria-hidden="true"></a> <span class="kw">load</span>(<span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
+<span id="cb35-3"><a href="load-data.html#cb35-3" aria-hidden="true"></a></span>
+<span id="cb35-4"><a href="load-data.html#cb35-4" aria-hidden="true"></a> <span class="co"># Identify and remove low variance columns</span></span>
+<span id="cb35-5"><a href="load-data.html#cb35-5" aria-hidden="true"></a> Train.Expr.mad.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(Train.Expr.mtx,<span class="dv">2</span>,mad)</span>
+<span id="cb35-6"><a href="load-data.html#cb35-6" aria-hidden="true"></a> <span class="co">#summary(Train.Expr.mad.vec)</span></span>
+<span id="cb35-7"><a href="load-data.html#cb35-7" aria-hidden="true"></a></span>
+<span id="cb35-8"><a href="load-data.html#cb35-8" aria-hidden="true"></a> TopVar.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Train.Expr.mad.vec <span class="op">&gt;</span><span class="st"> </span><span class="kw">quantile</span>(Train.Expr.mad.vec, <span class="dt">prob=</span>(<span class="dv">100</span><span class="op">-</span>VAR_FILTER)<span class="op">/</span><span class="dv">100</span>))</span>
+<span id="cb35-9"><a href="load-data.html#cb35-9" aria-hidden="true"></a> Train.TopVarGenes.vec &lt;-<span class="st"> </span><span class="kw">colnames</span>(Train.Expr.mtx)[TopVar.cols]</span>
+<span id="cb35-10"><a href="load-data.html#cb35-10" aria-hidden="true"></a> <span class="co">#length(Train.TopVarVarGenes.vec)</span></span>
+<span id="cb35-11"><a href="load-data.html#cb35-11" aria-hidden="true"></a></span>
+<span id="cb35-12"><a href="load-data.html#cb35-12" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(<span class="st">&#39;Train.Top&#39;</span>,VAR_FILTER,<span class="st">&#39;Genes.vec&#39;</span>), <span class="st">&#39;Train.TopVarGenes.vec&#39;</span>)</span>
+<span id="cb35-13"><a href="load-data.html#cb35-13" aria-hidden="true"></a></span>
+<span id="cb35-14"><a href="load-data.html#cb35-14" aria-hidden="true"></a> <span class="co"># also save top 25 and top 50 - Nawh!</span></span></code></pre></div>
 <!-- ######################################################################## -->
 
 </div>
@@ -716,36 +919,48 @@ anova model <code>Expr ~ GSE</code> fitted to the gene expression data.</p>
 <div id="ref-Lazar:2013aa">
 <p>3. Lazar, C., Meganck, S., Taminau, J., Steenhoff, D., Coletta, A., Molter, C., Weiss-Solı́s, D.Y., Duque, R., Bersini, H., and Nowé, A. Batch effect removal methods for microarray gene expression data integration: A survey. Briefings in Bioinformatics <em>14</em>, 469–490. Available at: <a href="http://dx.doi.org/10.1093/bib/bbs037">http://dx.doi.org/10.1093/bib/bbs037</a>.</p>
 </div>
+<div id="ref-Gagnon-Bartsch:2012aa">
+<p>5. Gagnon-Bartsch, J.A., and Speed, T.P. Using control genes to correct for unwanted variation in microarray data. Biostatistics <em>13</em>, 539–552. Available at: <a href="http://dx.doi.org/10.1093/biostatistics/kxr034">http://dx.doi.org/10.1093/biostatistics/kxr034</a>.</p>
+</div>
+<div id="ref-Molania:2019aa">
+<p>6. Molania, R., Gagnon-Bartsch, J.A., Dobrovic, A., and Speed, T.P. A new normalization for nanostring nCounter gene expression data. Nucleic acids research <em>47</em>, 6073–6083. Available at: <a href="https://pubmed.ncbi.nlm.nih.gov/31114909">https://pubmed.ncbi.nlm.nih.gov/31114909</a>.</p>
+</div>
 <div id="ref-Watanabe:2006aa">
-<p>9. Watanabe, T., Kobunai, T., Toda, E., Yamamoto, Y., Kanazawa, T., Kazama, Y., Tanaka, J., Tanaka, T., Konishi, T., and Okayama, Y. <em>et al.</em> Distal colorectal cancers with microsatellite instability (msi) display distinct gene expression profiles that are different from proximal msi cancers. Cancer Research <em>66</em>, 9804. Available at: <a href="http://cancerres.aacrjournals.org/content/66/20/9804.abstract">http://cancerres.aacrjournals.org/content/66/20/9804.abstract</a>.</p>
+<p>10. Watanabe, T., Kobunai, T., Toda, E., Yamamoto, Y., Kanazawa, T., Kazama, Y., Tanaka, J., Tanaka, T., Konishi, T., and Okayama, Y. <em>et al.</em> Distal colorectal cancers with microsatellite instability (msi) display distinct gene expression profiles that are different from proximal msi cancers. Cancer Research <em>66</em>, 9804. Available at: <a href="http://cancerres.aacrjournals.org/content/66/20/9804.abstract">http://cancerres.aacrjournals.org/content/66/20/9804.abstract</a>.</p>
 </div>
 <div id="ref-Jorissen:2008aa">
-<p>10. Jorissen, R.N., Lipton, L., Gibbs, P., Chapman, M., Desai, J., Jones, I.T., Yeatman, T.J., East, P., Tomlinson, I.P.M., and Verspaget, H.W. <em>et al.</em> DNA copy-number alterations underlie gene expression differences between microsatellite stable and unstable colorectal cancers. Clinical Cancer Research <em>14</em>, 8061. Available at: <a href="http://clincancerres.aacrjournals.org/content/14/24/8061.abstract">http://clincancerres.aacrjournals.org/content/14/24/8061.abstract</a>.</p>
+<p>11. Jorissen, R.N., Lipton, L., Gibbs, P., Chapman, M., Desai, J., Jones, I.T., Yeatman, T.J., East, P., Tomlinson, I.P.M., and Verspaget, H.W. <em>et al.</em> DNA copy-number alterations underlie gene expression differences between microsatellite stable and unstable colorectal cancers. Clinical Cancer Research <em>14</em>, 8061. Available at: <a href="http://clincancerres.aacrjournals.org/content/14/24/8061.abstract">http://clincancerres.aacrjournals.org/content/14/24/8061.abstract</a>.</p>
 </div>
 <div id="ref-Alhopuro:2012aa">
-<p>11. Alhopuro, P., Sammalkorpi, H., Niittymäki, I., Biström, M., Raitila, A., Saharinen, J., Nousiainen, K., Lehtonen, H.J., Heliövaara, E., and Puhakka, J. <em>et al.</em> (2012). Candidate driver genes in microsatellite-unstable colorectal cancer. International Journal of Cancer <em>130</em>, 1558–1566. Available at: <a href="http://dx.doi.org/10.1002/ijc.26167">http://dx.doi.org/10.1002/ijc.26167</a>.</p>
+<p>12. Alhopuro, P., Sammalkorpi, H., Niittymäki, I., Biström, M., Raitila, A., Saharinen, J., Nousiainen, K., Lehtonen, H.J., Heliövaara, E., and Puhakka, J. <em>et al.</em> (2012). Candidate driver genes in microsatellite-unstable colorectal cancer. International Journal of Cancer <em>130</em>, 1558–1566. Available at: <a href="http://dx.doi.org/10.1002/ijc.26167">http://dx.doi.org/10.1002/ijc.26167</a>.</p>
 </div>
 <div id="ref-Watanabe:2012aa">
-<p>12. Watanabe, T., Kobunai, T., Yamamoto, Y., Matsuda, K., Ishihara, S., Nozawa, K., Yamada, H., Hayama, T., Inoue, E., and Tamura, J. <em>et al.</em> Chromosomal instability (cin) phenotype, cin high or cin low, predicts survival for colorectal cancer. Journal of Clinical Oncology <em>30</em>, 2256–2264. Available at: <a href="https://doi.org/10.1200/JCO.2011.38.6490">https://doi.org/10.1200/JCO.2011.38.6490</a>.</p>
+<p>13. Watanabe, T., Kobunai, T., Yamamoto, Y., Matsuda, K., Ishihara, S., Nozawa, K., Yamada, H., Hayama, T., Inoue, E., and Tamura, J. <em>et al.</em> Chromosomal instability (cin) phenotype, cin high or cin low, predicts survival for colorectal cancer. Journal of Clinical Oncology <em>30</em>, 2256–2264. Available at: <a href="https://doi.org/10.1200/JCO.2011.38.6490">https://doi.org/10.1200/JCO.2011.38.6490</a>.</p>
 </div>
 <div id="ref-Schlicker:2012aa">
-<p>13. Schlicker, A., Beran, G., Chresta, C.M., McWalter, G., Pritchard, A., Weston, S., Runswick, S., Davenport, S., Heathcote, K., and Castro, D.A. <em>et al.</em> (2012). Subtypes of primary colorectal tumors correlate with response to targeted treatment in colorectal cell lines. BMC Medical Genomics <em>5</em>, 66–66. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/</a>.</p>
+<p>14. Schlicker, A., Beran, G., Chresta, C.M., McWalter, G., Pritchard, A., Weston, S., Runswick, S., Davenport, S., Heathcote, K., and Castro, D.A. <em>et al.</em> (2012). Subtypes of primary colorectal tumors correlate with response to targeted treatment in colorectal cell lines. BMC Medical Genomics <em>5</em>, 66–66. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3543849/</a>.</p>
 </div>
 <div id="ref-Barras:2017aa">
-<p>14. Barras, D., Missiaglia, E., Wirapati, P., Sieber, O.M., Jorissen, R.N., Love, C., Molloy, P.L., Jones, I.T., McLaughlin, S., and Gibbs, P. <em>et al.</em> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>BRAF<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>V600E<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> mutant colorectal cancer subtypes based on gene expression. Clinical Cancer Research <em>23</em>, 104. Available at: <a href="http://clincancerres.aacrjournals.org/content/23/1/104.abstract">http://clincancerres.aacrjournals.org/content/23/1/104.abstract</a>.</p>
+<p>15. Barras, D., Missiaglia, E., Wirapati, P., Sieber, O.M., Jorissen, R.N., Love, C., Molloy, P.L., Jones, I.T., McLaughlin, S., and Gibbs, P. <em>et al.</em> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>BRAF<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> <span class="math inline">\(&lt;\)</span>em<span class="math inline">\(&gt;\)</span>V600E<span class="math inline">\(&lt;\)</span>/em<span class="math inline">\(&gt;\)</span> mutant colorectal cancer subtypes based on gene expression. Clinical Cancer Research <em>23</em>, 104. Available at: <a href="http://clincancerres.aacrjournals.org/content/23/1/104.abstract">http://clincancerres.aacrjournals.org/content/23/1/104.abstract</a>.</p>
 </div>
 <div id="ref-Kirzin:2014aa">
-<p>15. Kirzin, S., Marisa, L., Guimbaud, R., De Reynies, A., Legrain, M., Laurent-Puig, P., Cordelier, P., Pradère, B., Bonnet, D., and Meggetto, F. <em>et al.</em> (2014). Sporadic early-onset colorectal cancer is a specific sub-type of cancer: A morphological, molecular and genetics study. PLoS ONE <em>9</em>, e103159. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/</a>.</p>
+<p>16. Kirzin, S., Marisa, L., Guimbaud, R., De Reynies, A., Legrain, M., Laurent-Puig, P., Cordelier, P., Pradère, B., Bonnet, D., and Meggetto, F. <em>et al.</em> (2014). Sporadic early-onset colorectal cancer is a specific sub-type of cancer: A morphological, molecular and genetics study. PLoS ONE <em>9</em>, e103159. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4118858/</a>.</p>
 </div>
 <div id="ref-Schmit:2015aa">
-<p>16. Schmit, S.L., Gollub, J., Shapero, M.H., Huang, S.-C., Rennert, H.S., Finn, A., Rennert, G., and Gruber, S.B. MicroRNA polymorphisms and risk of colorectal cancer. Cancer Epidemiology Biomarkers &amp;amp; Prevention <em>24</em>, 65. Available at: <a href="http://cebp.aacrjournals.org/content/24/1/65.abstract">http://cebp.aacrjournals.org/content/24/1/65.abstract</a>.</p>
+<p>17. Schmit, S.L., Gollub, J., Shapero, M.H., Huang, S.-C., Rennert, H.S., Finn, A., Rennert, G., and Gruber, S.B. MicroRNA polymorphisms and risk of colorectal cancer. Cancer Epidemiology Biomarkers &amp;amp; Prevention <em>24</em>, 65. Available at: <a href="http://cebp.aacrjournals.org/content/24/1/65.abstract">http://cebp.aacrjournals.org/content/24/1/65.abstract</a>.</p>
 </div>
 <div id="ref-Yagi:2010aa">
-<p>17. Yagi, K., Akagi, K., Hayashi, H., Nagae, G., Tsuji, S., Isagawa, T., Midorikawa, Y., Nishimura, Y., Sakamoto, H., and Seto, Y. <em>et al.</em> Three dna methylation epigenotypes in human colorectal cancer. Clinical Cancer Research <em>16</em>, 21. Available at: <a href="http://clincancerres.aacrjournals.org/content/16/1/21.abstract">http://clincancerres.aacrjournals.org/content/16/1/21.abstract</a>.</p>
+<p>18. Yagi, K., Akagi, K., Hayashi, H., Nagae, G., Tsuji, S., Isagawa, T., Midorikawa, Y., Nishimura, Y., Sakamoto, H., and Seto, Y. <em>et al.</em> Three dna methylation epigenotypes in human colorectal cancer. Clinical Cancer Research <em>16</em>, 21. Available at: <a href="http://clincancerres.aacrjournals.org/content/16/1/21.abstract">http://clincancerres.aacrjournals.org/content/16/1/21.abstract</a>.</p>
 </div>
 <div id="ref-Laiho:2006aa">
-<p>18. Laiho, P., Kokko, A., Vanharanta, S., Salovaara, R., Sammalkorpi, H., Jarvinen, H., Mecklin, J.-P., Karttunen, T.J., Tuppurainen, K., and Davalos, V. <em>et al.</em> Serrated carcinomas form a subclass of colorectal cancer with distinct molecular basis. Oncogene <em>26</em>, 312–320. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209778">http://dx.doi.org/10.1038/sj.onc.1209778</a>.</p>
+<p>19. Laiho, P., Kokko, A., Vanharanta, S., Salovaara, R., Sammalkorpi, H., Jarvinen, H., Mecklin, J.-P., Karttunen, T.J., Tuppurainen, K., and Davalos, V. <em>et al.</em> Serrated carcinomas form a subclass of colorectal cancer with distinct molecular basis. Oncogene <em>26</em>, 312–320. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209778">http://dx.doi.org/10.1038/sj.onc.1209778</a>.</p>
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>this search was conducted in 2017<a href="load-data.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
