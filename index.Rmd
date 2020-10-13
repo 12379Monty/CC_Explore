@@ -161,16 +161,14 @@ col_vec <- KellyColors.vec
 ```{r index-runParam, echo=FALSE}
 
 
- # Top 60% highest variance genes
- VAR_FILTER <- 60
- SelGenes <- 'Top60pVarGenes'
+ # Top 30% highest variance genes (30% of 54K ~ 16.5K)
+ VAR_FILTER <- 30
+ SelGenes <- 'Top30pVarGenes'
 
  # Predictive Modeling Parameters
- CV <- list(Num=10, Rep=30)  ## THIS MAY BE A LOT TO ASK...
+ #CV <- list(Num=10, Rep=30)  ## THIS MAY BE A LOT TO ASK...
+ CV <- list(Num=5, Rep=10) 
 
- # Continue to work with Train data set and top 10% most variable genes
- # SEE NOTE ABOVE ABOIUT VARIABILITY SELECTION!
- SelGenes <- 'Top60VarGenes'
 
  # Clustering parameters
  DM <-  "euclidean"

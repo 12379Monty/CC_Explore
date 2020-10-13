@@ -301,12 +301,19 @@ Molania et al. (2019) [@Molania:2019aa].
 
  save(GSEPool.arrayGeneExpr, file=file.path('RData','GSEPool.arrayGeneExpr'))
 
+```
+
+```{r load-data-plot-poolGSE,cache=TRUE,cache.vars='',fig.width=11, fig.height=6,eval=T,fig.cap="Pooled GSE Data - Before Batch Correction"}
+ 
+ loadObj('GSEPool.arrayGeneExpr', 'GSEPool.arrayGeneExpr')
+ PooledNormedExpr.mtx <- GSEPool.arrayGeneExpr$exprData
+
  ######################################################
  # Look for inter-set batch effects
  ######################################################
  Expt.prcomp <- prcomp(PooledNormedExpr.mtx)
   
- par(mfrow=c(1,2), mar=c(3,3,2,1))
+ par(mfrow=c(1,2), mar=c(3,3,2,1), oma=c(0,0,2,0))
  # Annotate with Batch
  plot(x=Expt.prcomp$rotation[,'PC1'],
       xlab=paste0('PC1 (', round(100*summary(Expt.prcomp)$importance[2,"PC1"],1),'%)'),
@@ -336,6 +343,8 @@ Molania et al. (2019) [@Molania:2019aa].
  legend('topright', pch=19, cex=1.5, 
          legend=rownames(legend.tbl),
          col=as.numeric(colnames(legend.tbl)))
+
+ mtext(side=3, outer=T, cex=1.25, "Pooled GSE Data - Before Batch Correction")
 
 ```
 <!-- ######################################################################## -->
@@ -387,12 +396,19 @@ a strong test of the generalizability and robustness of the results.
 
  save(GSEPool.arrayGeneExpr, file=file.path('RData','GSEPool.arrayGeneExpr'))
 
+```
+
+
+```{r load-data-plot-svaBatchAdjust, cache=TRUE, cache.vars='',fig.width=11, fig.height=6, fig.cap="Pooled GSE Data - After Batch Correction", eval=T}
+
+ loadObj('GSEPool.arrayGeneExpr', 'GSEPool.arrayGeneExpr')
+
  ######################################################
  # Look for inter-set batch effects
  ######################################################
  Expt.prcomp <- prcomp(GSEPool.arrayGeneExpr$exprDataBatchAdj)
   
- par(mfrow=c(1,2), mar=c(3,3,2,1))
+ par(mfrow=c(1,2), mar=c(3,3,2,1), oma=c(0,0,2,0))
  # Annotate with Batch
  plot(x=Expt.prcomp$rotation[,'PC1'],
       xlab=paste0('PC1 (', round(100*summary(Expt.prcomp)$importance[2,"PC1"],1),'%)'),
@@ -425,6 +441,7 @@ SKIP <- function() {
          legend=rownames(legend.tbl),
          col=as.numeric(colnames(legend.tbl)))
 
+ mtext(side=3, outer=T, cex=1.25, "Pooled GSE Data - After Batch Correction")
  
 ```
 <!-- ######################################################################## -->

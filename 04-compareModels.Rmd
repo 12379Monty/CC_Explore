@@ -10,21 +10,21 @@ Here we compare predictive models in terms of:
 
 ## Load Models
 
-```{r comp-models-getModels, eval=F}
+```{r comp-models-getModels, eval=T}
+### BREAK CACHE
 
  # Load Train and Test Data
- load(file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
- load(file=file.path(WRKDIR, 'Data', 'Test.Expr.mtx'))
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
- load(file=file.path(WRKDIR, 'Data', 'Test.Label.vec'))
+ load(file=file.path('RData', 'Train.Expr.mtx'))
+ load(file=file.path('RData', 'Test.Expr.mtx'))
+ load(file=file.path('RData', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Test.Label.vec'))
 
  CLASS1 <- as.character(sort(unique(Train.Label.vec))[1])
  CLASS2 <- as.character(sort(unique(Train.Label.vec))[2])
 
- # Load models
- ModelFit.vec <- list.files(file.path(WRKDIR, 'Data'), 'Fit$')
+ # Load models (Only CV.5_10?)
+ ModelFit.vec <- list.files(file.path('RData'), 'Fit$')
 
- # Stratify according to batch effect correction
  FitSetCV.vec <- sapply(strsplit(ModelFit.vec, split='\\.'),
             function(x) paste(x[1:3], collapse='.'))
 
@@ -50,12 +50,15 @@ Here we compare predictive models in terms of:
 <!-- ######################################################################## -->
 
 ## Compare Times
-```{r comp-models-compTimes, cache=TRUE, cache.vars='', eval=F}
+```{r comp-models-compTimes, cache=TRUE, cache.vars='', eval=T}
+### BREAK CACHE
 
   Set.ModelTimes.frm <- do.call('rbind', lapply(Set.ModelFit.lst,
   function(LL) c(all=LL$times$everything)))###, final=LL$times$final)))
 
-  print(kable(t(Set.ModelTimes.frm), digits=2))
+  knitr::kable(t(Set.ModelTimes.frm), digits=2,
+   caption="Compute times") %>%
+   kableExtra::kable_styling(full_width = F)
 
 ```
 <!-- ######################################################################## -->
@@ -65,7 +68,8 @@ Here we compare predictive models in terms of:
 
 
 ### Train Data Accuracy
-```{r comp-models-trainAccuracy, cache=TRUE, cache.vars='', eval=F}
+```{r comp-models-trainAccuracy, cache=TRUE, cache.vars='', eval=T}
+### BREAK CACHE
  suppressMessages(require(caret))
 
  # Train - these are fitting errors
@@ -79,18 +83,18 @@ Here we compare predictive models in terms of:
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
- print(
-  kable(data.frame(cbind(Set.Train.TruthTable.frm,
+  knitr::kable(data.frame(cbind(Set.Train.TruthTable.frm,
                   Set.Train.TruthTable.frm/length(Train.Label.vec))),
-    digits=2, align='c')
-  )
+    digits=2, align='c', caption='Model CV Accuracy') %>%
+   kableExtra::kable_styling(full_width = F)
 
 ```
 <!-- ######################################################################## -->
 
 
 ### Out of Sample Train Data Accuracy
-```{r comp-models-OOSTrainAccuracy, cache=TRUE, cache.vars='', eval=F}
+```{r comp-models-OOSTrainAccuracy, cache=TRUE, cache.vars='', eval=T}
+### BREAK CACHE
 
   Set.ModelFit.osPred.mtx.lst <- lapply(Set.ModelFit.lst,
  function(MF) {
@@ -115,11 +119,10 @@ Here we compare predictive models in terms of:
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
- print(
- kable(data.frame(cbind(Set.Train.osPredMode.TruthTable.frm,
+ knitr::kable(data.frame(cbind(Set.Train.osPredMode.TruthTable.frm,
                   Set.Train.osPredMode.TruthTable.frm/length(Train.Label.vec))),
-    digits=2, align='c')
- )
+   digits=2, align='c', caption='Model Out-of-Sample Accuracy - Mode') %>%
+   kableExtra::kable_styling(full_width = F)
 
  ############################################
  # alternatively, can look at the osPred by rep
@@ -132,16 +135,16 @@ Here we compare predictive models in terms of:
    apply(TruthTable.mtx,2,mean)}))
   colnames(Set.Train.osPredMean.TruthTable.frm) <- c('TN', 'FP', 'FN', 'TP')
 
-  print(
-    kable(data.frame(Set.Train.osPredMean.TruthTable.frm),
-       digits=2, align='c')
-  )
+  knitr::kable(data.frame(Set.Train.osPredMean.TruthTable.frm),
+   digits=2, align='c', caption='Model Out-of-Sample Accuracy - MeanPred') %>%
+   kableExtra::kable_styling(full_width = F)
 
 ```
 <!-- ######################################################################## -->
 
 ### Test Data Accuracy
-```{r comp-models-testAccuracy, cache=TRUE, cache.vars='', eval=F}
+```{r comp-models-testAccuracy, cache=TRUE, cache.vars='', eval=T}
+### BREAK CACHE
  suppressMessages(require(caret))
 
  # Test - these are fitting errors
@@ -155,9 +158,10 @@ Here we compare predictive models in terms of:
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
- print(kable(data.frame(cbind(Set.Test.TruthTable.frm,
+ knitr::kable(data.frame(cbind(Set.Test.TruthTable.frm,
                   Set.Test.TruthTable.frm/length(Test.Label.vec))),
-    digits=2, align='c'))
+   digits=2, align='c', caption='Model Test Set Accuracy') %>%
+   kableExtra::kable_styling(full_width = F)
 
 ```
 <!-- ######################################################################## -->
@@ -166,7 +170,8 @@ Here we compare predictive models in terms of:
 ## Compare Models in Terms of ROC
 
 ### Training Data ROC
-```{r comp-models-CompROCTrain, cache=TRUE, cache.vars='Set.Train.roc.mtx.lst', fig.height=6, fig.width=11, eval=F}
+```{r comp-models-CompROCTrain, cache=TRUE, cache.vars='Set.Train.roc.mtx.lst', fig.height=6, fig.width=11, eval=T}
+### BREAK CACHE
  # CHANGE THIS LINE TO CLEAR CACHE
  suppressMessages(require(pROC))
 
@@ -218,7 +223,8 @@ Here we compare predictive models in terms of:
 
 ### Out-of-sample Train: Average over Repeats
 
-```{r comp-models-CompROCOOSTrain, cache=FALSE, cache.vars='', fig.height=6, fig.width=11, eval=F}
+```{r comp-models-CompROCOOSTrain, cache=FALSE, cache.vars='', fig.height=6, fig.width=11, eval=T}
+### BREAK CACHE
  suppressMessages(require(pROC))
  # Get predicted probabilities
  Set.ModelFit.osProbClass1.mtx.lst <- lapply(Set.ModelFit.lst,
@@ -278,7 +284,8 @@ Here we compare predictive models in terms of:
 
 ### Out-of-sample Set.Train: Individual Repeats
 
-```{r comp-models-CompROCIndivOOSTrain, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=F}
+```{r comp-models-CompROCIndivOOSTrain, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=T}
+### BREAK CACHE
  suppressMessages(require(pROC))
 
  #################################
@@ -357,7 +364,8 @@ in a given model - are the errors due to bias or variability? - as well as
 chracterizing samples - some samples may be mis-labelled or hard to 
 classify correctly.
 
-```{r comp-models-CompOOSSet.TrainProbClass1, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=F}
+```{r comp-models-CompOOSSet.TrainProbClass1, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=T}
+### BREAK CACHE
   if(sum(rownames(Set.Train.indiv_osProbClass1.mtx) !=
          names(Train.Label.vec)))
   stop("Sample ordering problem.")
@@ -383,6 +391,7 @@ classify correctly.
 <!-- ######################################################################## -->
 
 ```{r comp-models-varImpHelp, echo=FALSE, cache=TRUE, cache.vars='caret.varImp.path', eval=F}
+### BREAK CACHE
  # CHANGE TO CLEAR CACHE .
  caret.varImp.path <- file.path(help_DIR, 'caret.varImp.html')
  static_help("caret", "varImp", out=caret.varImp.path)
@@ -402,8 +411,9 @@ MSS status in other studies:
 - KRUHOFFER [@Kruhoffer:2005aa]
 - MORI [@Mori:2003aa]
 
-```{r comp-models-readGeneSets, echo=T, eval=F}
-  MSSMSI.GeneSets.frm <- read.table(file=file.path(EXT_DATA, "ColonCancerGeneSets.tab"),
+```{r comp-models-readGeneSets, echo=T, eval=T}
+### BREAK CACHE
+  MSSMSI.GeneSets.frm <- read.table(file=file.path('extData', "ColonCancerGeneSets.tab"),
    header=T, sep='\t')
 
   GeneSets.lst <- split(MSSMSI.GeneSets.frm$GeneSymbol, toupper(MSSMSI.GeneSets.frm$ListName))
@@ -411,11 +421,13 @@ MSS status in other studies:
 
 ```
 
-```{r comp-models-varImp, cache=FALSE, eval=F, eval=F}
+```{r comp-models-varImp, cache=FALSE, eval=T}
+### BREAK CACHE
  suppressMessages(require(caret))
+ suppressMessages(require(gbm))
 
  # Load gene to probe set map
- load(file=file.path(WRKDIR, 'Data', 'GeneNameMap.vec'))
+ load(file=file.path('RData', 'GeneNameMap.vec'))
  
  # Will also need the inverted map
  GeneNameMap2.vec <- names(GeneNameMap.vec)
@@ -472,8 +484,17 @@ MSS status in other studies:
 
   o.v <- rev(order(apply(Top20.varImp.frm[,sub('Fit','',names(Set.ModelFit.Top20.lst))],
            1, mean)))
-  print(kable(Top20.varImp.frm[o.v,], align='c', row.names=F))
 
+REPLACE <- function() {
+  knitr::kable(Top20.varImp.frm[o.v,], align='c', row.names=F,
+    caption="Top 20 Features") %>%
+   kableExtra::kable_styling(full_width = F)
+}
+
+
+  DT::datatable(Top20.varImp.frm[o.v,], rownames=F,
+    caption="Top 20 Features") 
+ 
 ```
 
 ## Classification: Discussion

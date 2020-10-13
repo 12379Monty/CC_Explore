@@ -53,6 +53,14 @@
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <script type="text/javascript">
 // source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
 // toggle visibility of R source blocks in R Markdown output
@@ -182,13 +190,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="load-data.html"><a href="load-data.html#separate-data-set-into-train-and-test-subsets"><i class="fa fa-check"></i><b>2.6</b> Separate Data Set into Train and Test Subsets</a></li>
 <li class="chapter" data-level="2.7" data-path="load-data.html"><a href="load-data.html#save-gene-sets"><i class="fa fa-check"></i><b>2.7</b> Save Gene Sets</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Modesl</a>
+<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Models</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.1</b> knn - k nearest neighbors</a></li>
-<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.2</b> rf - Random forests</a></li>
-<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.3</b> svmRadial - Support vector machines (RBF kernel)</a></li>
-<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.4</b> gbm - Boosted trees</a></li>
-<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.5</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#glmnet---lasso-and-elastic-net-regularized-generalized-linear-models"><i class="fa fa-check"></i><b>3.1</b> glmnet - Lasso and Elastic-Net Regularized Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.2</b> knn - k nearest neighbors</a></li>
+<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#pam---nearest-shrunken-centroid"><i class="fa fa-check"></i><b>3.3</b> pam - nearest shrunken centroid</a></li>
+<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.4</b> svmRadial - Support vector machines (RBF kernel)</a></li>
+<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.5</b> gbm - Boosted trees</a></li>
+<li class="chapter" data-level="3.6" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.6</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.7" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.7</b> rf - Random forests</a></li>
+<li class="chapter" data-level="3.8" data-path="train-models.html"><a href="train-models.html#stepldafit---stepwise-linear-discriminant-analysis"><i class="fa fa-check"></i><b>3.8</b> stepLDAFit - Stepwise linear discriminant analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="comp-models.html"><a href="comp-models.html"><i class="fa fa-check"></i><b>4</b> Compare Predictive Models</a>
 <ul>
@@ -217,15 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#pam-clustering"><i class="fa fa-check"></i><b>5.1</b> PAM Clustering</a></li>
-<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.2</b> Bootstrap Aggregation of Clusters</a></li>
-<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.3</b> t-SNE</a>
+<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.1</b> Bootstrap Aggregation of Clusters</a></li>
+<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.2</b> t-SNE</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.3.1</b> t-SNE + PAM</a></li>
-<li class="chapter" data-level="5.3.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.3.2</b> t-SNE + BagClust2</a></li>
+<li class="chapter" data-level="5.2.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.2.1</b> t-SNE + PAM</a></li>
+<li class="chapter" data-level="5.2.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.2.2</b> t-SNE + BagClust2</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.4</b> Cluster Analysis: Discussion</a></li>
-<li class="chapter" data-level="5.5" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.5</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
+<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis: Discussion</a></li>
+<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.4</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>6</b> Results Summary</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -342,7 +352,7 @@ features that have no variability at all from the data set.
 A common approach used is to apply a gene expression variability threshold
 for genes to be included in the analysis - genes that show little
 variability across samples are excluded. For this analysis,
-we will reduce the data size by keeping the 60%
+we will reduce the data size by keeping the 30%
 most variable genes for all subsequent analyses.
 In practice, one might be more careful about applying this filter.
 <!-- Since our computing resources are limited, we will apply a fairly 

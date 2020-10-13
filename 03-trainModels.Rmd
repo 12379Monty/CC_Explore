@@ -22,15 +22,18 @@ Set up training parameters:
  load(file=file.path('RData', 'Train.Label.vec'))
 
  #dim(Train.SelGenes.Expr.mtx);length(Train.Label.vec)
+
 ``` 
 <!-- ######################################################################## -->
 
 ```{r train-models-doMC, echo=F, eval=T}
+
  # Set up parallel computing.
  suppressMessages(require(doMC))
  suppressMessages(require(parallel))
  #cat("Cores =", detectCores(),'\n')
  registerDoMC(cores=detectCores())
+
 ```
 <!-- ######################################################################## -->
 
@@ -51,12 +54,12 @@ Some of the models which can be evaluated with `caret` include:
 * glmnet -  Lasso and Elastic-Net Regularized Generalized Linear Models
 * knn - k nearest neighbors
 * pam - Nearest shrunken centroids (see Tibshirani et al. (2002) [@Tibshirani:2002ab])
-* rf - Random forests
 * svmRadial - Support vector machines (RBF kernel)
 * gbm - Boosted trees
 * xgbLinear - eXtreme Gradient Boosting
 * xgbTree - eXtreme Gradient Boosting
 * neuralnet - neural network  
+* rf - Random forests
 * stepLDA - Linear Discriminant Analysis with Stepwise Feature Selection
 * stepQDA - Quadratic Discriminant Analysis with Stepwise Feature Selection
 
@@ -81,6 +84,7 @@ These methods dont work.
 ## glmnet -  Lasso and Elastic-Net Regularized Generalized Linear Models
 
 ```{r train-models-glmnetFit, cache=TRUE,cache.vars='',echo=T, eval=T}
+ ### CLEAR CACHE
  set.seed(12379)
  SelGenes.glmnetFit.tm <- system.time(
  SelGenes.glmnetFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
@@ -127,23 +131,6 @@ These methods dont work.
  print(SelGenes.pamFit)
 
  saveObj(paste0(SelGenes.CV, '.pamFit'), 'SelGenes.pamFit')
-
-```
-<!-- ######################################################################## -->
-
-
-## rf - Random forests
-```{r train-models-rfFit, cache=TRUE,cache.vars='',echo=T, eval=T}
- set.seed(12379)
- SelGenes.rfFit.tm <- system.time(
- SelGenes.rfFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
-               method="rf",
-               trControl=cvControl, preProc=c('center','scale'))
- )
- print(SelGenes.rfFit.tm)
- print(SelGenes.rfFit)
-
- saveObj(paste0(SelGenes.CV, '.rfFit'), 'SelGenes.rfFit')
 
 ```
 <!-- ######################################################################## -->
@@ -217,6 +204,23 @@ These methods dont work.
 <!-- ######################################################################## -->
 
 
+## rf - Random forests
+```{r train-models-rfFit, cache=TRUE,cache.vars='',echo=T, eval=T}
+ set.seed(12379)
+ SelGenes.rfFit.tm <- system.time(
+ SelGenes.rfFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
+               method="rf",
+               trControl=cvControl, preProc=c('center','scale'))
+ )
+ print(SelGenes.rfFit.tm)
+ print(SelGenes.rfFit)
+
+ saveObj(paste0(SelGenes.CV, '.rfFit'), 'SelGenes.rfFit')
+
+```
+<!-- ######################################################################## -->
+
+
 ## stepLDAFit - Stepwise linear discriminant analysis
 
 ```{r train-models-stepLDAFit, cache=TRUE,cache.vars='', echo=T, eval=T}
@@ -238,9 +242,10 @@ These methods dont work.
 <!-- ######################################################################## -->
 
 
+<!--
 ## stepQDAFit - Stepwise quadratic discriminant analysis
-
-```{r train-models-stepQDAFit, cache=TRUE,cache.vars='', echo=T, eval=T}
+-->
+```{r train-models-stepQDAFit, cache=TRUE,cache.vars='', echo=F, eval=F}
  # CHANGE THIS LINE TO CLEAR CACHE
  ################################# 
  set.seed(12379)

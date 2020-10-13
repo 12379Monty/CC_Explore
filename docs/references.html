@@ -53,6 +53,14 @@
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <script type="text/javascript">
 // source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
 // toggle visibility of R source blocks in R Markdown output
@@ -182,13 +190,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="load-data.html"><a href="load-data.html#separate-data-set-into-train-and-test-subsets"><i class="fa fa-check"></i><b>2.6</b> Separate Data Set into Train and Test Subsets</a></li>
 <li class="chapter" data-level="2.7" data-path="load-data.html"><a href="load-data.html#save-gene-sets"><i class="fa fa-check"></i><b>2.7</b> Save Gene Sets</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Modesl</a>
+<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Models</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.1</b> knn - k nearest neighbors</a></li>
-<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.2</b> rf - Random forests</a></li>
-<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.3</b> svmRadial - Support vector machines (RBF kernel)</a></li>
-<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.4</b> gbm - Boosted trees</a></li>
-<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.5</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#glmnet---lasso-and-elastic-net-regularized-generalized-linear-models"><i class="fa fa-check"></i><b>3.1</b> glmnet - Lasso and Elastic-Net Regularized Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.2</b> knn - k nearest neighbors</a></li>
+<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#pam---nearest-shrunken-centroid"><i class="fa fa-check"></i><b>3.3</b> pam - nearest shrunken centroid</a></li>
+<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.4</b> svmRadial - Support vector machines (RBF kernel)</a></li>
+<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.5</b> gbm - Boosted trees</a></li>
+<li class="chapter" data-level="3.6" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.6</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.7" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.7</b> rf - Random forests</a></li>
+<li class="chapter" data-level="3.8" data-path="train-models.html"><a href="train-models.html#stepldafit---stepwise-linear-discriminant-analysis"><i class="fa fa-check"></i><b>3.8</b> stepLDAFit - Stepwise linear discriminant analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="comp-models.html"><a href="comp-models.html"><i class="fa fa-check"></i><b>4</b> Compare Predictive Models</a>
 <ul>
@@ -217,15 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#pam-clustering"><i class="fa fa-check"></i><b>5.1</b> PAM Clustering</a></li>
-<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.2</b> Bootstrap Aggregation of Clusters</a></li>
-<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.3</b> t-SNE</a>
+<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.1</b> Bootstrap Aggregation of Clusters</a></li>
+<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.2</b> t-SNE</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.3.1</b> t-SNE + PAM</a></li>
-<li class="chapter" data-level="5.3.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.3.2</b> t-SNE + BagClust2</a></li>
+<li class="chapter" data-level="5.2.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.2.1</b> t-SNE + PAM</a></li>
+<li class="chapter" data-level="5.2.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.2.2</b> t-SNE + BagClust2</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.4</b> Cluster Analysis: Discussion</a></li>
-<li class="chapter" data-level="5.5" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.5</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
+<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis: Discussion</a></li>
+<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.4</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>6</b> Results Summary</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -310,34 +320,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>19. Laiho, P., Kokko, A., Vanharanta, S., Salovaara, R., Sammalkorpi, H., Jarvinen, H., Mecklin, J.-P., Karttunen, T.J., Tuppurainen, K., and Davalos, V. <em>et al.</em> Serrated carcinomas form a subclass of colorectal cancer with distinct molecular basis. Oncogene <em>26</em>, 312–320. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209778">http://dx.doi.org/10.1038/sj.onc.1209778</a>.</p>
 </div>
 <div>
-<p>20. Banerjea, A., Ahmed, S., Hands, R.E., Huang, F., Han, X., Shaw, P.M., Feakins, R., Bustin, S.A., and Dorudi, S. (2004). Colorectal cancers with microsatellite instability display mRNA expression signatures characteristic of increased immunogenicity. Molecular Cancer <em>3</em>, 21. Available at: <a href="http://dx.doi.org/10.1186/1476-4598-3-21">http://dx.doi.org/10.1186/1476-4598-3-21</a>.</p>
+<p>20. Tibshirani, R., Hastie, T., Narasimhan, B., and Chu, G. Diagnosis of multiple cancer types by shrunken centroids of gene expression. Proceedings of the National Academy of Sciences <em>99</em>, 6567. Available at: <a href="http://www.pnas.org/content/99/10/6567.abstract">http://www.pnas.org/content/99/10/6567.abstract</a>.</p>
 </div>
 <div>
-<p>21. Lanza, G., Ferracin, M., Gafà, R., Veronese, A., Spizzo, R., Pichiorri, F., Liu, C.-g., Calin, G.A., Croce, C.M., and Negrini, M. (2007). MRNA/microRNA gene expression profile in microsatellite unstable colorectal cancer. Molecular Cancer <em>6</em>, 54–54. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/</a>.</p>
+<p>21. Banerjea, A., Ahmed, S., Hands, R.E., Huang, F., Han, X., Shaw, P.M., Feakins, R., Bustin, S.A., and Dorudi, S. (2004). Colorectal cancers with microsatellite instability display mRNA expression signatures characteristic of increased immunogenicity. Molecular Cancer <em>3</em>, 21. Available at: <a href="http://dx.doi.org/10.1186/1476-4598-3-21">http://dx.doi.org/10.1186/1476-4598-3-21</a>.</p>
 </div>
 <div>
-<p>22. Jorissen, R.N., Gibbs, P., Christie, M., Prakash, S., Lipton, L., Desai, J., Kerr, D., Aaltonen, L.A., Arango, D., and Kruhøffer, M. <em>et al.</em> Metastasis-associated gene expression changes predict poor outcomes in patients with dukes’stage b and c colorectal cancer. Clinical cancer research : an official journal of the American Association for Cancer Research <em>15</em>, 7642–7651. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/</a>.</p>
+<p>22. Lanza, G., Ferracin, M., Gafà, R., Veronese, A., Spizzo, R., Pichiorri, F., Liu, C.-g., Calin, G.A., Croce, C.M., and Negrini, M. (2007). MRNA/microRNA gene expression profile in microsatellite unstable colorectal cancer. Molecular Cancer <em>6</em>, 54–54. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2048978/</a>.</p>
 </div>
 <div>
-<p>23. Koinuma, K., Yamashita, Y., Liu, W., Hatanaka, H., Kurashina, K., Wada, T., Takada, S., Kaneda, R., Choi, Y.L., and Fujiwara, S.-I. <em>et al.</em> Epigenetic silencing of axin2 in colorectal carcinoma with microsatellite instability. Oncogene <em>25</em>, 139–146. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209009">http://dx.doi.org/10.1038/sj.onc.1209009</a>.</p>
+<p>23. Jorissen, R.N., Gibbs, P., Christie, M., Prakash, S., Lipton, L., Desai, J., Kerr, D., Aaltonen, L.A., Arango, D., and Kruhøffer, M. <em>et al.</em> Metastasis-associated gene expression changes predict poor outcomes in patients with dukes’stage b and c colorectal cancer. Clinical cancer research : an official journal of the American Association for Cancer Research <em>15</em>, 7642–7651. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2920750/</a>.</p>
 </div>
 <div>
-<p>24. Kruhøffer, M., Jensen, J.L., Laiho, P., Dyrskjøt, L., Salovaara, R., Arango, D., Birkenkamp-Demtroder, K., Sørensen, F.B., Christensen, L.L., and Buhl, L. <em>et al.</em> Gene expression signatures for colorectal cancer microsatellite status and hnpcc. British Journal of Cancer <em>92</em>, 2240–2248. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/</a>.</p>
+<p>24. Koinuma, K., Yamashita, Y., Liu, W., Hatanaka, H., Kurashina, K., Wada, T., Takada, S., Kaneda, R., Choi, Y.L., and Fujiwara, S.-I. <em>et al.</em> Epigenetic silencing of axin2 in colorectal carcinoma with microsatellite instability. Oncogene <em>25</em>, 139–146. Available at: <a href="http://dx.doi.org/10.1038/sj.onc.1209009">http://dx.doi.org/10.1038/sj.onc.1209009</a>.</p>
 </div>
 <div>
-<p>25. Mori, Y., Selaru, F.M., Sato, F., Yin, J., Simms, L.A., Xu, Y., Olaru, A., Deacu, E., Wang, S., and Taylor, J.M. <em>et al.</em> The impact of microsatellite instability on the molecular phenotype of colorectal tumors. Cancer Research <em>63</em>, 4577. Available at: <a href="http://cancerres.aacrjournals.org/content/63/15/4577.abstract">http://cancerres.aacrjournals.org/content/63/15/4577.abstract</a>.</p>
+<p>25. Kruhøffer, M., Jensen, J.L., Laiho, P., Dyrskjøt, L., Salovaara, R., Arango, D., Birkenkamp-Demtroder, K., Sørensen, F.B., Christensen, L.L., and Buhl, L. <em>et al.</em> Gene expression signatures for colorectal cancer microsatellite status and hnpcc. British Journal of Cancer <em>92</em>, 2240–2248. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2361815/</a>.</p>
 </div>
 <div>
-<p>26. Verhaak, R.G., Hoadley, K.A., Purdom, E., Wang, V., Qi, Y., Wilkerson, M.D., Miller, C.R., Ding, L., Golub, T., and Mesirov, J.P. <em>et al.</em> An integrated genomic analysis identifies clinically relevant subtypes of glioblastoma characterized by abnormalities in pdgfra, idh1, egfr and nf1. Cancer cell <em>17</em>, 98. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/</a>.</p>
+<p>26. Mori, Y., Selaru, F.M., Sato, F., Yin, J., Simms, L.A., Xu, Y., Olaru, A., Deacu, E., Wang, S., and Taylor, J.M. <em>et al.</em> The impact of microsatellite instability on the molecular phenotype of colorectal tumors. Cancer Research <em>63</em>, 4577. Available at: <a href="http://cancerres.aacrjournals.org/content/63/15/4577.abstract">http://cancerres.aacrjournals.org/content/63/15/4577.abstract</a>.</p>
 </div>
 <div>
-<p>27. Kaufman, L., and Rousseeuw, P.J. (1990). Finding groups in data: An introduction to cluster analysis (John Wiley).</p>
+<p>27. Verhaak, R.G., Hoadley, K.A., Purdom, E., Wang, V., Qi, Y., Wilkerson, M.D., Miller, C.R., Ding, L., Golub, T., and Mesirov, J.P. <em>et al.</em> An integrated genomic analysis identifies clinically relevant subtypes of glioblastoma characterized by abnormalities in pdgfra, idh1, egfr and nf1. Cancer cell <em>17</em>, 98. Available at: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/</a>.</p>
 </div>
 <div>
-<p>28. Dudoit, S., and Fridlyand, J. Bagging to improve the accuracy of a clustering procedure. Bioinformatics <em>19</em>, 1090–1099. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/btg038">http://dx.doi.org/10.1093/bioinformatics/btg038</a>.</p>
+<p>28. Kaufman, L., and Rousseeuw, P.J. (1990). Finding groups in data: An introduction to cluster analysis (John Wiley).</p>
 </div>
 <div>
-<p>29. Li, H.G., Wu, G.Q., Hu, X.G., Zhang, J., Li, L., and Wu, X. (2011). K-means clustering with bagging and mapreduce. 2011 44th Hawaii International Conference on System Sciences, 1–8.</p>
+<p>29. Dudoit, S., and Fridlyand, J. Bagging to improve the accuracy of a clustering procedure. Bioinformatics <em>19</em>, 1090–1099. Available at: <a href="http://dx.doi.org/10.1093/bioinformatics/btg038">http://dx.doi.org/10.1093/bioinformatics/btg038</a>.</p>
+</div>
+<div>
+<p>30. Li, H.G., Wu, G.Q., Hu, X.G., Zhang, J., Li, L., and Wu, X. (2011). K-means clustering with bagging and mapreduce. 2011 44th Hawaii International Conference on System Sciences, 1–8.</p>
 </div>
 </div>
 

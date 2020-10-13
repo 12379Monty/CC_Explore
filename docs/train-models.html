@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Section 3 Train Predictive Modesl | Classification and Clustering: Case Study with CRC Gene Expression Data</title>
+  <title>Section 3 Train Predictive Models | Classification and Clustering: Case Study with CRC Gene Expression Data</title>
   <meta name="description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
   <meta name="generator" content="bookdown 0.20.6 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Section 3 Train Predictive Modesl | Classification and Clustering: Case Study with CRC Gene Expression Data" />
+  <meta property="og:title" content="Section 3 Train Predictive Models | Classification and Clustering: Case Study with CRC Gene Expression Data" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Section 3 Train Predictive Modesl | Classification and Clustering: Case Study with CRC Gene Expression Data" />
+  <meta name="twitter:title" content="Section 3 Train Predictive Models | Classification and Clustering: Case Study with CRC Gene Expression Data" />
   
   <meta name="twitter:description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
   
@@ -53,6 +53,14 @@
 
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.15/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <script type="text/javascript">
 // source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
 // toggle visibility of R source blocks in R Markdown output
@@ -182,13 +190,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="load-data.html"><a href="load-data.html#separate-data-set-into-train-and-test-subsets"><i class="fa fa-check"></i><b>2.6</b> Separate Data Set into Train and Test Subsets</a></li>
 <li class="chapter" data-level="2.7" data-path="load-data.html"><a href="load-data.html#save-gene-sets"><i class="fa fa-check"></i><b>2.7</b> Save Gene Sets</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Modesl</a>
+<li class="chapter" data-level="3" data-path="train-models.html"><a href="train-models.html"><i class="fa fa-check"></i><b>3</b> Train Predictive Models</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.1</b> knn - k nearest neighbors</a></li>
-<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.2</b> rf - Random forests</a></li>
-<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.3</b> svmRadial - Support vector machines (RBF kernel)</a></li>
-<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.4</b> gbm - Boosted trees</a></li>
-<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.5</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.1" data-path="train-models.html"><a href="train-models.html#glmnet---lasso-and-elastic-net-regularized-generalized-linear-models"><i class="fa fa-check"></i><b>3.1</b> glmnet - Lasso and Elastic-Net Regularized Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2" data-path="train-models.html"><a href="train-models.html#knn---k-nearest-neighbors"><i class="fa fa-check"></i><b>3.2</b> knn - k nearest neighbors</a></li>
+<li class="chapter" data-level="3.3" data-path="train-models.html"><a href="train-models.html#pam---nearest-shrunken-centroid"><i class="fa fa-check"></i><b>3.3</b> pam - nearest shrunken centroid</a></li>
+<li class="chapter" data-level="3.4" data-path="train-models.html"><a href="train-models.html#svmradial---support-vector-machines-rbf-kernel"><i class="fa fa-check"></i><b>3.4</b> svmRadial - Support vector machines (RBF kernel)</a></li>
+<li class="chapter" data-level="3.5" data-path="train-models.html"><a href="train-models.html#gbm---boosted-trees"><i class="fa fa-check"></i><b>3.5</b> gbm - Boosted trees</a></li>
+<li class="chapter" data-level="3.6" data-path="train-models.html"><a href="train-models.html#xgblinear---extreme-gradient-boosting"><i class="fa fa-check"></i><b>3.6</b> xgbLinear - eXtreme Gradient Boosting</a></li>
+<li class="chapter" data-level="3.7" data-path="train-models.html"><a href="train-models.html#rf---random-forests"><i class="fa fa-check"></i><b>3.7</b> rf - Random forests</a></li>
+<li class="chapter" data-level="3.8" data-path="train-models.html"><a href="train-models.html#stepldafit---stepwise-linear-discriminant-analysis"><i class="fa fa-check"></i><b>3.8</b> stepLDAFit - Stepwise linear discriminant analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="comp-models.html"><a href="comp-models.html"><i class="fa fa-check"></i><b>4</b> Compare Predictive Models</a>
 <ul>
@@ -217,15 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#pam-clustering"><i class="fa fa-check"></i><b>5.1</b> PAM Clustering</a></li>
-<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.2</b> Bootstrap Aggregation of Clusters</a></li>
-<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.3</b> t-SNE</a>
+<li class="chapter" data-level="5.1" data-path="clustering.html"><a href="clustering.html#bootstrap-aggregation-of-clusters"><i class="fa fa-check"></i><b>5.1</b> Bootstrap Aggregation of Clusters</a></li>
+<li class="chapter" data-level="5.2" data-path="clustering.html"><a href="clustering.html#t-sne"><i class="fa fa-check"></i><b>5.2</b> t-SNE</a>
 <ul>
-<li class="chapter" data-level="5.3.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.3.1</b> t-SNE + PAM</a></li>
-<li class="chapter" data-level="5.3.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.3.2</b> t-SNE + BagClust2</a></li>
+<li class="chapter" data-level="5.2.1" data-path="clustering.html"><a href="clustering.html#t-sne-pam"><i class="fa fa-check"></i><b>5.2.1</b> t-SNE + PAM</a></li>
+<li class="chapter" data-level="5.2.2" data-path="clustering.html"><a href="clustering.html#t-sne-bagclust2"><i class="fa fa-check"></i><b>5.2.2</b> t-SNE + BagClust2</a></li>
 </ul></li>
-<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.4</b> Cluster Analysis: Discussion</a></li>
-<li class="chapter" data-level="5.5" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.5</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
+<li class="chapter" data-level="5.3" data-path="clustering.html"><a href="clustering.html#cluster-analysis-discussion"><i class="fa fa-check"></i><b>5.3</b> Cluster Analysis: Discussion</a></li>
+<li class="chapter" data-level="5.4" data-path="clustering.html"><a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question."><i class="fa fa-check"></i><b>5.4</b> Next Step: Look for subgroups in the MSS population - an open biological question.</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>6</b> Results Summary</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -250,50 +260,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="train-models" class="section level1" number="3">
-<h1><span class="header-section-number">Section 3</span> Train Predictive Modesl</h1>
+<h1><span class="header-section-number">Section 3</span> Train Predictive Models</h1>
 <p>We are ready to use the Training data to evaluate various predictive models.</p>
 <p>Set up training parameters:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="train-models.html#cb36-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
-<span id="cb36-2"><a href="train-models.html#cb36-2" aria-hidden="true"></a></span>
-<span id="cb36-3"><a href="train-models.html#cb36-3" aria-hidden="true"></a> SelGenes.CV &lt;-<span class="st"> </span><span class="kw">paste</span>(SelGenes, <span class="st">&#39;.CV.&#39;</span>, <span class="kw">paste</span>(<span class="kw">unlist</span>(CV), <span class="dt">collapse=</span><span class="st">&#39;_&#39;</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>)</span>
-<span id="cb36-4"><a href="train-models.html#cb36-4" aria-hidden="true"></a></span>
-<span id="cb36-5"><a href="train-models.html#cb36-5" aria-hidden="true"></a> cvControl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number=</span>CV<span class="op">$</span>Num, <span class="dt">repeats=</span>CV<span class="op">$</span>Rep,</span>
-<span id="cb36-6"><a href="train-models.html#cb36-6" aria-hidden="true"></a>                           <span class="dt">classProbs =</span> <span class="ot">TRUE</span>, <span class="dt">summaryFunction =</span> twoClassSummary,</span>
-<span id="cb36-7"><a href="train-models.html#cb36-7" aria-hidden="true"></a>                           <span class="dt">savePredictions=</span><span class="st">&#39;final&#39;</span>)</span>
-<span id="cb36-8"><a href="train-models.html#cb36-8" aria-hidden="true"></a></span>
-<span id="cb36-9"><a href="train-models.html#cb36-9" aria-hidden="true"></a> <span class="co"># Load Data</span></span>
-<span id="cb36-10"><a href="train-models.html#cb36-10" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(<span class="st">&#39;Train.&#39;</span>,SelGenes,<span class="st">&#39;.vec&#39;</span>), <span class="st">&#39;SelGenes.vec&#39;</span>)</span>
-<span id="cb36-11"><a href="train-models.html#cb36-11" aria-hidden="true"></a> </span>
-<span id="cb36-12"><a href="train-models.html#cb36-12" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
-<span id="cb36-13"><a href="train-models.html#cb36-13" aria-hidden="true"></a> Train.SelGenes.Expr.mtx &lt;-<span class="st"> </span>Train.Expr.mtx[, SelGenes.vec]</span>
-<span id="cb36-14"><a href="train-models.html#cb36-14" aria-hidden="true"></a> <span class="kw">rm</span>(Train.Expr.mtx)</span>
-<span id="cb36-15"><a href="train-models.html#cb36-15" aria-hidden="true"></a></span>
-<span id="cb36-16"><a href="train-models.html#cb36-16" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(WRKDIR, <span class="st">&#39;Data&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
-<span id="cb36-17"><a href="train-models.html#cb36-17" aria-hidden="true"></a></span>
-<span id="cb36-18"><a href="train-models.html#cb36-18" aria-hidden="true"></a> <span class="co">#dim(Train.SelGenes.Expr.mtx);length(Train.Label.vec)</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="train-models.html#cb38-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
+<span id="cb38-2"><a href="train-models.html#cb38-2" aria-hidden="true"></a></span>
+<span id="cb38-3"><a href="train-models.html#cb38-3" aria-hidden="true"></a> SelGenes.CV &lt;-<span class="st"> </span><span class="kw">paste</span>(SelGenes, <span class="st">&#39;.CV.&#39;</span>, <span class="kw">paste</span>(<span class="kw">unlist</span>(CV), <span class="dt">collapse=</span><span class="st">&#39;_&#39;</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>)</span>
+<span id="cb38-4"><a href="train-models.html#cb38-4" aria-hidden="true"></a></span>
+<span id="cb38-5"><a href="train-models.html#cb38-5" aria-hidden="true"></a> cvControl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number=</span>CV<span class="op">$</span>Num, <span class="dt">repeats=</span>CV<span class="op">$</span>Rep,</span>
+<span id="cb38-6"><a href="train-models.html#cb38-6" aria-hidden="true"></a>                           <span class="dt">classProbs =</span> <span class="ot">TRUE</span>, <span class="dt">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb38-7"><a href="train-models.html#cb38-7" aria-hidden="true"></a>                           <span class="dt">savePredictions=</span><span class="st">&#39;final&#39;</span>)</span>
+<span id="cb38-8"><a href="train-models.html#cb38-8" aria-hidden="true"></a></span>
+<span id="cb38-9"><a href="train-models.html#cb38-9" aria-hidden="true"></a> <span class="co"># Load Data</span></span>
+<span id="cb38-10"><a href="train-models.html#cb38-10" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(<span class="st">&#39;Train.&#39;</span>,SelGenes,<span class="st">&#39;.vec&#39;</span>), <span class="st">&#39;SelGenes.vec&#39;</span>)</span>
+<span id="cb38-11"><a href="train-models.html#cb38-11" aria-hidden="true"></a> </span>
+<span id="cb38-12"><a href="train-models.html#cb38-12" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
+<span id="cb38-13"><a href="train-models.html#cb38-13" aria-hidden="true"></a> Train.SelGenes.Expr.mtx &lt;-<span class="st"> </span>Train.Expr.mtx[, SelGenes.vec]</span>
+<span id="cb38-14"><a href="train-models.html#cb38-14" aria-hidden="true"></a> <span class="kw">rm</span>(Train.Expr.mtx)</span>
+<span id="cb38-15"><a href="train-models.html#cb38-15" aria-hidden="true"></a></span>
+<span id="cb38-16"><a href="train-models.html#cb38-16" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
+<span id="cb38-17"><a href="train-models.html#cb38-17" aria-hidden="true"></a></span>
+<span id="cb38-18"><a href="train-models.html#cb38-18" aria-hidden="true"></a> <span class="co">#dim(Train.SelGenes.Expr.mtx);length(Train.Label.vec)</span></span></code></pre></div>
 <!-- ######################################################################## -->
 <!-- ######################################################################## -->
-<p>We will use the Top60VarGenes gene set in this analysis.
+<p>We will use the Top30pVarGenes gene set in this analysis.
 Model tuning and optimization will be done based on
-30 repetitions of 5-fold cross-validations.
-This provides 30 cross-validated, or out-of-sample, predicted values
+10 repetitions of 5-fold cross-validations.
+This provides 10 cross-validated, or out-of-sample, predicted values
 for each sample in the training set. The distribution of predicted values
 can be examined to identify hard to predict samples. Some of these
-samples may potentially be mis-labelled, or may be hard to fit for other
-reasons. One might consider doing an analysis which exludes these samples
+samples may potentially be mislabelled, or may be hard to fit for other
+reasons. One might consider doing an analysis which excludes these samples
 from the training set to see what impact they have on the fits.</p>
 <p>Some of the models which can be evaluated with <code>caret</code> include:</p>
 <ul>
-<li>stepLDA - Linear Discriminant Analysis with Stepwise Feature Selection</li>
-<li>stepQDA - Qaudratic Discriminant Analysis with Stepwise Feature Selection</li>
+<li>glmnet - Lasso and Elastic-Net Regularized Generalized Linear Models</li>
 <li>knn - k nearest neighbors</li>
-<li>pam - Nearest shrunken centroids</li>
-<li>rf - Random forests</li>
+<li>pam - Nearest shrunken centroids (see Tibshirani et al. (2002) <span class="citation">[<a href="#ref-Tibshirani:2002ab" role="doc-biblioref">20</a>]</span>)</li>
 <li>svmRadial - Support vector machines (RBF kernel)</li>
 <li>gbm - Boosted trees</li>
 <li>xgbLinear - eXtreme Gradient Boosting</li>
 <li>xgbTree - eXtreme Gradient Boosting</li>
-<li>neuralnet - neural network</li>
+<li>neuralnet - neural network<br />
+</li>
+<li>rf - Random forests</li>
+<li>stepLDA - Linear Discriminant Analysis with Stepwise Feature Selection</li>
+<li>stepQDA - Quadratic Discriminant Analysis with Stepwise Feature Selection</li>
 </ul>
 <p>Many more <a href="https://topepo.github.io/caret/available-models.html">models</a>
 can be implemented and evaluated with <code>caret</code>, including <code>deep learning</code> methods.</p>
@@ -311,104 +323,371 @@ These methods dont work.
 * multinom - Logistic/Multinomial regression
 * nnet - neural network
 -->
-<!--
-## stepLDAFit - Stepwise linear discriminant analysis
--->
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-<!-- ######################################################################## -->
-<!--
-## stepQDAFit - Stepwise quadratic discriminant analysis
--->
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-<!-- ######################################################################## -->
-<div id="knn---k-nearest-neighbors" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> knn - k nearest neighbors</h2>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="train-models.html#cb37-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
-<span id="cb37-2"><a href="train-models.html#cb37-2" aria-hidden="true"></a> <span class="co">################################# </span></span>
-<span id="cb37-3"><a href="train-models.html#cb37-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb37-4"><a href="train-models.html#cb37-4" aria-hidden="true"></a> SelGenes.knnFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb37-5"><a href="train-models.html#cb37-5" aria-hidden="true"></a>  SelGenes.knnFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb37-6"><a href="train-models.html#cb37-6" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, <span class="dt">tuneLength=</span><span class="dv">10</span>,</span>
-<span id="cb37-7"><a href="train-models.html#cb37-7" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb37-8"><a href="train-models.html#cb37-8" aria-hidden="true"></a> )</span>
-<span id="cb37-9"><a href="train-models.html#cb37-9" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.knnFit.tm)</span>
-<span id="cb37-10"><a href="train-models.html#cb37-10" aria-hidden="true"></a></span>
-<span id="cb37-11"><a href="train-models.html#cb37-11" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.knnFit&#39;</span>), <span class="st">&#39;SelGenes.knnFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-<!-- ######################################################################## -->
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="train-models.html#cb38-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb38-2"><a href="train-models.html#cb38-2" aria-hidden="true"></a> SelGenes.pamFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb38-3"><a href="train-models.html#cb38-3" aria-hidden="true"></a> SelGenes.pamFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb38-4"><a href="train-models.html#cb38-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;pam&quot;</span>,</span>
-<span id="cb38-5"><a href="train-models.html#cb38-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb38-6"><a href="train-models.html#cb38-6" aria-hidden="true"></a> )</span>
-<span id="cb38-7"><a href="train-models.html#cb38-7" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.pamFit.tm)</span>
-<span id="cb38-8"><a href="train-models.html#cb38-8" aria-hidden="true"></a></span>
-<span id="cb38-9"><a href="train-models.html#cb38-9" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.pamFit&#39;</span>), <span class="st">&#39;SelGenes.pamFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
-<!-- ######################################################################## -->
-</div>
-<div id="rf---random-forests" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> rf - Random forests</h2>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="train-models.html#cb39-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb39-2"><a href="train-models.html#cb39-2" aria-hidden="true"></a> SelGenes.rfFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb39-3"><a href="train-models.html#cb39-3" aria-hidden="true"></a> SelGenes.rfFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb39-4"><a href="train-models.html#cb39-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>,</span>
-<span id="cb39-5"><a href="train-models.html#cb39-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb39-6"><a href="train-models.html#cb39-6" aria-hidden="true"></a> )</span>
-<span id="cb39-7"><a href="train-models.html#cb39-7" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.rfFit.tm)</span>
-<span id="cb39-8"><a href="train-models.html#cb39-8" aria-hidden="true"></a></span>
-<span id="cb39-9"><a href="train-models.html#cb39-9" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.rfFit&#39;</span>), <span class="st">&#39;SelGenes.rfFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
+<div id="glmnet---lasso-and-elastic-net-regularized-generalized-linear-models" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> glmnet - Lasso and Elastic-Net Regularized Generalized Linear Models</h2>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="train-models.html#cb39-1" aria-hidden="true"></a> <span class="co">### CLEAR CACHE</span></span>
+<span id="cb39-2"><a href="train-models.html#cb39-2" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb39-3"><a href="train-models.html#cb39-3" aria-hidden="true"></a> SelGenes.glmnetFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb39-4"><a href="train-models.html#cb39-4" aria-hidden="true"></a> SelGenes.glmnetFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb39-5"><a href="train-models.html#cb39-5" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;glmnet&quot;</span>, </span>
+<span id="cb39-6"><a href="train-models.html#cb39-6" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb39-7"><a href="train-models.html#cb39-7" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;glmnet&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="train-models.html#cb41-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.glmnetFit.tm)</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+## 912.616  39.970  92.403</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="train-models.html#cb43-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.glmnetFit)</span></code></pre></div>
+<pre><code>## glmnet 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   alpha  lambda      ROC        Sens       Spec     
+##   0.10   0.02236653  0.9464151  0.8363636  0.9892222
+##   0.10   0.07072917  0.9482107  0.8363636  0.9887778
+##   0.10   0.22366526  0.9519780  0.8445455  0.9878586
+##   0.55   0.02236653  0.9505358  0.8545455  0.9860808
+##   0.55   0.07072917  0.9536731  0.8581818  0.9874242
+##   0.55   0.22366526  0.9574412  0.7854545  0.9896667
+##   1.00   0.02236653  0.9521079  0.8572727  0.9838384
+##   1.00   0.07072917  0.9558131  0.8490909  0.9865354
+##   1.00   0.22366526  0.9583710  0.5609091  0.9950404
+## 
+## ROC was used to select the optimal model using the largest value.
+## The final values used for the model were alpha = 1 and lambda = 0.2236653.</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="train-models.html#cb45-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.glmnetFit&#39;</span>), <span class="st">&#39;SelGenes.glmnetFit&#39;</span>)</span></code></pre></div>
 <!-- ######################################################################## -->
 </div>
-<div id="svmradial---support-vector-machines-rbf-kernel" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> svmRadial - Support vector machines (RBF kernel)</h2>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="train-models.html#cb40-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb40-2"><a href="train-models.html#cb40-2" aria-hidden="true"></a> SelGenes.svmRadialFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb40-3"><a href="train-models.html#cb40-3" aria-hidden="true"></a> SelGenes.svmRadialFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb40-4"><a href="train-models.html#cb40-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;svmRadial&quot;</span>,</span>
-<span id="cb40-5"><a href="train-models.html#cb40-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb40-6"><a href="train-models.html#cb40-6" aria-hidden="true"></a> )</span>
-<span id="cb40-7"><a href="train-models.html#cb40-7" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.svmRadialFit.tm)</span>
-<span id="cb40-8"><a href="train-models.html#cb40-8" aria-hidden="true"></a></span>
-<span id="cb40-9"><a href="train-models.html#cb40-9" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.svmRadialFit&#39;</span>), <span class="st">&#39;SelGenes.svmRadialFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
+<div id="knn---k-nearest-neighbors" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> knn - k nearest neighbors</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="train-models.html#cb46-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
+<span id="cb46-2"><a href="train-models.html#cb46-2" aria-hidden="true"></a> <span class="co">################################# </span></span>
+<span id="cb46-3"><a href="train-models.html#cb46-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb46-4"><a href="train-models.html#cb46-4" aria-hidden="true"></a> SelGenes.knnFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb46-5"><a href="train-models.html#cb46-5" aria-hidden="true"></a>  SelGenes.knnFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb46-6"><a href="train-models.html#cb46-6" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;knn&quot;</span>, <span class="dt">tuneLength=</span><span class="dv">10</span>,</span>
+<span id="cb46-7"><a href="train-models.html#cb46-7" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb46-8"><a href="train-models.html#cb46-8" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;knn&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="train-models.html#cb48-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.knnFit.tm)</span></code></pre></div>
+<pre><code>##      user    system   elapsed 
+## 30947.824   945.229  5079.351</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="train-models.html#cb50-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.knnFit)</span></code></pre></div>
+<pre><code>## k-Nearest Neighbors 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   k   ROC        Sens       Spec     
+##    5  0.7695179  0.2636364  0.9752828
+##    7  0.7958597  0.2245455  0.9887677
+##    9  0.8159293  0.2027273  0.9901212
+##   11  0.8207062  0.1863636  0.9945960
+##   13  0.8252415  0.1600000  0.9963838
+##   15  0.8206309  0.1454545  0.9977273
+##   17  0.8207498  0.1300000  0.9981919
+##   19  0.8360606  0.1136364  0.9977374
+##   21  0.8491770  0.1163636  0.9972828
+##   23  0.8553570  0.1190909  0.9963838
+## 
+## ROC was used to select the optimal model using the largest value.
+## The final value used for the model was k = 23.</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="train-models.html#cb52-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.knnFit&#39;</span>), <span class="st">&#39;SelGenes.knnFit&#39;</span>)</span></code></pre></div>
 <!-- ######################################################################## -->
 </div>
-<div id="gbm---boosted-trees" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> gbm - Boosted trees</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="train-models.html#cb41-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb41-2"><a href="train-models.html#cb41-2" aria-hidden="true"></a> SelGenes.gbmFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb41-3"><a href="train-models.html#cb41-3" aria-hidden="true"></a> SelGenes.gbmFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb41-4"><a href="train-models.html#cb41-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;gbm&quot;</span>, <span class="dt">verbose=</span>F,</span>
-<span id="cb41-5"><a href="train-models.html#cb41-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb41-6"><a href="train-models.html#cb41-6" aria-hidden="true"></a> )</span>
-<span id="cb41-7"><a href="train-models.html#cb41-7" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.gbmFit.tm)</span>
-<span id="cb41-8"><a href="train-models.html#cb41-8" aria-hidden="true"></a></span>
-<span id="cb41-9"><a href="train-models.html#cb41-9" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.gbmFit&#39;</span>), <span class="st">&#39;SelGenes.gbmFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
+<div id="pam---nearest-shrunken-centroid" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> pam - nearest shrunken centroid</h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="train-models.html#cb53-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb53-2"><a href="train-models.html#cb53-2" aria-hidden="true"></a> SelGenes.pamFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb53-3"><a href="train-models.html#cb53-3" aria-hidden="true"></a> SelGenes.pamFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb53-4"><a href="train-models.html#cb53-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;pam&quot;</span>,</span>
+<span id="cb53-5"><a href="train-models.html#cb53-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb53-6"><a href="train-models.html#cb53-6" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## 123456789101112131415161718192021222324252627282930</code></pre>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;pam&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<pre><code>## 1</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="train-models.html#cb57-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.pamFit.tm)</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+## 230.278  28.625  28.830</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="train-models.html#cb59-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.pamFit)</span></code></pre></div>
+<pre><code>## Nearest Shrunken Centroids 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   threshold  ROC        Sens       Spec     
+##   0.3139646  0.8944164  0.8509091  0.8855758
+##   4.5524860  0.9558935  0.8718182  0.9811414
+##   8.7910075  0.5000000  0.0000000  1.0000000
+## 
+## ROC was used to select the optimal model using the largest value.
+## The final value used for the model was threshold = 4.552486.</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="train-models.html#cb61-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.pamFit&#39;</span>), <span class="st">&#39;SelGenes.pamFit&#39;</span>)</span></code></pre></div>
 <!-- ######################################################################## -->
 </div>
-<div id="xgblinear---extreme-gradient-boosting" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> xgbLinear - eXtreme Gradient Boosting</h2>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="train-models.html#cb42-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
-<span id="cb42-2"><a href="train-models.html#cb42-2" aria-hidden="true"></a> SelGenes.xgbLinearFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
-<span id="cb42-3"><a href="train-models.html#cb42-3" aria-hidden="true"></a> SelGenes.xgbLinearFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
-<span id="cb42-4"><a href="train-models.html#cb42-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;xgbLinear&quot;</span>, <span class="dt">verbose=</span>F,</span>
-<span id="cb42-5"><a href="train-models.html#cb42-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
-<span id="cb42-6"><a href="train-models.html#cb42-6" aria-hidden="true"></a> )</span>
-<span id="cb42-7"><a href="train-models.html#cb42-7" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.xgbLinearFit.tm)</span>
-<span id="cb42-8"><a href="train-models.html#cb42-8" aria-hidden="true"></a></span>
-<span id="cb42-9"><a href="train-models.html#cb42-9" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.xgbLinearFit&#39;</span>), <span class="st">&#39;SelGenes.xgbLinearFit&#39;</span>)</span></code></pre></div>
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
+<div id="svmradial---support-vector-machines-rbf-kernel" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> svmRadial - Support vector machines (RBF kernel)</h2>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="train-models.html#cb62-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb62-2"><a href="train-models.html#cb62-2" aria-hidden="true"></a> SelGenes.svmRadialFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb62-3"><a href="train-models.html#cb62-3" aria-hidden="true"></a> SelGenes.svmRadialFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb62-4"><a href="train-models.html#cb62-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;svmRadial&quot;</span>,</span>
+<span id="cb62-5"><a href="train-models.html#cb62-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb62-6"><a href="train-models.html#cb62-6" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;svmRadial&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="train-models.html#cb64-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.svmRadialFit.tm)</span></code></pre></div>
+<pre><code>##     user   system  elapsed 
+## 5304.564  164.344  501.062</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="train-models.html#cb66-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.svmRadialFit)</span></code></pre></div>
+<pre><code>## Support Vector Machines with Radial Basis Function Kernel 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   C     ROC        Sens       Spec     
+##   0.25  0.9168315  0.8645455  0.8919091
+##   0.50  0.9168926  0.8663636  0.8892020
+##   1.00  0.9218545  0.8236364  0.9434040
+## 
+## Tuning parameter &#39;sigma&#39; was held constant at a value of 3.131629e-05
+## ROC was used to select the optimal model using the largest value.
+## The final values used for the model were sigma = 3.131629e-05 and C = 1.</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="train-models.html#cb68-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.svmRadialFit&#39;</span>), <span class="st">&#39;SelGenes.svmRadialFit&#39;</span>)</span></code></pre></div>
+<!-- ######################################################################## -->
+</div>
+<div id="gbm---boosted-trees" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> gbm - Boosted trees</h2>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="train-models.html#cb69-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb69-2"><a href="train-models.html#cb69-2" aria-hidden="true"></a> SelGenes.gbmFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb69-3"><a href="train-models.html#cb69-3" aria-hidden="true"></a> SelGenes.gbmFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb69-4"><a href="train-models.html#cb69-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;gbm&quot;</span>, <span class="dt">verbose=</span>F,</span>
+<span id="cb69-5"><a href="train-models.html#cb69-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb69-6"><a href="train-models.html#cb69-6" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;gbm&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="train-models.html#cb71-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.gbmFit.tm)</span></code></pre></div>
+<pre><code>##     user   system  elapsed 
+## 5643.175   64.762  642.978</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="train-models.html#cb73-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.gbmFit)</span></code></pre></div>
+<pre><code>## Stochastic Gradient Boosting 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   interaction.depth  n.trees  ROC        Sens       Spec     
+##   1                   50      0.9549440  0.8381818  0.9864949
+##   1                  100      0.9545698  0.8445455  0.9874141
+##   1                  150      0.9532507  0.8500000  0.9878687
+##   2                   50      0.9543710  0.8390909  0.9865354
+##   2                  100      0.9537709  0.8445455  0.9883232
+##   2                  150      0.9545450  0.8463636  0.9878687
+##   3                   50      0.9543113  0.8454545  0.9869899
+##   3                  100      0.9538907  0.8354545  0.9887778
+##   3                  150      0.9535262  0.8390909  0.9883131
+## 
+## Tuning parameter &#39;shrinkage&#39; was held constant at a value of 0.1
+## 
+## Tuning parameter &#39;n.minobsinnode&#39; was held constant at a value of 10
+## ROC was used to select the optimal model using the largest value.
+## The final values used for the model were n.trees = 50, interaction.depth =
+##  1, shrinkage = 0.1 and n.minobsinnode = 10.</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="train-models.html#cb75-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.gbmFit&#39;</span>), <span class="st">&#39;SelGenes.gbmFit&#39;</span>)</span></code></pre></div>
+<!-- ######################################################################## -->
+</div>
+<div id="xgblinear---extreme-gradient-boosting" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> xgbLinear - eXtreme Gradient Boosting</h2>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="train-models.html#cb76-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb76-2"><a href="train-models.html#cb76-2" aria-hidden="true"></a> SelGenes.xgbLinearFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb76-3"><a href="train-models.html#cb76-3" aria-hidden="true"></a> SelGenes.xgbLinearFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb76-4"><a href="train-models.html#cb76-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;xgbLinear&quot;</span>, <span class="dt">verbose=</span>F,</span>
+<span id="cb76-5"><a href="train-models.html#cb76-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb76-6"><a href="train-models.html#cb76-6" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;xgbLinear&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="train-models.html#cb78-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.xgbLinearFit.tm)</span></code></pre></div>
+<pre><code>##      user    system   elapsed 
+## 49679.076   238.865 28470.811</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="train-models.html#cb80-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.xgbLinearFit)</span></code></pre></div>
+<pre><code>## eXtreme Gradient Boosting 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   lambda  alpha  nrounds  ROC        Sens       Spec     
+##   0e+00   0e+00   50      0.9497185  0.8572727  0.9735253
+##   0e+00   0e+00  100      0.9497185  0.8572727  0.9735253
+##   0e+00   0e+00  150      0.9497185  0.8572727  0.9735253
+##   0e+00   1e-04   50      0.9502571  0.8554545  0.9735152
+##   0e+00   1e-04  100      0.9502571  0.8554545  0.9735152
+##   0e+00   1e-04  150      0.9502571  0.8554545  0.9735152
+##   0e+00   1e-01   50      0.9489688  0.8590909  0.9762121
+##   0e+00   1e-01  100      0.9489688  0.8590909  0.9762121
+##   0e+00   1e-01  150      0.9489688  0.8590909  0.9762121
+##   1e-04   0e+00   50      0.9481827  0.8527273  0.9735152
+##   1e-04   0e+00  100      0.9481827  0.8527273  0.9735152
+##   1e-04   0e+00  150      0.9481827  0.8527273  0.9735152
+##   1e-04   1e-04   50      0.9481371  0.8581818  0.9735051
+##   1e-04   1e-04  100      0.9481371  0.8581818  0.9735051
+##   1e-04   1e-04  150      0.9481371  0.8581818  0.9735051
+##   1e-04   1e-01   50      0.9487888  0.8600000  0.9757677
+##   1e-04   1e-01  100      0.9487888  0.8600000  0.9757677
+##   1e-04   1e-01  150      0.9487888  0.8600000  0.9757677
+##   1e-01   0e+00   50      0.9482635  0.8627273  0.9771111
+##   1e-01   0e+00  100      0.9482635  0.8627273  0.9771111
+##   1e-01   0e+00  150      0.9482635  0.8627273  0.9771111
+##   1e-01   1e-04   50      0.9481189  0.8627273  0.9771111
+##   1e-01   1e-04  100      0.9481189  0.8627273  0.9771111
+##   1e-01   1e-04  150      0.9481189  0.8627273  0.9771111
+##   1e-01   1e-01   50      0.9484256  0.8527273  0.9762222
+##   1e-01   1e-01  100      0.9484256  0.8527273  0.9762222
+##   1e-01   1e-01  150      0.9484256  0.8527273  0.9762222
+## 
+## Tuning parameter &#39;eta&#39; was held constant at a value of 0.3
+## ROC was used to select the optimal model using the largest value.
+## The final values used for the model were nrounds = 50, lambda = 0, alpha
+##  = 1e-04 and eta = 0.3.</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="train-models.html#cb82-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.xgbLinearFit&#39;</span>), <span class="st">&#39;SelGenes.xgbLinearFit&#39;</span>)</span></code></pre></div>
 <!-- ######################################################################## -->
 <!-- TAKES TOOOO LOOOOONG 
 ## xgbTree - eXtreme Gradient Boosting
 -->
-<!-- SHOULD HAVE PRINTED IN THE SAME CHUNK! -->
+<!-- ######################################################################## -->
+</div>
+<div id="rf---random-forests" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> rf - Random forests</h2>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="train-models.html#cb83-1" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb83-2"><a href="train-models.html#cb83-2" aria-hidden="true"></a> SelGenes.rfFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb83-3"><a href="train-models.html#cb83-3" aria-hidden="true"></a> SelGenes.rfFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb83-4"><a href="train-models.html#cb83-4" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;rf&quot;</span>,</span>
+<span id="cb83-5"><a href="train-models.html#cb83-5" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb83-6"><a href="train-models.html#cb83-6" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method
+## = &quot;rf&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="train-models.html#cb85-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.rfFit.tm)</span></code></pre></div>
+<pre><code>##      user    system   elapsed 
+## 50392.709   122.806 18379.771</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="train-models.html#cb87-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.rfFit)</span></code></pre></div>
+<pre><code>## Random Forest 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry   ROC        Sens       Spec     
+##       2  0.9103446  0.2090909  0.9991111
+##     181  0.9554389  0.8172727  0.9856162
+##   16402  0.9519348  0.8327273  0.9721818
+## 
+## ROC was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 181.</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="train-models.html#cb89-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.rfFit&#39;</span>), <span class="st">&#39;SelGenes.rfFit&#39;</span>)</span></code></pre></div>
+<!-- ######################################################################## -->
+</div>
+<div id="stepldafit---stepwise-linear-discriminant-analysis" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> stepLDAFit - Stepwise linear discriminant analysis</h2>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="train-models.html#cb90-1" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
+<span id="cb90-2"><a href="train-models.html#cb90-2" aria-hidden="true"></a> <span class="co">################################# </span></span>
+<span id="cb90-3"><a href="train-models.html#cb90-3" aria-hidden="true"></a> <span class="kw">set.seed</span>(<span class="dv">12379</span>)</span>
+<span id="cb90-4"><a href="train-models.html#cb90-4" aria-hidden="true"></a> SelGenes.stepLDAFit.tm &lt;-<span class="st"> </span><span class="kw">system.time</span>(</span>
+<span id="cb90-5"><a href="train-models.html#cb90-5" aria-hidden="true"></a>  SelGenes.stepLDAFit &lt;-<span class="st"> </span><span class="kw">train</span>(Train.SelGenes.Expr.mtx, Train.Label.vec,</span>
+<span id="cb90-6"><a href="train-models.html#cb90-6" aria-hidden="true"></a>               <span class="dt">method=</span><span class="st">&quot;stepLDA&quot;</span>,</span>
+<span id="cb90-7"><a href="train-models.html#cb90-7" aria-hidden="true"></a>               <span class="dt">trControl=</span>cvControl, <span class="dt">preProc=</span><span class="kw">c</span>(<span class="st">&#39;center&#39;</span>,<span class="st">&#39;scale&#39;</span>))</span>
+<span id="cb90-8"><a href="train-models.html#cb90-8" aria-hidden="true"></a> )</span></code></pre></div>
+<pre><code>## Warning in train.default(Train.SelGenes.Expr.mtx, Train.Label.vec, method =
+## &quot;stepLDA&quot;, : The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<pre><code>##  `stepwise classification&#39;, using 10-fold cross-validated correctness rate of method lda&#39;.</code></pre>
+<pre><code>## 333 observations of 16403 variables in 2 classes; direction: both</code></pre>
+<pre><code>## stop criterion: improvement less than 5%.</code></pre>
+<pre><code>## correctness rate: 0.9098;  in: &quot;CBX5.2&quot;;  variables (1): CBX5.2 
+## 
+##  hr.elapsed min.elapsed sec.elapsed 
+##        0.00        8.00       42.09</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="train-models.html#cb96-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.stepLDAFit.tm)</span></code></pre></div>
+<pre><code>##      user    system   elapsed 
+## 61405.643   236.295 24023.705</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="train-models.html#cb98-1" aria-hidden="true"></a> <span class="kw">print</span>(SelGenes.stepLDAFit)</span></code></pre></div>
+<pre><code>## Linear Discriminant Analysis with Stepwise Feature Selection 
+## 
+##   333 samples
+## 16403 predictors
+##     2 classes: &#39;MSI&#39;, &#39;MSS&#39; 
+## 
+## Pre-processing: centered (16403), scaled (16403) 
+## Resampling: Cross-Validated (5 fold, repeated 10 times) 
+## Summary of sample sizes: 267, 267, 266, 266, 266, 266, ... 
+## Resampling results:
+## 
+##   ROC        Sens       Spec     
+##   0.9258485  0.7554545  0.9610101
+## 
+## Tuning parameter &#39;maxvar&#39; was held constant at a value of Inf
+## Tuning
+##  parameter &#39;direction&#39; was held constant at a value of both</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="train-models.html#cb100-1" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes.CV, <span class="st">&#39;.stepLDAFit&#39;</span>), <span class="st">&#39;SelGenes.stepLDAFit&#39;</span>)</span></code></pre></div>
+<!-- ######################################################################## -->
+<!--
+## stepQDAFit - Stepwise quadratic discriminant analysis
+-->
 <!-- ######################################################################## -->
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Tibshirani:2002ab">
+<p>20. Tibshirani, R., Hastie, T., Narasimhan, B., and Chu, G. Diagnosis of multiple cancer types by shrunken centroids of gene expression. Proceedings of the National Academy of Sciences <em>99</em>, 6567. Available at: <a href="http://www.pnas.org/content/99/10/6567.abstract">http://www.pnas.org/content/99/10/6567.abstract</a>.</p>
 </div>
 </div>
             </section>

@@ -73,17 +73,17 @@ discusses a bagged clustering algorithm which is resistent to outliers and scala
 
 
 Clustering preliminaries - load data and set parameters.
-```{r clustering-clusterPrelim, eval=F}
+
 
  # Load Data
  loadObj(paste0('Train.',SelGenes,'.vec'), 'SelGenes.vec')
  
- load(file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
+ load(file=file.path('RData', 'Train.Expr.mtx'))
  Train.SelGenes.Expr.mtx <- Train.Expr.mtx[, SelGenes.vec]
  rm(Train.Expr.mtx)
 
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
- load(file=file.path(WRKDIR, 'Data', 'Train.DataSource.vec'))
+ load(file=file.path('RData', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Train.DataSource.vec'))
 
 ```
 
@@ -100,7 +100,7 @@ To quantify the concordance between the discoverd clusters and the MSS/MSI
 labels, we can compute [Cohen's Kappa](https://en.wikipedia.org/wiki/Cohen%27s_kappa).
 
 
-```{r clustering-pamCluster, eval=F}
+```{r clustering-pamCluster, eval=T}
  suppressMessages(require(stats))
  suppressMessages(require(cluster))
 
@@ -126,7 +126,7 @@ labels, we can compute [Cohen's Kappa](https://en.wikipedia.org/wiki/Cohen%27s_k
 PAM returns the correct number of clusters, if we are trying to recover the MSS/MSI
 subgroups.  Let us look at what the clustering looks like.
 
-```{r clustering-ViewPamCluster, fig.width=12, fig.height=12, eval=F}
+```{r clustering-ViewPamCluster, fig.width=12, fig.height=12, eval=T}
 ###, results='hold'} this  r chunk option doesn't appear to work!
  suppressMessages(require(cluster))
  BestK <- as.numeric(sub('K_','', names(asw.vec)[which.max(asw.vec)]))
@@ -207,7 +207,7 @@ end repeat.
 5. Define a new dissimilarity matrix $D = 1 - A/M$
 6. Cluster samples on the basis of this dissimilarity matrix.
 
-```{r clustering-BagClust2, cache=T, cache.vars='', eval=F}
+```{r clustering-BagClust2, cache=T, cache.vars='', eval=T}
  suppressMessages(require(cluster))
  suppressMessages(require(stats))
 
@@ -288,7 +288,7 @@ end repeat.
 ```
 <!-- ****************************************************************** -->
 
-```{r clustering-lkBagClust2, fig.height=12, fig.width=12, eval=F}
+```{r clustering-lkBagClust2, fig.height=12, fig.width=12, eval=T}
  suppressMessages(require(cluster))
 
  loadObj(paste0(SelGenes, '.BagClust.pam.lst'), 'SelGenes.BagClust.pam.lst')
@@ -360,37 +360,39 @@ in the data.  Here we will assess the benefit of the t-SNE embedding by repeatin
 cluster analysis above - PAM and BagClust2 clustering - using the t-SNE embedding as input
 instead of the scales expression matrix.
 
-```{r clustering-tSNEPrelim, eval=F}
+```{r clustering-tSNEPrelim, eval=T}
  # Load Data
  loadObj(paste0('Train.',SelGenes,'.vec'), 'SelGenes.vec')
  
- load(file=file.path(WRKDIR, 'Data', 'Train.Expr.mtx'))
+ load(file=file.path('RData', 'Train.Expr.mtx'))
  Train.SelGenes.Expr.mtx <- Train.Expr.mtx[, SelGenes.vec]
  rm(Train.Expr.mtx)
 
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
- load(file=file.path(WRKDIR, 'Data', 'Train.DataSource.vec'))
+ load(file=file.path('RData', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Train.DataSource.vec'))
 
 ```
 
-```{r clustering-tSNE, cache=T, cache.vars='', eval=F}
+```{r clustering-tSNE, cache=T, cache.vars='', eval=T}
 
  suppressMessages(require(Rtsne))
  PERP <- 50
  SelGenes.tsne.lst <- list()
 
- for(DD in c(2,5,10))
+ #for(DD in c(2,5,10))
+ for(DD in c(2, 3))
   SelGenes.tsne.lst[[paste0('D_', DD)]] <- 
   Rtsne(Train.SelGenes.Expr.mtx, check_duplicates=FALSE, 
         pca=TRUE, pca_center=T, pca_scale=T,
         perplexity=PERP, theta=0.0, dims=DD, max_iter = 5000)
   
  saveObj(paste0(SelGenes, '.tsne.lst'), 'SelGenes.tsne.lst')
+
 ```
 
 ### t-SNE + PAM
 
-```{r clustering-tsnePAMCluster}, eval=F 
+```{r clustering-tsnePAMCluster}, eval=T}
  suppressMessages(require(stats))
  suppressMessages(require(cluster))
 
@@ -426,7 +428,7 @@ return  allow us to discriminate among the number of clusters based on average
 silhouette width.  Let's see what the 2-D scatters look like 
 as well as the PAM clustering into two groups.
 
-```{r clustering-ViewTsnePamCluster, fig.width=12, fig.height=12, results='hold', eval=F}
+```{r clustering-ViewTsnePamCluster, fig.width=12, fig.height=12, results='hold', eval=T}
  suppressMessages(require(cluster))
  loadObj(paste0(SelGenes, '.tsne.lst'), 'SelGenes.tsne.lst')
 
@@ -495,14 +497,14 @@ number of dimensions used in the t-SNE embedding.  We will assess the effect of
 this parameter here, keeping the specified number of clusters fixed at k=2 while
 varying the number of embedding dimensions.
 
-```{r clustering-tsneBagClust2, cache=T, cache.vars='', eval=F}
+```{r clustering-tsneBagClust2, cache=T, cache.vars='', eval=T}
  suppressMessages(require(cluster))
  suppressMessages(require(stats))
 
  KK <- 2
 
  loadObj(paste0(SelGenes, '.tsne.lst'), 'SelGenes.tsne.lst')
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Train.Label.vec'))
 
  N_BOOT <- 30
 
@@ -587,11 +589,11 @@ varying the number of embedding dimensions.
 ```
 <!-- ****************************************************************** -->
 
-```{r clustering-lktsneBagClust2, fig.height=12, fig.width=12, eval=F}
+```{r clustering-lktsneBagClust2, fig.height=12, fig.width=12, eval=T}
  suppressMessages(require(cluster))
 
  loadObj(paste0(SelGenes, '.tsneBagClust.pam.lst'), 'SelGenes.tsneBagClust.pam.lst')
- load(file=file.path(WRKDIR, 'Data', 'Train.Label.vec'))
+ load(file=file.path('RData', 'Train.Label.vec'))
 
  # Get best K model
  BagClustBestD <- names(SelGenes.tsneBagClust.pam.lst)[which.max(sapply(SelGenes.tsneBagClust.pam.lst,
