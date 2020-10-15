@@ -872,221 +872,28 @@ xgbLinearFit
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="comp-models.html#cb115-1" aria-hidden="true"></a> <span class="co">############################################</span></span>
-<span id="cb115-2"><a href="comp-models.html#cb115-2" aria-hidden="true"></a> <span class="co"># alternatively, can look at the osPred by rep</span></span>
-<span id="cb115-3"><a href="comp-models.html#cb115-3" aria-hidden="true"></a> <span class="co"># and use mean for error rates</span></span>
-<span id="cb115-4"><a href="comp-models.html#cb115-4" aria-hidden="true"></a> <span class="co">############################################</span></span>
-<span id="cb115-5"><a href="comp-models.html#cb115-5" aria-hidden="true"></a> Set.Train.osPredMean.TruthTable.frm &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.osPred.mtx.lst,</span>
-<span id="cb115-6"><a href="comp-models.html#cb115-6" aria-hidden="true"></a>  <span class="cf">function</span>(PRED.mtx) {</span>
-<span id="cb115-7"><a href="comp-models.html#cb115-7" aria-hidden="true"></a>   TruthTable.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(PRED.mtx),</span>
-<span id="cb115-8"><a href="comp-models.html#cb115-8" aria-hidden="true"></a>   <span class="cf">function</span>(CC) <span class="kw">as.vector</span>(<span class="kw">table</span>(PRED.mtx[,CC], Train.Label.vec)<span class="op">/</span><span class="kw">length</span>(Train.Label.vec))))</span>
-<span id="cb115-9"><a href="comp-models.html#cb115-9" aria-hidden="true"></a>   <span class="kw">apply</span>(TruthTable.mtx,<span class="dv">2</span>,mean)}))</span>
-<span id="cb115-10"><a href="comp-models.html#cb115-10" aria-hidden="true"></a>  <span class="kw">colnames</span>(Set.Train.osPredMean.TruthTable.frm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;TN&#39;</span>, <span class="st">&#39;FP&#39;</span>, <span class="st">&#39;FN&#39;</span>, <span class="st">&#39;TP&#39;</span>)</span>
-<span id="cb115-11"><a href="comp-models.html#cb115-11" aria-hidden="true"></a></span>
-<span id="cb115-12"><a href="comp-models.html#cb115-12" aria-hidden="true"></a>  knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">data.frame</span>(Set.Train.osPredMean.TruthTable.frm),</span>
-<span id="cb115-13"><a href="comp-models.html#cb115-13" aria-hidden="true"></a>   <span class="dt">digits=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="st">&#39;c&#39;</span>, <span class="dt">caption=</span><span class="st">&#39;Model Out-of-Fold Accuracy - MeanPred&#39;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb115-14"><a href="comp-models.html#cb115-14" aria-hidden="true"></a><span class="st">   </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:comp-models-OOFTrainAccuracy">Table 4.2: </span>Model Out-of-Fold Accuracy - MeanPred
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-TN
-</th>
-<th style="text-align:center;">
-FP
-</th>
-<th style="text-align:center;">
-FN
-</th>
-<th style="text-align:center;">
-TP
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-enetFit
-</td>
-<td style="text-align:center;">
-0.24
-</td>
-<td style="text-align:center;">
-0.09
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.66
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-gbmFit
-</td>
-<td style="text-align:center;">
-0.28
-</td>
-<td style="text-align:center;">
-0.05
-</td>
-<td style="text-align:center;">
-0.01
-</td>
-<td style="text-align:center;">
-0.66
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-glmnetFit
-</td>
-<td style="text-align:center;">
-0.19
-</td>
-<td style="text-align:center;">
-0.15
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.67
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-knnFit
-</td>
-<td style="text-align:center;">
-0.04
-</td>
-<td style="text-align:center;">
-0.29
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.67
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-pamFit
-</td>
-<td style="text-align:center;">
-0.29
-</td>
-<td style="text-align:center;">
-0.04
-</td>
-<td style="text-align:center;">
-0.01
-</td>
-<td style="text-align:center;">
-0.66
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-rfFit
-</td>
-<td style="text-align:center;">
-0.27
-</td>
-<td style="text-align:center;">
-0.06
-</td>
-<td style="text-align:center;">
-0.01
-</td>
-<td style="text-align:center;">
-0.66
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-stepLDAFit
-</td>
-<td style="text-align:center;">
-0.25
-</td>
-<td style="text-align:center;">
-0.08
-</td>
-<td style="text-align:center;">
-0.03
-</td>
-<td style="text-align:center;">
-0.64
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-svmRadialFit
-</td>
-<td style="text-align:center;">
-0.27
-</td>
-<td style="text-align:center;">
-0.06
-</td>
-<td style="text-align:center;">
-0.04
-</td>
-<td style="text-align:center;">
-0.63
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-xgbLinearFit
-</td>
-<td style="text-align:center;">
-0.28
-</td>
-<td style="text-align:center;">
-0.05
-</td>
-<td style="text-align:center;">
-0.02
-</td>
-<td style="text-align:center;">
-0.65
-</td>
-</tr>
-</tbody>
-</table>
 <!-- ######################################################################## -->
 </div>
 <div id="test-data-accuracy" class="section level3" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> Test Data Accuracy</h3>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="comp-models.html#cb116-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb116-2"><a href="comp-models.html#cb116-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
-<span id="cb116-3"><a href="comp-models.html#cb116-3" aria-hidden="true"></a></span>
-<span id="cb116-4"><a href="comp-models.html#cb116-4" aria-hidden="true"></a> <span class="co"># Test - these are fitting errors</span></span>
-<span id="cb116-5"><a href="comp-models.html#cb116-5" aria-hidden="true"></a> Set.Test.Pred.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(Set.ModelFit.lst,</span>
-<span id="cb116-6"><a href="comp-models.html#cb116-6" aria-hidden="true"></a>          <span class="cf">function</span>(MF) <span class="kw">predict</span>(MF, <span class="dt">newdata=</span>Test.Expr.mtx))</span></code></pre></div>
-<pre><code>## Warning in method$predict(modelFit = modelFit, newdata = newdata, submodels =
-## param): kernlab class prediction calculations failed; returning NAs</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="comp-models.html#cb118-1" aria-hidden="true"></a> Set.Test.TruthTable.frm &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(Set.Test.Pred.lst,</span>
-<span id="cb118-2"><a href="comp-models.html#cb118-2" aria-hidden="true"></a> <span class="cf">function</span>(PRED) {</span>
-<span id="cb118-3"><a href="comp-models.html#cb118-3" aria-hidden="true"></a>   truth.vec &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">table</span>(PRED, Test.Label.vec))<span class="co">#/length(Test.Label.vec)</span></span>
-<span id="cb118-4"><a href="comp-models.html#cb118-4" aria-hidden="true"></a>   <span class="co"># ASSUMING MSI is FIRST LABEL of CLASS</span></span>
-<span id="cb118-5"><a href="comp-models.html#cb118-5" aria-hidden="true"></a>   <span class="kw">names</span>(truth.vec) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;TN&#39;</span>, <span class="st">&#39;FP&#39;</span>, <span class="st">&#39;FN&#39;</span>, <span class="st">&#39;TP&#39;</span>)</span>
-<span id="cb118-6"><a href="comp-models.html#cb118-6" aria-hidden="true"></a>   truth.vec}))</span>
-<span id="cb118-7"><a href="comp-models.html#cb118-7" aria-hidden="true"></a></span>
-<span id="cb118-8"><a href="comp-models.html#cb118-8" aria-hidden="true"></a> knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="kw">cbind</span>(Set.Test.TruthTable.frm,</span>
-<span id="cb118-9"><a href="comp-models.html#cb118-9" aria-hidden="true"></a>                  Set.Test.TruthTable.frm<span class="op">/</span><span class="kw">length</span>(Test.Label.vec))),</span>
-<span id="cb118-10"><a href="comp-models.html#cb118-10" aria-hidden="true"></a>   <span class="dt">digits=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="st">&#39;c&#39;</span>, <span class="dt">caption=</span><span class="st">&#39;Model Test Set Accuracy&#39;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb118-11"><a href="comp-models.html#cb118-11" aria-hidden="true"></a><span class="st">   </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="comp-models.html#cb115-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb115-2"><a href="comp-models.html#cb115-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
+<span id="cb115-3"><a href="comp-models.html#cb115-3" aria-hidden="true"></a></span>
+<span id="cb115-4"><a href="comp-models.html#cb115-4" aria-hidden="true"></a> <span class="co"># Test - these are fitting errors</span></span>
+<span id="cb115-5"><a href="comp-models.html#cb115-5" aria-hidden="true"></a> Set.Test.Pred.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(Set.ModelFit.lst,</span>
+<span id="cb115-6"><a href="comp-models.html#cb115-6" aria-hidden="true"></a>          <span class="cf">function</span>(MF) <span class="kw">predict</span>(MF, <span class="dt">newdata=</span>Test.Expr.mtx))</span>
+<span id="cb115-7"><a href="comp-models.html#cb115-7" aria-hidden="true"></a></span>
+<span id="cb115-8"><a href="comp-models.html#cb115-8" aria-hidden="true"></a> Set.Test.TruthTable.frm &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(Set.Test.Pred.lst,</span>
+<span id="cb115-9"><a href="comp-models.html#cb115-9" aria-hidden="true"></a> <span class="cf">function</span>(PRED) {</span>
+<span id="cb115-10"><a href="comp-models.html#cb115-10" aria-hidden="true"></a>   truth.vec &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">table</span>(PRED, Test.Label.vec))<span class="co">#/length(Test.Label.vec)</span></span>
+<span id="cb115-11"><a href="comp-models.html#cb115-11" aria-hidden="true"></a>   <span class="co"># ASSUMING MSI is FIRST LABEL of CLASS</span></span>
+<span id="cb115-12"><a href="comp-models.html#cb115-12" aria-hidden="true"></a>   <span class="kw">names</span>(truth.vec) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;TN&#39;</span>, <span class="st">&#39;FP&#39;</span>, <span class="st">&#39;FN&#39;</span>, <span class="st">&#39;TP&#39;</span>)</span>
+<span id="cb115-13"><a href="comp-models.html#cb115-13" aria-hidden="true"></a>   truth.vec}))</span>
+<span id="cb115-14"><a href="comp-models.html#cb115-14" aria-hidden="true"></a></span>
+<span id="cb115-15"><a href="comp-models.html#cb115-15" aria-hidden="true"></a> knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">data.frame</span>(<span class="kw">cbind</span>(Set.Test.TruthTable.frm,</span>
+<span id="cb115-16"><a href="comp-models.html#cb115-16" aria-hidden="true"></a>                  Set.Test.TruthTable.frm<span class="op">/</span><span class="kw">length</span>(Test.Label.vec))),</span>
+<span id="cb115-17"><a href="comp-models.html#cb115-17" aria-hidden="true"></a>   <span class="dt">digits=</span><span class="dv">2</span>, <span class="dt">align=</span><span class="st">&#39;c&#39;</span>, <span class="dt">caption=</span><span class="st">&#39;Model Test Set Accuracy&#39;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb115-18"><a href="comp-models.html#cb115-18" aria-hidden="true"></a><span class="st">   </span>kableExtra<span class="op">::</span><span class="kw">kable_styling</span>(<span class="dt">full_width =</span> F)</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
 <span id="tab:comp-models-testAccuracy">Table 4.3: </span>Model Test Set Accuracy
@@ -1397,52 +1204,52 @@ have a large paremeter space such a random forest models.
 This assessment is only included here for reference purposes -
 we cannot judge the relative performance of models having
 vastly different parameter spaces based on training data results.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="comp-models.html#cb119-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb119-2"><a href="comp-models.html#cb119-2" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
-<span id="cb119-3"><a href="comp-models.html#cb119-3" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
-<span id="cb119-4"><a href="comp-models.html#cb119-4" aria-hidden="true"></a></span>
-<span id="cb119-5"><a href="comp-models.html#cb119-5" aria-hidden="true"></a> <span class="co">################################</span></span>
-<span id="cb119-6"><a href="comp-models.html#cb119-6" aria-hidden="true"></a> <span class="co"># Train</span></span>
-<span id="cb119-7"><a href="comp-models.html#cb119-7" aria-hidden="true"></a> <span class="co">################################</span></span>
-<span id="cb119-8"><a href="comp-models.html#cb119-8" aria-hidden="true"></a> <span class="co"># Get predicted probabilities</span></span>
-<span id="cb119-9"><a href="comp-models.html#cb119-9" aria-hidden="true"></a> Set.Train.Prob.lst &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>(<span class="kw">predict</span>(Set.ModelFit.lst, <span class="dt">type=</span><span class="st">&#39;prob&#39;</span>))</span>
-<span id="cb119-10"><a href="comp-models.html#cb119-10" aria-hidden="true"></a> Set.Train.ProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>,</span>
-<span id="cb119-11"><a href="comp-models.html#cb119-11" aria-hidden="true"></a>    <span class="kw">lapply</span>(Set.Train.Prob.lst, <span class="cf">function</span>(x) x[,CLASS1]))</span>
-<span id="cb119-12"><a href="comp-models.html#cb119-12" aria-hidden="true"></a></span>
-<span id="cb119-13"><a href="comp-models.html#cb119-13" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.ProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb119-14"><a href="comp-models.html#cb119-14" aria-hidden="true"></a></span>
-<span id="cb119-15"><a href="comp-models.html#cb119-15" aria-hidden="true"></a> <span class="co"># ROC</span></span>
-<span id="cb119-16"><a href="comp-models.html#cb119-16" aria-hidden="true"></a> Set.Train.roc.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.ProbClass1.mtx), <span class="cf">function</span>(MM)</span>
-<span id="cb119-17"><a href="comp-models.html#cb119-17" aria-hidden="true"></a>    <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.ProbClass1.mtx))),</span>
-<span id="cb119-18"><a href="comp-models.html#cb119-18" aria-hidden="true"></a>     <span class="cf">function</span>(TS) {</span>
-<span id="cb119-19"><a href="comp-models.html#cb119-19" aria-hidden="true"></a>        TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb119-20"><a href="comp-models.html#cb119-20" aria-hidden="true"></a>        FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb119-21"><a href="comp-models.html#cb119-21" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
-<span id="cb119-22"><a href="comp-models.html#cb119-22" aria-hidden="true"></a>   )</span>
-<span id="cb119-23"><a href="comp-models.html#cb119-23" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.ProbClass1.mtx)</span>
-<span id="cb119-24"><a href="comp-models.html#cb119-24" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
-<span id="cb119-25"><a href="comp-models.html#cb119-25" aria-hidden="true"></a> Set.Train.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.ProbClass1.mtx), <span class="cf">function</span>(CC)</span>
-<span id="cb119-26"><a href="comp-models.html#cb119-26" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.ProbClass1.mtx[,CC]))</span>
-<span id="cb119-27"><a href="comp-models.html#cb119-27" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.ProbClass1.mtx)</span>
-<span id="cb119-28"><a href="comp-models.html#cb119-28" aria-hidden="true"></a></span>
-<span id="cb119-29"><a href="comp-models.html#cb119-29" aria-hidden="true"></a></span>
-<span id="cb119-30"><a href="comp-models.html#cb119-30" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.roc.mtx.lst,</span>
-<span id="cb119-31"><a href="comp-models.html#cb119-31" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;FP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
-<span id="cb119-32"><a href="comp-models.html#cb119-32" aria-hidden="true"></a>      <span class="dt">y=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.roc.mtx.lst,</span>
-<span id="cb119-33"><a href="comp-models.html#cb119-33" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;TP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
-<span id="cb119-34"><a href="comp-models.html#cb119-34" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="st">&#39;FP&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;TP&#39;</span>, <span class="dt">type=</span><span class="st">&#39;n&#39;</span>)</span>
-<span id="cb119-35"><a href="comp-models.html#cb119-35" aria-hidden="true"></a></span>
-<span id="cb119-36"><a href="comp-models.html#cb119-36" aria-hidden="true"></a> <span class="cf">for</span>(II <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Set.Train.roc.mtx.lst))</span>
-<span id="cb119-37"><a href="comp-models.html#cb119-37" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="dt">x=</span>Set.Train.roc.mtx.lst[[II]][,<span class="st">&#39;FP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
-<span id="cb119-38"><a href="comp-models.html#cb119-38" aria-hidden="true"></a>       <span class="dt">y=</span>Set.Train.roc.mtx.lst[[II]][,<span class="st">&#39;TP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
-<span id="cb119-39"><a href="comp-models.html#cb119-39" aria-hidden="true"></a>       <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)[II]])</span>
-<span id="cb119-40"><a href="comp-models.html#cb119-40" aria-hidden="true"></a> <span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">col=</span><span class="st">&#39;grey&#39;</span>)</span>
-<span id="cb119-41"><a href="comp-models.html#cb119-41" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>,</span>
-<span id="cb119-42"><a href="comp-models.html#cb119-42" aria-hidden="true"></a>        <span class="dt">legend=</span><span class="kw">paste</span>(<span class="kw">names</span>(Set.Train.roc.mtx.lst), <span class="st">&#39;:&#39;</span>,</span>
-<span id="cb119-43"><a href="comp-models.html#cb119-43" aria-hidden="true"></a>          <span class="kw">round</span>(Set.Train.auc.vec[<span class="kw">names</span>(Set.Train.roc.mtx.lst)],<span class="dv">3</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</span>
-<span id="cb119-44"><a href="comp-models.html#cb119-44" aria-hidden="true"></a>        <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)],</span>
-<span id="cb119-45"><a href="comp-models.html#cb119-45" aria-hidden="true"></a>        <span class="dt">lty=</span><span class="dv">1</span>)</span>
-<span id="cb119-46"><a href="comp-models.html#cb119-46" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Model Performance on Train Set&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="comp-models.html#cb116-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb116-2"><a href="comp-models.html#cb116-2" aria-hidden="true"></a> <span class="co"># CHANGE THIS LINE TO CLEAR CACHE</span></span>
+<span id="cb116-3"><a href="comp-models.html#cb116-3" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
+<span id="cb116-4"><a href="comp-models.html#cb116-4" aria-hidden="true"></a></span>
+<span id="cb116-5"><a href="comp-models.html#cb116-5" aria-hidden="true"></a> <span class="co">################################</span></span>
+<span id="cb116-6"><a href="comp-models.html#cb116-6" aria-hidden="true"></a> <span class="co"># Train</span></span>
+<span id="cb116-7"><a href="comp-models.html#cb116-7" aria-hidden="true"></a> <span class="co">################################</span></span>
+<span id="cb116-8"><a href="comp-models.html#cb116-8" aria-hidden="true"></a> <span class="co"># Get predicted probabilities</span></span>
+<span id="cb116-9"><a href="comp-models.html#cb116-9" aria-hidden="true"></a> Set.Train.Prob.lst &lt;-<span class="st"> </span><span class="kw">suppressMessages</span>(<span class="kw">predict</span>(Set.ModelFit.lst, <span class="dt">type=</span><span class="st">&#39;prob&#39;</span>))</span>
+<span id="cb116-10"><a href="comp-models.html#cb116-10" aria-hidden="true"></a> Set.Train.ProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>,</span>
+<span id="cb116-11"><a href="comp-models.html#cb116-11" aria-hidden="true"></a>    <span class="kw">lapply</span>(Set.Train.Prob.lst, <span class="cf">function</span>(x) x[,CLASS1]))</span>
+<span id="cb116-12"><a href="comp-models.html#cb116-12" aria-hidden="true"></a></span>
+<span id="cb116-13"><a href="comp-models.html#cb116-13" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.ProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
+<span id="cb116-14"><a href="comp-models.html#cb116-14" aria-hidden="true"></a></span>
+<span id="cb116-15"><a href="comp-models.html#cb116-15" aria-hidden="true"></a> <span class="co"># ROC</span></span>
+<span id="cb116-16"><a href="comp-models.html#cb116-16" aria-hidden="true"></a> Set.Train.roc.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.ProbClass1.mtx), <span class="cf">function</span>(MM)</span>
+<span id="cb116-17"><a href="comp-models.html#cb116-17" aria-hidden="true"></a>    <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.ProbClass1.mtx))),</span>
+<span id="cb116-18"><a href="comp-models.html#cb116-18" aria-hidden="true"></a>     <span class="cf">function</span>(TS) {</span>
+<span id="cb116-19"><a href="comp-models.html#cb116-19" aria-hidden="true"></a>        TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb116-20"><a href="comp-models.html#cb116-20" aria-hidden="true"></a>        FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.ProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb116-21"><a href="comp-models.html#cb116-21" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
+<span id="cb116-22"><a href="comp-models.html#cb116-22" aria-hidden="true"></a>   )</span>
+<span id="cb116-23"><a href="comp-models.html#cb116-23" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.ProbClass1.mtx)</span>
+<span id="cb116-24"><a href="comp-models.html#cb116-24" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
+<span id="cb116-25"><a href="comp-models.html#cb116-25" aria-hidden="true"></a> Set.Train.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.ProbClass1.mtx), <span class="cf">function</span>(CC)</span>
+<span id="cb116-26"><a href="comp-models.html#cb116-26" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.ProbClass1.mtx[,CC]))</span>
+<span id="cb116-27"><a href="comp-models.html#cb116-27" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.ProbClass1.mtx)</span>
+<span id="cb116-28"><a href="comp-models.html#cb116-28" aria-hidden="true"></a></span>
+<span id="cb116-29"><a href="comp-models.html#cb116-29" aria-hidden="true"></a></span>
+<span id="cb116-30"><a href="comp-models.html#cb116-30" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.roc.mtx.lst,</span>
+<span id="cb116-31"><a href="comp-models.html#cb116-31" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;FP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
+<span id="cb116-32"><a href="comp-models.html#cb116-32" aria-hidden="true"></a>      <span class="dt">y=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.roc.mtx.lst,</span>
+<span id="cb116-33"><a href="comp-models.html#cb116-33" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;TP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
+<span id="cb116-34"><a href="comp-models.html#cb116-34" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="st">&#39;FP&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;TP&#39;</span>, <span class="dt">type=</span><span class="st">&#39;n&#39;</span>)</span>
+<span id="cb116-35"><a href="comp-models.html#cb116-35" aria-hidden="true"></a></span>
+<span id="cb116-36"><a href="comp-models.html#cb116-36" aria-hidden="true"></a> <span class="cf">for</span>(II <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Set.Train.roc.mtx.lst))</span>
+<span id="cb116-37"><a href="comp-models.html#cb116-37" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="dt">x=</span>Set.Train.roc.mtx.lst[[II]][,<span class="st">&#39;FP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
+<span id="cb116-38"><a href="comp-models.html#cb116-38" aria-hidden="true"></a>       <span class="dt">y=</span>Set.Train.roc.mtx.lst[[II]][,<span class="st">&#39;TP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
+<span id="cb116-39"><a href="comp-models.html#cb116-39" aria-hidden="true"></a>       <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)[II]])</span>
+<span id="cb116-40"><a href="comp-models.html#cb116-40" aria-hidden="true"></a> <span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">col=</span><span class="st">&#39;grey&#39;</span>)</span>
+<span id="cb116-41"><a href="comp-models.html#cb116-41" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>,</span>
+<span id="cb116-42"><a href="comp-models.html#cb116-42" aria-hidden="true"></a>        <span class="dt">legend=</span><span class="kw">paste</span>(<span class="kw">names</span>(Set.Train.roc.mtx.lst), <span class="st">&#39;:&#39;</span>,</span>
+<span id="cb116-43"><a href="comp-models.html#cb116-43" aria-hidden="true"></a>          <span class="kw">round</span>(Set.Train.auc.vec[<span class="kw">names</span>(Set.Train.roc.mtx.lst)],<span class="dv">3</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</span>
+<span id="cb116-44"><a href="comp-models.html#cb116-44" aria-hidden="true"></a>        <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)],</span>
+<span id="cb116-45"><a href="comp-models.html#cb116-45" aria-hidden="true"></a>        <span class="dt">lty=</span><span class="dv">1</span>)</span>
+<span id="cb116-46"><a href="comp-models.html#cb116-46" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Model Performance on Train Set&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:comp-models-CompROCTrain"></span>
 <img src="Static/figures/comp-models-CompROCTrain-1.png" alt="Training Data ROC" width="1056" />
 <p class="caption">
@@ -1453,60 +1260,60 @@ Figure 4.1: Training Data ROC
 </div>
 <div id="out-of-fold-train-average-over-repeats" class="section level3" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Out-of-fold Train: Average over Repeats</h3>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="comp-models.html#cb120-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb120-2"><a href="comp-models.html#cb120-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
-<span id="cb120-3"><a href="comp-models.html#cb120-3" aria-hidden="true"></a> <span class="co"># Get predicted probabilities</span></span>
-<span id="cb120-4"><a href="comp-models.html#cb120-4" aria-hidden="true"></a> Set.ModelFit.osProbClass1.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(Set.ModelFit.lst,</span>
-<span id="cb120-5"><a href="comp-models.html#cb120-5" aria-hidden="true"></a> <span class="cf">function</span>(MF) {</span>
-<span id="cb120-6"><a href="comp-models.html#cb120-6" aria-hidden="true"></a>   MF.pred.mtx &lt;-<span class="st"> </span>MF<span class="op">$</span>pred</span>
-<span id="cb120-7"><a href="comp-models.html#cb120-7" aria-hidden="true"></a>   Rep.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(MF<span class="op">$</span>pred<span class="op">$</span>Resample, <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>, <span class="dv">2</span>)</span>
-<span id="cb120-8"><a href="comp-models.html#cb120-8" aria-hidden="true"></a>   rowIndex.vec &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">unique</span>(MF<span class="op">$</span>pred<span class="op">$</span>rowIndex))</span>
-<span id="cb120-9"><a href="comp-models.html#cb120-9" aria-hidden="true"></a>   ProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">split</span>(MF<span class="op">$</span>pred, Rep.vec),</span>
-<span id="cb120-10"><a href="comp-models.html#cb120-10" aria-hidden="true"></a>   <span class="cf">function</span>(RepMFpred.frm)</span>
-<span id="cb120-11"><a href="comp-models.html#cb120-11" aria-hidden="true"></a>      RepMFpred.frm[<span class="kw">match</span>(rowIndex.vec, RepMFpred.frm<span class="op">$</span>rowIndex),CLASS1]))</span>
-<span id="cb120-12"><a href="comp-models.html#cb120-12" aria-hidden="true"></a>   ProbClass1.mtx})</span>
-<span id="cb120-13"><a href="comp-models.html#cb120-13" aria-hidden="true"></a></span>
-<span id="cb120-14"><a href="comp-models.html#cb120-14" aria-hidden="true"></a> </span>
-<span id="cb120-15"><a href="comp-models.html#cb120-15" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb120-16"><a href="comp-models.html#cb120-16" aria-hidden="true"></a> <span class="co"># Use average osProb</span></span>
-<span id="cb120-17"><a href="comp-models.html#cb120-17" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb120-18"><a href="comp-models.html#cb120-18" aria-hidden="true"></a> Set.Train.mean_osProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.osProbClass1.mtx.lst,</span>
-<span id="cb120-19"><a href="comp-models.html#cb120-19" aria-hidden="true"></a>  <span class="cf">function</span>(osProbClass1.mtx) <span class="kw">apply</span>(osProbClass1.mtx,<span class="dv">1</span>,mean)))</span>
-<span id="cb120-20"><a href="comp-models.html#cb120-20" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.mean_osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb120-21"><a href="comp-models.html#cb120-21" aria-hidden="true"></a></span>
-<span id="cb120-22"><a href="comp-models.html#cb120-22" aria-hidden="true"></a> <span class="co"># ROC</span></span>
-<span id="cb120-23"><a href="comp-models.html#cb120-23" aria-hidden="true"></a>  Set.Train.mean_osProbClass1.roc.mtx.lst &lt;-</span>
-<span id="cb120-24"><a href="comp-models.html#cb120-24" aria-hidden="true"></a><span class="st">  </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx), <span class="cf">function</span>(MM)</span>
-<span id="cb120-25"><a href="comp-models.html#cb120-25" aria-hidden="true"></a>   <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.mean_osProbClass1.mtx))),</span>
-<span id="cb120-26"><a href="comp-models.html#cb120-26" aria-hidden="true"></a>    <span class="cf">function</span>(TS) {</span>
-<span id="cb120-27"><a href="comp-models.html#cb120-27" aria-hidden="true"></a>     TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb120-28"><a href="comp-models.html#cb120-28" aria-hidden="true"></a>     FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb120-29"><a href="comp-models.html#cb120-29" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
-<span id="cb120-30"><a href="comp-models.html#cb120-30" aria-hidden="true"></a>   )</span>
-<span id="cb120-31"><a href="comp-models.html#cb120-31" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.mean_osProbClass1.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx)</span>
-<span id="cb120-32"><a href="comp-models.html#cb120-32" aria-hidden="true"></a></span>
-<span id="cb120-33"><a href="comp-models.html#cb120-33" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
-<span id="cb120-34"><a href="comp-models.html#cb120-34" aria-hidden="true"></a> Set.Train.mean_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.mean_osProbClass1.mtx), <span class="cf">function</span>(CC)</span>
-<span id="cb120-35"><a href="comp-models.html#cb120-35" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.mean_osProbClass1.mtx[,CC]))</span>
-<span id="cb120-36"><a href="comp-models.html#cb120-36" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx)</span>
-<span id="cb120-37"><a href="comp-models.html#cb120-37" aria-hidden="true"></a></span>
-<span id="cb120-38"><a href="comp-models.html#cb120-38" aria-hidden="true"></a></span>
-<span id="cb120-39"><a href="comp-models.html#cb120-39" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.mean_osProbClass1.roc.mtx.lst,</span>
-<span id="cb120-40"><a href="comp-models.html#cb120-40" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;FP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
-<span id="cb120-41"><a href="comp-models.html#cb120-41" aria-hidden="true"></a>      <span class="dt">y=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.mean_osProbClass1.roc.mtx.lst,</span>
-<span id="cb120-42"><a href="comp-models.html#cb120-42" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;TP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
-<span id="cb120-43"><a href="comp-models.html#cb120-43" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="st">&#39;FP&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;TP&#39;</span>, <span class="dt">type=</span><span class="st">&#39;n&#39;</span>)</span>
-<span id="cb120-44"><a href="comp-models.html#cb120-44" aria-hidden="true"></a></span>
-<span id="cb120-45"><a href="comp-models.html#cb120-45" aria-hidden="true"></a> <span class="cf">for</span>(II <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Set.Train.mean_osProbClass1.roc.mtx.lst))</span>
-<span id="cb120-46"><a href="comp-models.html#cb120-46" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="dt">x=</span>Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,<span class="st">&#39;FP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
-<span id="cb120-47"><a href="comp-models.html#cb120-47" aria-hidden="true"></a>       <span class="dt">y=</span>Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,<span class="st">&#39;TP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
-<span id="cb120-48"><a href="comp-models.html#cb120-48" aria-hidden="true"></a>       <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)[II]])</span>
-<span id="cb120-49"><a href="comp-models.html#cb120-49" aria-hidden="true"></a> <span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">col=</span><span class="st">&#39;grey&#39;</span>)</span>
-<span id="cb120-50"><a href="comp-models.html#cb120-50" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>,</span>
-<span id="cb120-51"><a href="comp-models.html#cb120-51" aria-hidden="true"></a>        <span class="dt">legend=</span><span class="kw">paste</span>(<span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec), <span class="st">&#39;:&#39;</span>,</span>
-<span id="cb120-52"><a href="comp-models.html#cb120-52" aria-hidden="true"></a>          <span class="kw">round</span>(Set.Train.mean_osProbClass1.auc.vec,<span class="dv">3</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</span>
-<span id="cb120-53"><a href="comp-models.html#cb120-53" aria-hidden="true"></a>        <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec)], <span class="dt">lty=</span><span class="dv">1</span>)</span>
-<span id="cb120-54"><a href="comp-models.html#cb120-54" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Model Performance on Train Set - Out-of-fold mean Prob(MSS)&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="comp-models.html#cb117-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb117-2"><a href="comp-models.html#cb117-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
+<span id="cb117-3"><a href="comp-models.html#cb117-3" aria-hidden="true"></a> <span class="co"># Get predicted probabilities</span></span>
+<span id="cb117-4"><a href="comp-models.html#cb117-4" aria-hidden="true"></a> Set.ModelFit.osProbClass1.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(Set.ModelFit.lst,</span>
+<span id="cb117-5"><a href="comp-models.html#cb117-5" aria-hidden="true"></a> <span class="cf">function</span>(MF) {</span>
+<span id="cb117-6"><a href="comp-models.html#cb117-6" aria-hidden="true"></a>   MF.pred.mtx &lt;-<span class="st"> </span>MF<span class="op">$</span>pred</span>
+<span id="cb117-7"><a href="comp-models.html#cb117-7" aria-hidden="true"></a>   Rep.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(MF<span class="op">$</span>pred<span class="op">$</span>Resample, <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>, <span class="dv">2</span>)</span>
+<span id="cb117-8"><a href="comp-models.html#cb117-8" aria-hidden="true"></a>   rowIndex.vec &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">unique</span>(MF<span class="op">$</span>pred<span class="op">$</span>rowIndex))</span>
+<span id="cb117-9"><a href="comp-models.html#cb117-9" aria-hidden="true"></a>   ProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">split</span>(MF<span class="op">$</span>pred, Rep.vec),</span>
+<span id="cb117-10"><a href="comp-models.html#cb117-10" aria-hidden="true"></a>   <span class="cf">function</span>(RepMFpred.frm)</span>
+<span id="cb117-11"><a href="comp-models.html#cb117-11" aria-hidden="true"></a>      RepMFpred.frm[<span class="kw">match</span>(rowIndex.vec, RepMFpred.frm<span class="op">$</span>rowIndex),CLASS1]))</span>
+<span id="cb117-12"><a href="comp-models.html#cb117-12" aria-hidden="true"></a>   ProbClass1.mtx})</span>
+<span id="cb117-13"><a href="comp-models.html#cb117-13" aria-hidden="true"></a></span>
+<span id="cb117-14"><a href="comp-models.html#cb117-14" aria-hidden="true"></a> </span>
+<span id="cb117-15"><a href="comp-models.html#cb117-15" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb117-16"><a href="comp-models.html#cb117-16" aria-hidden="true"></a> <span class="co"># Use average osProb</span></span>
+<span id="cb117-17"><a href="comp-models.html#cb117-17" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb117-18"><a href="comp-models.html#cb117-18" aria-hidden="true"></a> Set.Train.mean_osProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.osProbClass1.mtx.lst,</span>
+<span id="cb117-19"><a href="comp-models.html#cb117-19" aria-hidden="true"></a>  <span class="cf">function</span>(osProbClass1.mtx) <span class="kw">apply</span>(osProbClass1.mtx,<span class="dv">1</span>,mean)))</span>
+<span id="cb117-20"><a href="comp-models.html#cb117-20" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.mean_osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
+<span id="cb117-21"><a href="comp-models.html#cb117-21" aria-hidden="true"></a></span>
+<span id="cb117-22"><a href="comp-models.html#cb117-22" aria-hidden="true"></a> <span class="co"># ROC</span></span>
+<span id="cb117-23"><a href="comp-models.html#cb117-23" aria-hidden="true"></a>  Set.Train.mean_osProbClass1.roc.mtx.lst &lt;-</span>
+<span id="cb117-24"><a href="comp-models.html#cb117-24" aria-hidden="true"></a><span class="st">  </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx), <span class="cf">function</span>(MM)</span>
+<span id="cb117-25"><a href="comp-models.html#cb117-25" aria-hidden="true"></a>   <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.mean_osProbClass1.mtx))),</span>
+<span id="cb117-26"><a href="comp-models.html#cb117-26" aria-hidden="true"></a>    <span class="cf">function</span>(TS) {</span>
+<span id="cb117-27"><a href="comp-models.html#cb117-27" aria-hidden="true"></a>     TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb117-28"><a href="comp-models.html#cb117-28" aria-hidden="true"></a>     FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.mean_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb117-29"><a href="comp-models.html#cb117-29" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
+<span id="cb117-30"><a href="comp-models.html#cb117-30" aria-hidden="true"></a>   )</span>
+<span id="cb117-31"><a href="comp-models.html#cb117-31" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.mean_osProbClass1.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx)</span>
+<span id="cb117-32"><a href="comp-models.html#cb117-32" aria-hidden="true"></a></span>
+<span id="cb117-33"><a href="comp-models.html#cb117-33" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
+<span id="cb117-34"><a href="comp-models.html#cb117-34" aria-hidden="true"></a> Set.Train.mean_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.mean_osProbClass1.mtx), <span class="cf">function</span>(CC)</span>
+<span id="cb117-35"><a href="comp-models.html#cb117-35" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.mean_osProbClass1.mtx[,CC]))</span>
+<span id="cb117-36"><a href="comp-models.html#cb117-36" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.mean_osProbClass1.mtx)</span>
+<span id="cb117-37"><a href="comp-models.html#cb117-37" aria-hidden="true"></a></span>
+<span id="cb117-38"><a href="comp-models.html#cb117-38" aria-hidden="true"></a></span>
+<span id="cb117-39"><a href="comp-models.html#cb117-39" aria-hidden="true"></a> <span class="kw">plot</span>(<span class="dt">x=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.mean_osProbClass1.roc.mtx.lst,</span>
+<span id="cb117-40"><a href="comp-models.html#cb117-40" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;FP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
+<span id="cb117-41"><a href="comp-models.html#cb117-41" aria-hidden="true"></a>      <span class="dt">y=</span><span class="kw">range</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.Train.mean_osProbClass1.roc.mtx.lst,</span>
+<span id="cb117-42"><a href="comp-models.html#cb117-42" aria-hidden="true"></a>                <span class="cf">function</span>(LL) LL[,<span class="st">&#39;TP&#39;</span>])))<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
+<span id="cb117-43"><a href="comp-models.html#cb117-43" aria-hidden="true"></a>      <span class="dt">xlab=</span><span class="st">&#39;FP&#39;</span>, <span class="dt">ylab=</span><span class="st">&#39;TP&#39;</span>, <span class="dt">type=</span><span class="st">&#39;n&#39;</span>)</span>
+<span id="cb117-44"><a href="comp-models.html#cb117-44" aria-hidden="true"></a></span>
+<span id="cb117-45"><a href="comp-models.html#cb117-45" aria-hidden="true"></a> <span class="cf">for</span>(II <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Set.Train.mean_osProbClass1.roc.mtx.lst))</span>
+<span id="cb117-46"><a href="comp-models.html#cb117-46" aria-hidden="true"></a> <span class="kw">lines</span>(<span class="dt">x=</span>Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,<span class="st">&#39;FP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS2),</span>
+<span id="cb117-47"><a href="comp-models.html#cb117-47" aria-hidden="true"></a>       <span class="dt">y=</span>Set.Train.mean_osProbClass1.roc.mtx.lst[[II]][,<span class="st">&#39;TP&#39;</span>]<span class="op">/</span><span class="kw">sum</span>(Train.Label.vec<span class="op">==</span>CLASS1),</span>
+<span id="cb117-48"><a href="comp-models.html#cb117-48" aria-hidden="true"></a>       <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.roc.mtx.lst)[II]])</span>
+<span id="cb117-49"><a href="comp-models.html#cb117-49" aria-hidden="true"></a> <span class="kw">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">col=</span><span class="st">&#39;grey&#39;</span>)</span>
+<span id="cb117-50"><a href="comp-models.html#cb117-50" aria-hidden="true"></a> <span class="kw">legend</span>(<span class="st">&#39;bottomright&#39;</span>,</span>
+<span id="cb117-51"><a href="comp-models.html#cb117-51" aria-hidden="true"></a>        <span class="dt">legend=</span><span class="kw">paste</span>(<span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec), <span class="st">&#39;:&#39;</span>,</span>
+<span id="cb117-52"><a href="comp-models.html#cb117-52" aria-hidden="true"></a>          <span class="kw">round</span>(Set.Train.mean_osProbClass1.auc.vec,<span class="dv">3</span>),<span class="dt">sep=</span><span class="st">&#39;&#39;</span>),</span>
+<span id="cb117-53"><a href="comp-models.html#cb117-53" aria-hidden="true"></a>        <span class="dt">col=</span>Model.col[<span class="kw">names</span>(Set.Train.mean_osProbClass1.auc.vec)], <span class="dt">lty=</span><span class="dv">1</span>)</span>
+<span id="cb117-54"><a href="comp-models.html#cb117-54" aria-hidden="true"></a> <span class="kw">title</span>(<span class="st">&#39;Model Performance on Train Set - Out-of-fold mean Prob(MSS)&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:comp-models-CompROCOOFTrain"></span>
 <img src="Static/figures/comp-models-CompROCOOFTrain-1.png" alt="Out-of-fold Train: Average over Repeats" width="1056" />
 <p class="caption">
@@ -1517,38 +1324,38 @@ Figure 4.2: Out-of-fold Train: Average over Repeats
 <!-- SKIP AFTER EXAMINING
 ### Out-of-fold Train Set: Individual Repeats
 -->
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="comp-models.html#cb121-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb121-2"><a href="comp-models.html#cb121-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
-<span id="cb121-3"><a href="comp-models.html#cb121-3" aria-hidden="true"></a></span>
-<span id="cb121-4"><a href="comp-models.html#cb121-4" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb121-5"><a href="comp-models.html#cb121-5" aria-hidden="true"></a> <span class="co"># Replot ROC keep individual rep osProbClass1</span></span>
-<span id="cb121-6"><a href="comp-models.html#cb121-6" aria-hidden="true"></a> <span class="co">#################################</span></span>
-<span id="cb121-7"><a href="comp-models.html#cb121-7" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">names</span>(Set.ModelFit.osProbClass1.mtx.lst),</span>
-<span id="cb121-8"><a href="comp-models.html#cb121-8" aria-hidden="true"></a>  <span class="cf">function</span>(MODEL) {</span>
-<span id="cb121-9"><a href="comp-models.html#cb121-9" aria-hidden="true"></a>   osProbClass1.mtx &lt;-<span class="st"> </span>Set.ModelFit.osProbClass1.mtx.lst[[MODEL]]</span>
-<span id="cb121-10"><a href="comp-models.html#cb121-10" aria-hidden="true"></a>   <span class="kw">colnames</span>(osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">paste</span>(MODEL, <span class="kw">colnames</span>(osProbClass1.mtx),<span class="dt">sep=</span><span class="st">&#39;.&#39;</span>)</span>
-<span id="cb121-11"><a href="comp-models.html#cb121-11" aria-hidden="true"></a>   osProbClass1.mtx}))</span>
-<span id="cb121-12"><a href="comp-models.html#cb121-12" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.indiv_osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb121-13"><a href="comp-models.html#cb121-13" aria-hidden="true"></a></span>
-<span id="cb121-14"><a href="comp-models.html#cb121-14" aria-hidden="true"></a> <span class="co"># ROC</span></span>
-<span id="cb121-15"><a href="comp-models.html#cb121-15" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.roc.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx), <span class="cf">function</span>(MM)</span>
-<span id="cb121-16"><a href="comp-models.html#cb121-16" aria-hidden="true"></a>    <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.indiv_osProbClass1.mtx))),</span>
-<span id="cb121-17"><a href="comp-models.html#cb121-17" aria-hidden="true"></a>     <span class="cf">function</span>(TS) {</span>
-<span id="cb121-18"><a href="comp-models.html#cb121-18" aria-hidden="true"></a>        TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb121-19"><a href="comp-models.html#cb121-19" aria-hidden="true"></a>        FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
-<span id="cb121-20"><a href="comp-models.html#cb121-20" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
-<span id="cb121-21"><a href="comp-models.html#cb121-21" aria-hidden="true"></a>   )</span>
-<span id="cb121-22"><a href="comp-models.html#cb121-22" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.indiv_osProbClass1.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx)</span>
-<span id="cb121-23"><a href="comp-models.html#cb121-23" aria-hidden="true"></a></span>
-<span id="cb121-24"><a href="comp-models.html#cb121-24" aria-hidden="true"></a></span>
-<span id="cb121-25"><a href="comp-models.html#cb121-25" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
-<span id="cb121-26"><a href="comp-models.html#cb121-26" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.indiv_osProbClass1.mtx), <span class="cf">function</span>(CC)</span>
-<span id="cb121-27"><a href="comp-models.html#cb121-27" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.indiv_osProbClass1.mtx[,CC]))</span>
-<span id="cb121-28"><a href="comp-models.html#cb121-28" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.indiv_osProbClass1.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx)</span>
-<span id="cb121-29"><a href="comp-models.html#cb121-29" aria-hidden="true"></a></span>
-<span id="cb121-30"><a href="comp-models.html#cb121-30" aria-hidden="true"></a> Set.Train.mean_indiv_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">split</span>(Set.Train.indiv_osProbClass1.auc.vec,</span>
-<span id="cb121-31"><a href="comp-models.html#cb121-31" aria-hidden="true"></a>   <span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">names</span>(Set.Train.indiv_osProbClass1.auc.vec), <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)),</span>
-<span id="cb121-32"><a href="comp-models.html#cb121-32" aria-hidden="true"></a>   mean)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="comp-models.html#cb118-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb118-2"><a href="comp-models.html#cb118-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(pROC))</span>
+<span id="cb118-3"><a href="comp-models.html#cb118-3" aria-hidden="true"></a></span>
+<span id="cb118-4"><a href="comp-models.html#cb118-4" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb118-5"><a href="comp-models.html#cb118-5" aria-hidden="true"></a> <span class="co"># Replot ROC keep individual rep osProbClass1</span></span>
+<span id="cb118-6"><a href="comp-models.html#cb118-6" aria-hidden="true"></a> <span class="co">#################################</span></span>
+<span id="cb118-7"><a href="comp-models.html#cb118-7" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">names</span>(Set.ModelFit.osProbClass1.mtx.lst),</span>
+<span id="cb118-8"><a href="comp-models.html#cb118-8" aria-hidden="true"></a>  <span class="cf">function</span>(MODEL) {</span>
+<span id="cb118-9"><a href="comp-models.html#cb118-9" aria-hidden="true"></a>   osProbClass1.mtx &lt;-<span class="st"> </span>Set.ModelFit.osProbClass1.mtx.lst[[MODEL]]</span>
+<span id="cb118-10"><a href="comp-models.html#cb118-10" aria-hidden="true"></a>   <span class="kw">colnames</span>(osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">paste</span>(MODEL, <span class="kw">colnames</span>(osProbClass1.mtx),<span class="dt">sep=</span><span class="st">&#39;.&#39;</span>)</span>
+<span id="cb118-11"><a href="comp-models.html#cb118-11" aria-hidden="true"></a>   osProbClass1.mtx}))</span>
+<span id="cb118-12"><a href="comp-models.html#cb118-12" aria-hidden="true"></a> <span class="kw">rownames</span>(Set.Train.indiv_osProbClass1.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
+<span id="cb118-13"><a href="comp-models.html#cb118-13" aria-hidden="true"></a></span>
+<span id="cb118-14"><a href="comp-models.html#cb118-14" aria-hidden="true"></a> <span class="co"># ROC</span></span>
+<span id="cb118-15"><a href="comp-models.html#cb118-15" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.roc.mtx.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx), <span class="cf">function</span>(MM)</span>
+<span id="cb118-16"><a href="comp-models.html#cb118-16" aria-hidden="true"></a>    <span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(Set.Train.indiv_osProbClass1.mtx))),</span>
+<span id="cb118-17"><a href="comp-models.html#cb118-17" aria-hidden="true"></a>     <span class="cf">function</span>(TS) {</span>
+<span id="cb118-18"><a href="comp-models.html#cb118-18" aria-hidden="true"></a>        TP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS1] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb118-19"><a href="comp-models.html#cb118-19" aria-hidden="true"></a>        FP &lt;-<span class="st"> </span><span class="kw">sum</span>(Set.Train.indiv_osProbClass1.mtx[,MM][Train.Label.vec<span class="op">==</span>CLASS2] <span class="op">&gt;</span><span class="st"> </span>TS, <span class="dt">na.rm=</span>T)</span>
+<span id="cb118-20"><a href="comp-models.html#cb118-20" aria-hidden="true"></a>        <span class="kw">c</span>(<span class="dt">TS=</span>TS, <span class="dt">TP=</span>TP, <span class="dt">FP=</span>FP)}))</span>
+<span id="cb118-21"><a href="comp-models.html#cb118-21" aria-hidden="true"></a>   )</span>
+<span id="cb118-22"><a href="comp-models.html#cb118-22" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.indiv_osProbClass1.roc.mtx.lst) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx)</span>
+<span id="cb118-23"><a href="comp-models.html#cb118-23" aria-hidden="true"></a></span>
+<span id="cb118-24"><a href="comp-models.html#cb118-24" aria-hidden="true"></a></span>
+<span id="cb118-25"><a href="comp-models.html#cb118-25" aria-hidden="true"></a> <span class="co"># Get auc</span></span>
+<span id="cb118-26"><a href="comp-models.html#cb118-26" aria-hidden="true"></a> Set.Train.indiv_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(Set.Train.indiv_osProbClass1.mtx), <span class="cf">function</span>(CC)</span>
+<span id="cb118-27"><a href="comp-models.html#cb118-27" aria-hidden="true"></a>   <span class="kw">auc</span>(Train.Label.vec, Set.Train.indiv_osProbClass1.mtx[,CC]))</span>
+<span id="cb118-28"><a href="comp-models.html#cb118-28" aria-hidden="true"></a> <span class="kw">names</span>(Set.Train.indiv_osProbClass1.auc.vec) &lt;-<span class="st"> </span><span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx)</span>
+<span id="cb118-29"><a href="comp-models.html#cb118-29" aria-hidden="true"></a></span>
+<span id="cb118-30"><a href="comp-models.html#cb118-30" aria-hidden="true"></a> Set.Train.mean_indiv_osProbClass1.auc.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">split</span>(Set.Train.indiv_osProbClass1.auc.vec,</span>
+<span id="cb118-31"><a href="comp-models.html#cb118-31" aria-hidden="true"></a>   <span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">names</span>(Set.Train.indiv_osProbClass1.auc.vec), <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)),</span>
+<span id="cb118-32"><a href="comp-models.html#cb118-32" aria-hidden="true"></a>   mean)</span></code></pre></div>
 <!-- ######################################################################## -->
 </div>
 <div id="compare-predicted-probabilities" class="section level3" number="4.4.3">
@@ -1558,27 +1365,27 @@ predictions. This is useful to both characterize the mode of errors occuring
 in a given model - are the errors due to bias or variability? - as well as
 chracterizing samples - some samples may be mis-labelled or hard to
 classify correctly.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="comp-models.html#cb122-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb122-2"><a href="comp-models.html#cb122-2" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">rownames</span>(Set.Train.indiv_osProbClass1.mtx) <span class="op">!=</span></span>
-<span id="cb122-3"><a href="comp-models.html#cb122-3" aria-hidden="true"></a><span class="st">         </span><span class="kw">names</span>(Train.Label.vec)))</span>
-<span id="cb122-4"><a href="comp-models.html#cb122-4" aria-hidden="true"></a>  <span class="kw">stop</span>(<span class="st">&quot;Sample ordering problem.&quot;</span>)</span>
-<span id="cb122-5"><a href="comp-models.html#cb122-5" aria-hidden="true"></a></span>
-<span id="cb122-6"><a href="comp-models.html#cb122-6" aria-hidden="true"></a>  <span class="co"># Reorder by Outcome</span></span>
-<span id="cb122-7"><a href="comp-models.html#cb122-7" aria-hidden="true"></a>  row.o &lt;-<span class="st"> </span><span class="kw">order</span>(Train.Label.vec, <span class="kw">names</span>(Train.Label.vec))</span>
-<span id="cb122-8"><a href="comp-models.html#cb122-8" aria-hidden="true"></a></span>
-<span id="cb122-9"><a href="comp-models.html#cb122-9" aria-hidden="true"></a>  Col.Models.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx), <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)</span>
-<span id="cb122-10"><a href="comp-models.html#cb122-10" aria-hidden="true"></a></span>
-<span id="cb122-11"><a href="comp-models.html#cb122-11" aria-hidden="true"></a>  <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="kw">length</span>(<span class="kw">unique</span>(Col.Models.vec)),<span class="dv">1</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
-<span id="cb122-12"><a href="comp-models.html#cb122-12" aria-hidden="true"></a></span>
-<span id="cb122-13"><a href="comp-models.html#cb122-13" aria-hidden="true"></a>  <span class="cf">for</span>(MOD <span class="cf">in</span> <span class="kw">unique</span>(Col.Models.vec)) {</span>
-<span id="cb122-14"><a href="comp-models.html#cb122-14" aria-hidden="true"></a>   Mod.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Col.Models.vec<span class="op">==</span>MOD)</span>
-<span id="cb122-15"><a href="comp-models.html#cb122-15" aria-hidden="true"></a></span>
-<span id="cb122-16"><a href="comp-models.html#cb122-16" aria-hidden="true"></a>   box.out &lt;-</span>
-<span id="cb122-17"><a href="comp-models.html#cb122-17" aria-hidden="true"></a><span class="st">   </span><span class="kw">boxplot</span>(<span class="kw">t</span>(Set.Train.indiv_osProbClass1.mtx[row.o,Mod.cols]),</span>
-<span id="cb122-18"><a href="comp-models.html#cb122-18" aria-hidden="true"></a>           <span class="dt">col=</span><span class="kw">ifelse</span>(Train.Label.vec[row.o]<span class="op">==</span>CLASS1,<span class="dv">3</span>,<span class="dv">2</span>),</span>
-<span id="cb122-19"><a href="comp-models.html#cb122-19" aria-hidden="true"></a>           <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">outline=</span>F)</span>
-<span id="cb122-20"><a href="comp-models.html#cb122-20" aria-hidden="true"></a>   <span class="kw">title</span>(MOD)</span>
-<span id="cb122-21"><a href="comp-models.html#cb122-21" aria-hidden="true"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="comp-models.html#cb119-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb119-2"><a href="comp-models.html#cb119-2" aria-hidden="true"></a>  <span class="cf">if</span>(<span class="kw">sum</span>(<span class="kw">rownames</span>(Set.Train.indiv_osProbClass1.mtx) <span class="op">!=</span></span>
+<span id="cb119-3"><a href="comp-models.html#cb119-3" aria-hidden="true"></a><span class="st">         </span><span class="kw">names</span>(Train.Label.vec)))</span>
+<span id="cb119-4"><a href="comp-models.html#cb119-4" aria-hidden="true"></a>  <span class="kw">stop</span>(<span class="st">&quot;Sample ordering problem.&quot;</span>)</span>
+<span id="cb119-5"><a href="comp-models.html#cb119-5" aria-hidden="true"></a></span>
+<span id="cb119-6"><a href="comp-models.html#cb119-6" aria-hidden="true"></a>  <span class="co"># Reorder by Outcome</span></span>
+<span id="cb119-7"><a href="comp-models.html#cb119-7" aria-hidden="true"></a>  row.o &lt;-<span class="st"> </span><span class="kw">order</span>(Train.Label.vec, <span class="kw">names</span>(Train.Label.vec))</span>
+<span id="cb119-8"><a href="comp-models.html#cb119-8" aria-hidden="true"></a></span>
+<span id="cb119-9"><a href="comp-models.html#cb119-9" aria-hidden="true"></a>  Col.Models.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(Set.Train.indiv_osProbClass1.mtx), <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)</span>
+<span id="cb119-10"><a href="comp-models.html#cb119-10" aria-hidden="true"></a></span>
+<span id="cb119-11"><a href="comp-models.html#cb119-11" aria-hidden="true"></a>  <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="kw">length</span>(<span class="kw">unique</span>(Col.Models.vec)),<span class="dv">1</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb119-12"><a href="comp-models.html#cb119-12" aria-hidden="true"></a></span>
+<span id="cb119-13"><a href="comp-models.html#cb119-13" aria-hidden="true"></a>  <span class="cf">for</span>(MOD <span class="cf">in</span> <span class="kw">unique</span>(Col.Models.vec)) {</span>
+<span id="cb119-14"><a href="comp-models.html#cb119-14" aria-hidden="true"></a>   Mod.cols &lt;-<span class="st"> </span><span class="kw">which</span>(Col.Models.vec<span class="op">==</span>MOD)</span>
+<span id="cb119-15"><a href="comp-models.html#cb119-15" aria-hidden="true"></a></span>
+<span id="cb119-16"><a href="comp-models.html#cb119-16" aria-hidden="true"></a>   box.out &lt;-</span>
+<span id="cb119-17"><a href="comp-models.html#cb119-17" aria-hidden="true"></a><span class="st">   </span><span class="kw">boxplot</span>(<span class="kw">t</span>(Set.Train.indiv_osProbClass1.mtx[row.o,Mod.cols]),</span>
+<span id="cb119-18"><a href="comp-models.html#cb119-18" aria-hidden="true"></a>           <span class="dt">col=</span><span class="kw">ifelse</span>(Train.Label.vec[row.o]<span class="op">==</span>CLASS1,<span class="dv">3</span>,<span class="dv">2</span>),</span>
+<span id="cb119-19"><a href="comp-models.html#cb119-19" aria-hidden="true"></a>           <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">outline=</span>F)</span>
+<span id="cb119-20"><a href="comp-models.html#cb119-20" aria-hidden="true"></a>   <span class="kw">title</span>(MOD)</span>
+<span id="cb119-21"><a href="comp-models.html#cb119-21" aria-hidden="true"></a>  }</span></code></pre></div>
 <div class="figure"><span id="fig:comp-models-CompOOFSet-TrainProbClass1"></span>
 <img src="Static/figures/comp-models-CompOOFSet-TrainProbClass1-1.png" alt="Predicted Probabilities" width="1152" />
 <p class="caption">
@@ -1606,79 +1413,79 @@ MSS status in other studies:</p>
 <li>KRUHOFFER <span class="citation">[<a href="references.html#ref-Kruhoffer:2005aa" role="doc-biblioref">25</a>]</span></li>
 <li>MORI <span class="citation">[<a href="references.html#ref-Mori:2003aa" role="doc-biblioref">26</a>]</span></li>
 </ul>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="comp-models.html#cb123-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb123-2"><a href="comp-models.html#cb123-2" aria-hidden="true"></a>  MSSMSI.GeneSets.frm &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;extData&#39;</span>, <span class="st">&quot;ColonCancerGeneSets.tab&quot;</span>),</span>
-<span id="cb123-3"><a href="comp-models.html#cb123-3" aria-hidden="true"></a>   <span class="dt">header=</span>T, <span class="dt">sep=</span><span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</span>
-<span id="cb123-4"><a href="comp-models.html#cb123-4" aria-hidden="true"></a></span>
-<span id="cb123-5"><a href="comp-models.html#cb123-5" aria-hidden="true"></a>  GeneSets.lst &lt;-<span class="st"> </span><span class="kw">split</span>(MSSMSI.GeneSets.frm<span class="op">$</span>GeneSymbol, <span class="kw">toupper</span>(MSSMSI.GeneSets.frm<span class="op">$</span>ListName))</span>
-<span id="cb123-6"><a href="comp-models.html#cb123-6" aria-hidden="true"></a>  GeneSets.lst &lt;-<span class="st"> </span>GeneSets.lst[<span class="kw">c</span>(<span class="st">&#39;BANERJEA&#39;</span>,<span class="st">&#39;CROCE&#39;</span>,<span class="st">&#39;JORISSEN&#39;</span>, <span class="st">&#39;KOINUMA&#39;</span>, <span class="st">&#39;KRUHOFFER&#39;</span>,<span class="st">&#39;MORI&#39;</span>)]</span></code></pre></div>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="comp-models.html#cb124-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
-<span id="cb124-2"><a href="comp-models.html#cb124-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
-<span id="cb124-3"><a href="comp-models.html#cb124-3" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(gbm))</span>
-<span id="cb124-4"><a href="comp-models.html#cb124-4" aria-hidden="true"></a></span>
-<span id="cb124-5"><a href="comp-models.html#cb124-5" aria-hidden="true"></a> <span class="co"># Load gene to probe set map</span></span>
-<span id="cb124-6"><a href="comp-models.html#cb124-6" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;GeneNameMap.vec&#39;</span>))</span>
-<span id="cb124-7"><a href="comp-models.html#cb124-7" aria-hidden="true"></a> </span>
-<span id="cb124-8"><a href="comp-models.html#cb124-8" aria-hidden="true"></a> <span class="co"># Will also need the inverted map</span></span>
-<span id="cb124-9"><a href="comp-models.html#cb124-9" aria-hidden="true"></a> GeneNameMap2.vec &lt;-<span class="st"> </span><span class="kw">names</span>(GeneNameMap.vec)</span>
-<span id="cb124-10"><a href="comp-models.html#cb124-10" aria-hidden="true"></a> <span class="kw">names</span>(GeneNameMap2.vec) &lt;-<span class="st"> </span>GeneNameMap.vec</span>
-<span id="cb124-11"><a href="comp-models.html#cb124-11" aria-hidden="true"></a></span>
-<span id="cb124-12"><a href="comp-models.html#cb124-12" aria-hidden="true"></a>  Set.ModelFit.Top30.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">setdiff</span>(<span class="kw">names</span>(Set.ModelFit.lst),</span>
-<span id="cb124-13"><a href="comp-models.html#cb124-13" aria-hidden="true"></a>                                   <span class="kw">c</span>(<span class="st">&quot;knnFit&quot;</span>,<span class="st">&quot;sddaLDAFit&quot;</span>,<span class="st">&quot;sddaQDAFit&quot;</span>)),</span>
-<span id="cb124-14"><a href="comp-models.html#cb124-14" aria-hidden="true"></a>  <span class="cf">function</span>(MOD) {</span>
-<span id="cb124-15"><a href="comp-models.html#cb124-15" aria-hidden="true"></a>    <span class="co">#cat(MOD,&#39;\n&#39;)</span></span>
-<span id="cb124-16"><a href="comp-models.html#cb124-16" aria-hidden="true"></a>    FIT &lt;-<span class="st"> </span>Set.ModelFit.lst[[MOD]]</span>
-<span id="cb124-17"><a href="comp-models.html#cb124-17" aria-hidden="true"></a></span>
-<span id="cb124-18"><a href="comp-models.html#cb124-18" aria-hidden="true"></a>    <span class="cf">if</span>(<span class="kw">is.element</span>(CLASS1, <span class="kw">colnames</span>(<span class="kw">varImp</span>(FIT)<span class="op">$</span>imp)))</span>
-<span id="cb124-19"><a href="comp-models.html#cb124-19" aria-hidden="true"></a>    impVar.vec &lt;-<span class="st"> </span><span class="kw">varImp</span>(FIT)<span class="op">$</span>imp[,CLASS1] <span class="cf">else</span></span>
-<span id="cb124-20"><a href="comp-models.html#cb124-20" aria-hidden="true"></a>    impVar.vec &lt;-<span class="st"> </span><span class="kw">varImp</span>(FIT)<span class="op">$</span>imp<span class="op">$</span>Overall</span>
-<span id="cb124-21"><a href="comp-models.html#cb124-21" aria-hidden="true"></a></span>
-<span id="cb124-22"><a href="comp-models.html#cb124-22" aria-hidden="true"></a>    top30.ndx &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">order</span>(impVar.vec))[<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>]</span>
-<span id="cb124-23"><a href="comp-models.html#cb124-23" aria-hidden="true"></a>    varImp.vec &lt;-<span class="st"> </span>impVar.vec[top30.ndx]</span>
-<span id="cb124-24"><a href="comp-models.html#cb124-24" aria-hidden="true"></a>    <span class="kw">names</span>(varImp.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(<span class="kw">varImp</span>(FIT)<span class="op">$</span>imp)[top30.ndx]</span>
-<span id="cb124-25"><a href="comp-models.html#cb124-25" aria-hidden="true"></a>    varImp.vec</span>
-<span id="cb124-26"><a href="comp-models.html#cb124-26" aria-hidden="true"></a>    })</span>
-<span id="cb124-27"><a href="comp-models.html#cb124-27" aria-hidden="true"></a>  <span class="kw">names</span>(Set.ModelFit.Top30.lst) &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(Set.ModelFit.lst),</span>
-<span id="cb124-28"><a href="comp-models.html#cb124-28" aria-hidden="true"></a>                                   <span class="kw">c</span>(<span class="st">&quot;knnFit&quot;</span>,<span class="st">&quot;sddaLDAFit&quot;</span>,<span class="st">&quot;sddaQDAFit&quot;</span>))</span>
-<span id="cb124-29"><a href="comp-models.html#cb124-29" aria-hidden="true"></a></span>
-<span id="cb124-30"><a href="comp-models.html#cb124-30" aria-hidden="true"></a>  Top30.Name.vec &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.Top30.lst, <span class="cf">function</span>(VV) <span class="kw">names</span>(VV))))</span>
-<span id="cb124-31"><a href="comp-models.html#cb124-31" aria-hidden="true"></a></span>
-<span id="cb124-32"><a href="comp-models.html#cb124-32" aria-hidden="true"></a>  Top30.ProbeId.vec &lt;-<span class="st"> </span>GeneNameMap.vec[Top30.Name.vec]</span>
-<span id="cb124-33"><a href="comp-models.html#cb124-33" aria-hidden="true"></a></span>
-<span id="cb124-34"><a href="comp-models.html#cb124-34" aria-hidden="true"></a>  <span class="co"># Put together in a matrix</span></span>
-<span id="cb124-35"><a href="comp-models.html#cb124-35" aria-hidden="true"></a>  Top30.varImp.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.Top30.lst,</span>
-<span id="cb124-36"><a href="comp-models.html#cb124-36" aria-hidden="true"></a>   <span class="cf">function</span>(LL) LL[Top30.Name.vec]))</span>
-<span id="cb124-37"><a href="comp-models.html#cb124-37" aria-hidden="true"></a>  <span class="kw">rownames</span>(Top30.varImp.mtx) &lt;-<span class="st"> </span>GeneNameMap.vec[Top30.Name.vec]</span>
-<span id="cb124-38"><a href="comp-models.html#cb124-38" aria-hidden="true"></a>  Top30.varImp.mtx[<span class="kw">is.na</span>(Top30.varImp.mtx)] &lt;-<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb124-39"><a href="comp-models.html#cb124-39" aria-hidden="true"></a></span>
-<span id="cb124-40"><a href="comp-models.html#cb124-40" aria-hidden="true"></a>  <span class="co"># Reoder by ovrall importance</span></span>
-<span id="cb124-41"><a href="comp-models.html#cb124-41" aria-hidden="true"></a>  varImp.med.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(Top30.varImp.mtx,<span class="dv">1</span>,median)</span>
-<span id="cb124-42"><a href="comp-models.html#cb124-42" aria-hidden="true"></a>  Top30.varImp.mtx &lt;-<span class="st"> </span>Top30.varImp.mtx[<span class="kw">rev</span>(<span class="kw">order</span>(varImp.med.vec)),]</span>
-<span id="cb124-43"><a href="comp-models.html#cb124-43" aria-hidden="true"></a></span>
-<span id="cb124-44"><a href="comp-models.html#cb124-44" aria-hidden="true"></a></span>
-<span id="cb124-45"><a href="comp-models.html#cb124-45" aria-hidden="true"></a>  Top30.varImp.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">PROBEID=</span><span class="kw">rownames</span>(Top30.varImp.mtx), </span>
-<span id="cb124-46"><a href="comp-models.html#cb124-46" aria-hidden="true"></a>                                 <span class="dt">Gene=</span>GeneNameMap2.vec[<span class="kw">rownames</span>(Top30.varImp.mtx)],</span>
-<span id="cb124-47"><a href="comp-models.html#cb124-47" aria-hidden="true"></a>                                 <span class="kw">round</span>(Top30.varImp.mtx))</span>
-<span id="cb124-48"><a href="comp-models.html#cb124-48" aria-hidden="true"></a>  <span class="kw">names</span>(Top30.varImp.frm) &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;Fit&#39;</span>, <span class="st">&#39;&#39;</span>, <span class="kw">names</span>(Top30.varImp.frm))</span>
-<span id="cb124-49"><a href="comp-models.html#cb124-49" aria-hidden="true"></a></span>
-<span id="cb124-50"><a href="comp-models.html#cb124-50" aria-hidden="true"></a></span>
-<span id="cb124-51"><a href="comp-models.html#cb124-51" aria-hidden="true"></a></span>
-<span id="cb124-52"><a href="comp-models.html#cb124-52" aria-hidden="true"></a>  <span class="co"># Add geneset membership</span></span>
-<span id="cb124-53"><a href="comp-models.html#cb124-53" aria-hidden="true"></a>  Top30Genes.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(Top30.varImp.frm<span class="op">$</span>Gene, <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)</span>
-<span id="cb124-54"><a href="comp-models.html#cb124-54" aria-hidden="true"></a></span>
-<span id="cb124-55"><a href="comp-models.html#cb124-55" aria-hidden="true"></a>  Top30GeneSetElements.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(GeneSets.lst,</span>
-<span id="cb124-56"><a href="comp-models.html#cb124-56" aria-hidden="true"></a>  <span class="cf">function</span>(GS) <span class="kw">ifelse</span>(<span class="kw">is.element</span>(Top30Genes.vec, GS),<span class="st">&#39;Y&#39;</span>,<span class="st">&#39;&#39;</span>))))</span>
-<span id="cb124-57"><a href="comp-models.html#cb124-57" aria-hidden="true"></a>  <span class="kw">colnames</span>(Top30GeneSetElements.frm) &lt;-<span class="st"> </span><span class="kw">names</span>(GeneSets.lst)</span>
-<span id="cb124-58"><a href="comp-models.html#cb124-58" aria-hidden="true"></a></span>
-<span id="cb124-59"><a href="comp-models.html#cb124-59" aria-hidden="true"></a>  Top30.varImp.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Top30.varImp.frm, Top30GeneSetElements.frm)</span>
-<span id="cb124-60"><a href="comp-models.html#cb124-60" aria-hidden="true"></a></span>
-<span id="cb124-61"><a href="comp-models.html#cb124-61" aria-hidden="true"></a>  o.v &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">order</span>(<span class="kw">apply</span>(Top30.varImp.frm[,<span class="kw">sub</span>(<span class="st">&#39;Fit&#39;</span>,<span class="st">&#39;&#39;</span>,<span class="kw">names</span>(Set.ModelFit.Top30.lst))],</span>
-<span id="cb124-62"><a href="comp-models.html#cb124-62" aria-hidden="true"></a>           <span class="dv">1</span>, mean)))</span>
-<span id="cb124-63"><a href="comp-models.html#cb124-63" aria-hidden="true"></a></span>
-<span id="cb124-64"><a href="comp-models.html#cb124-64" aria-hidden="true"></a></span>
-<span id="cb124-65"><a href="comp-models.html#cb124-65" aria-hidden="true"></a></span>
-<span id="cb124-66"><a href="comp-models.html#cb124-66" aria-hidden="true"></a>  DT<span class="op">::</span><span class="kw">datatable</span>(Top30.varImp.frm[o.v,] <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>PROBEID), <span class="dt">rownames=</span>F,</span>
-<span id="cb124-67"><a href="comp-models.html#cb124-67" aria-hidden="true"></a>    <span class="dt">caption=</span><span class="st">&quot;Top 30 Features&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="comp-models.html#cb120-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb120-2"><a href="comp-models.html#cb120-2" aria-hidden="true"></a>  MSSMSI.GeneSets.frm &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;extData&#39;</span>, <span class="st">&quot;ColonCancerGeneSets.tab&quot;</span>),</span>
+<span id="cb120-3"><a href="comp-models.html#cb120-3" aria-hidden="true"></a>   <span class="dt">header=</span>T, <span class="dt">sep=</span><span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb120-4"><a href="comp-models.html#cb120-4" aria-hidden="true"></a></span>
+<span id="cb120-5"><a href="comp-models.html#cb120-5" aria-hidden="true"></a>  GeneSets.lst &lt;-<span class="st"> </span><span class="kw">split</span>(MSSMSI.GeneSets.frm<span class="op">$</span>GeneSymbol, <span class="kw">toupper</span>(MSSMSI.GeneSets.frm<span class="op">$</span>ListName))</span>
+<span id="cb120-6"><a href="comp-models.html#cb120-6" aria-hidden="true"></a>  GeneSets.lst &lt;-<span class="st"> </span>GeneSets.lst[<span class="kw">c</span>(<span class="st">&#39;BANERJEA&#39;</span>,<span class="st">&#39;CROCE&#39;</span>,<span class="st">&#39;JORISSEN&#39;</span>, <span class="st">&#39;KOINUMA&#39;</span>, <span class="st">&#39;KRUHOFFER&#39;</span>,<span class="st">&#39;MORI&#39;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="comp-models.html#cb121-1" aria-hidden="true"></a><span class="co">### BREAK CACHE</span></span>
+<span id="cb121-2"><a href="comp-models.html#cb121-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(caret))</span>
+<span id="cb121-3"><a href="comp-models.html#cb121-3" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(gbm))</span>
+<span id="cb121-4"><a href="comp-models.html#cb121-4" aria-hidden="true"></a></span>
+<span id="cb121-5"><a href="comp-models.html#cb121-5" aria-hidden="true"></a> <span class="co"># Load gene to probe set map</span></span>
+<span id="cb121-6"><a href="comp-models.html#cb121-6" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;GeneNameMap.vec&#39;</span>))</span>
+<span id="cb121-7"><a href="comp-models.html#cb121-7" aria-hidden="true"></a> </span>
+<span id="cb121-8"><a href="comp-models.html#cb121-8" aria-hidden="true"></a> <span class="co"># Will also need the inverted map</span></span>
+<span id="cb121-9"><a href="comp-models.html#cb121-9" aria-hidden="true"></a> GeneNameMap2.vec &lt;-<span class="st"> </span><span class="kw">names</span>(GeneNameMap.vec)</span>
+<span id="cb121-10"><a href="comp-models.html#cb121-10" aria-hidden="true"></a> <span class="kw">names</span>(GeneNameMap2.vec) &lt;-<span class="st"> </span>GeneNameMap.vec</span>
+<span id="cb121-11"><a href="comp-models.html#cb121-11" aria-hidden="true"></a></span>
+<span id="cb121-12"><a href="comp-models.html#cb121-12" aria-hidden="true"></a>  Set.ModelFit.Top30.lst &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">setdiff</span>(<span class="kw">names</span>(Set.ModelFit.lst),</span>
+<span id="cb121-13"><a href="comp-models.html#cb121-13" aria-hidden="true"></a>                                   <span class="kw">c</span>(<span class="st">&quot;knnFit&quot;</span>,<span class="st">&quot;sddaLDAFit&quot;</span>,<span class="st">&quot;sddaQDAFit&quot;</span>)),</span>
+<span id="cb121-14"><a href="comp-models.html#cb121-14" aria-hidden="true"></a>  <span class="cf">function</span>(MOD) {</span>
+<span id="cb121-15"><a href="comp-models.html#cb121-15" aria-hidden="true"></a>    <span class="co">#cat(MOD,&#39;\n&#39;)</span></span>
+<span id="cb121-16"><a href="comp-models.html#cb121-16" aria-hidden="true"></a>    FIT &lt;-<span class="st"> </span>Set.ModelFit.lst[[MOD]]</span>
+<span id="cb121-17"><a href="comp-models.html#cb121-17" aria-hidden="true"></a></span>
+<span id="cb121-18"><a href="comp-models.html#cb121-18" aria-hidden="true"></a>    <span class="cf">if</span>(<span class="kw">is.element</span>(CLASS1, <span class="kw">colnames</span>(<span class="kw">varImp</span>(FIT)<span class="op">$</span>imp)))</span>
+<span id="cb121-19"><a href="comp-models.html#cb121-19" aria-hidden="true"></a>    impVar.vec &lt;-<span class="st"> </span><span class="kw">varImp</span>(FIT)<span class="op">$</span>imp[,CLASS1] <span class="cf">else</span></span>
+<span id="cb121-20"><a href="comp-models.html#cb121-20" aria-hidden="true"></a>    impVar.vec &lt;-<span class="st"> </span><span class="kw">varImp</span>(FIT)<span class="op">$</span>imp<span class="op">$</span>Overall</span>
+<span id="cb121-21"><a href="comp-models.html#cb121-21" aria-hidden="true"></a></span>
+<span id="cb121-22"><a href="comp-models.html#cb121-22" aria-hidden="true"></a>    top30.ndx &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">order</span>(impVar.vec))[<span class="dv">1</span><span class="op">:</span><span class="dv">30</span>]</span>
+<span id="cb121-23"><a href="comp-models.html#cb121-23" aria-hidden="true"></a>    varImp.vec &lt;-<span class="st"> </span>impVar.vec[top30.ndx]</span>
+<span id="cb121-24"><a href="comp-models.html#cb121-24" aria-hidden="true"></a>    <span class="kw">names</span>(varImp.vec) &lt;-<span class="st"> </span><span class="kw">rownames</span>(<span class="kw">varImp</span>(FIT)<span class="op">$</span>imp)[top30.ndx]</span>
+<span id="cb121-25"><a href="comp-models.html#cb121-25" aria-hidden="true"></a>    varImp.vec</span>
+<span id="cb121-26"><a href="comp-models.html#cb121-26" aria-hidden="true"></a>    })</span>
+<span id="cb121-27"><a href="comp-models.html#cb121-27" aria-hidden="true"></a>  <span class="kw">names</span>(Set.ModelFit.Top30.lst) &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">names</span>(Set.ModelFit.lst),</span>
+<span id="cb121-28"><a href="comp-models.html#cb121-28" aria-hidden="true"></a>                                   <span class="kw">c</span>(<span class="st">&quot;knnFit&quot;</span>,<span class="st">&quot;sddaLDAFit&quot;</span>,<span class="st">&quot;sddaQDAFit&quot;</span>))</span>
+<span id="cb121-29"><a href="comp-models.html#cb121-29" aria-hidden="true"></a></span>
+<span id="cb121-30"><a href="comp-models.html#cb121-30" aria-hidden="true"></a>  Top30.Name.vec &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">do.call</span>(<span class="st">&#39;c&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.Top30.lst, <span class="cf">function</span>(VV) <span class="kw">names</span>(VV))))</span>
+<span id="cb121-31"><a href="comp-models.html#cb121-31" aria-hidden="true"></a></span>
+<span id="cb121-32"><a href="comp-models.html#cb121-32" aria-hidden="true"></a>  Top30.ProbeId.vec &lt;-<span class="st"> </span>GeneNameMap.vec[Top30.Name.vec]</span>
+<span id="cb121-33"><a href="comp-models.html#cb121-33" aria-hidden="true"></a></span>
+<span id="cb121-34"><a href="comp-models.html#cb121-34" aria-hidden="true"></a>  <span class="co"># Put together in a matrix</span></span>
+<span id="cb121-35"><a href="comp-models.html#cb121-35" aria-hidden="true"></a>  Top30.varImp.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(Set.ModelFit.Top30.lst,</span>
+<span id="cb121-36"><a href="comp-models.html#cb121-36" aria-hidden="true"></a>   <span class="cf">function</span>(LL) LL[Top30.Name.vec]))</span>
+<span id="cb121-37"><a href="comp-models.html#cb121-37" aria-hidden="true"></a>  <span class="kw">rownames</span>(Top30.varImp.mtx) &lt;-<span class="st"> </span>GeneNameMap.vec[Top30.Name.vec]</span>
+<span id="cb121-38"><a href="comp-models.html#cb121-38" aria-hidden="true"></a>  Top30.varImp.mtx[<span class="kw">is.na</span>(Top30.varImp.mtx)] &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb121-39"><a href="comp-models.html#cb121-39" aria-hidden="true"></a></span>
+<span id="cb121-40"><a href="comp-models.html#cb121-40" aria-hidden="true"></a>  <span class="co"># Reoder by ovrall importance</span></span>
+<span id="cb121-41"><a href="comp-models.html#cb121-41" aria-hidden="true"></a>  varImp.med.vec &lt;-<span class="st"> </span><span class="kw">apply</span>(Top30.varImp.mtx,<span class="dv">1</span>,median)</span>
+<span id="cb121-42"><a href="comp-models.html#cb121-42" aria-hidden="true"></a>  Top30.varImp.mtx &lt;-<span class="st"> </span>Top30.varImp.mtx[<span class="kw">rev</span>(<span class="kw">order</span>(varImp.med.vec)),]</span>
+<span id="cb121-43"><a href="comp-models.html#cb121-43" aria-hidden="true"></a></span>
+<span id="cb121-44"><a href="comp-models.html#cb121-44" aria-hidden="true"></a></span>
+<span id="cb121-45"><a href="comp-models.html#cb121-45" aria-hidden="true"></a>  Top30.varImp.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">PROBEID=</span><span class="kw">rownames</span>(Top30.varImp.mtx), </span>
+<span id="cb121-46"><a href="comp-models.html#cb121-46" aria-hidden="true"></a>                                 <span class="dt">Gene=</span>GeneNameMap2.vec[<span class="kw">rownames</span>(Top30.varImp.mtx)],</span>
+<span id="cb121-47"><a href="comp-models.html#cb121-47" aria-hidden="true"></a>                                 <span class="kw">round</span>(Top30.varImp.mtx))</span>
+<span id="cb121-48"><a href="comp-models.html#cb121-48" aria-hidden="true"></a>  <span class="kw">names</span>(Top30.varImp.frm) &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;Fit&#39;</span>, <span class="st">&#39;&#39;</span>, <span class="kw">names</span>(Top30.varImp.frm))</span>
+<span id="cb121-49"><a href="comp-models.html#cb121-49" aria-hidden="true"></a></span>
+<span id="cb121-50"><a href="comp-models.html#cb121-50" aria-hidden="true"></a></span>
+<span id="cb121-51"><a href="comp-models.html#cb121-51" aria-hidden="true"></a></span>
+<span id="cb121-52"><a href="comp-models.html#cb121-52" aria-hidden="true"></a>  <span class="co"># Add geneset membership</span></span>
+<span id="cb121-53"><a href="comp-models.html#cb121-53" aria-hidden="true"></a>  Top30Genes.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(Top30.varImp.frm<span class="op">$</span>Gene, <span class="dt">split=</span><span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>),<span class="st">&#39;[&#39;</span>,<span class="dv">1</span>)</span>
+<span id="cb121-54"><a href="comp-models.html#cb121-54" aria-hidden="true"></a></span>
+<span id="cb121-55"><a href="comp-models.html#cb121-55" aria-hidden="true"></a>  Top30GeneSetElements.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">do.call</span>(<span class="st">&#39;cbind&#39;</span>, <span class="kw">lapply</span>(GeneSets.lst,</span>
+<span id="cb121-56"><a href="comp-models.html#cb121-56" aria-hidden="true"></a>  <span class="cf">function</span>(GS) <span class="kw">ifelse</span>(<span class="kw">is.element</span>(Top30Genes.vec, GS),<span class="st">&#39;Y&#39;</span>,<span class="st">&#39;&#39;</span>))))</span>
+<span id="cb121-57"><a href="comp-models.html#cb121-57" aria-hidden="true"></a>  <span class="kw">colnames</span>(Top30GeneSetElements.frm) &lt;-<span class="st"> </span><span class="kw">names</span>(GeneSets.lst)</span>
+<span id="cb121-58"><a href="comp-models.html#cb121-58" aria-hidden="true"></a></span>
+<span id="cb121-59"><a href="comp-models.html#cb121-59" aria-hidden="true"></a>  Top30.varImp.frm &lt;-<span class="st"> </span><span class="kw">data.frame</span>(Top30.varImp.frm, Top30GeneSetElements.frm)</span>
+<span id="cb121-60"><a href="comp-models.html#cb121-60" aria-hidden="true"></a></span>
+<span id="cb121-61"><a href="comp-models.html#cb121-61" aria-hidden="true"></a>  o.v &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">order</span>(<span class="kw">apply</span>(Top30.varImp.frm[,<span class="kw">sub</span>(<span class="st">&#39;Fit&#39;</span>,<span class="st">&#39;&#39;</span>,<span class="kw">names</span>(Set.ModelFit.Top30.lst))],</span>
+<span id="cb121-62"><a href="comp-models.html#cb121-62" aria-hidden="true"></a>           <span class="dv">1</span>, mean)))</span>
+<span id="cb121-63"><a href="comp-models.html#cb121-63" aria-hidden="true"></a></span>
+<span id="cb121-64"><a href="comp-models.html#cb121-64" aria-hidden="true"></a></span>
+<span id="cb121-65"><a href="comp-models.html#cb121-65" aria-hidden="true"></a></span>
+<span id="cb121-66"><a href="comp-models.html#cb121-66" aria-hidden="true"></a>  DT<span class="op">::</span><span class="kw">datatable</span>(Top30.varImp.frm[o.v,] <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>PROBEID), <span class="dt">rownames=</span>F,</span>
+<span id="cb121-67"><a href="comp-models.html#cb121-67" aria-hidden="true"></a>    <span class="dt">caption=</span><span class="st">&quot;Top 30 Features&quot;</span>) </span></code></pre></div>
 <div id="htmlwidget-c2834af1a4d4ac1d52c9" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-c2834af1a4d4ac1d52c9">{"x":{"filter":"none","caption":"<caption>Top 30 Features<\/caption>","data":[["CBX5.2","RBM6.2","X239131_at","STRN3.1","TOB1.1","RPL22L1","CDC42SE1.2","X232541_at","X230958_s_at","X227556_at","SAMD12.1","TMEM106B.1","X235652_at","SRSF6","PRELID3B.2","PDK3.4","ZBTB20.3","X242277_at","X230002_at","SYK.3","X239449_at","FTX.1","ATP9A","X230291_s_at","TRIM13.2","X232058_at","SEMA5A","X237180_at","AMFR","EIF5A","PCMTD1.1","IGF1R.1","MTA2","IQGAP3.1","X227260_at","X228498_at","MACC1","ITCH.4","ZMYM2.2","PLCB4","X1562750_at","OPN5","EFCAB13.1","X1557803_at","X244226_s_at","TOR1AIP2.6","RNF144B.1","RASAL2.2","MYO5A.3","GYPE","X243990_at","LOC102546299","NRL","ZBBX","CTC1.1","L1TD1","X224350_at","ELP5","RLN2","BAGE.1","SNCA","STOX1","GSX1","L3MBTL1","X237824_at","APELA","HSD17B12","X234161_at","HSD11B1.AS1","X243918_at","FAM124A.4","PRSS33.1","LINC02273","LOC100272217","AFFX.TrpnX.M_at","AFFX.TrpnX.5_at","AFFX.TrpnX.3_at","AFFX.ThrX.M_at","AFFX.r2.Bs.thr.3_s_at","AFFX.r2.Bs.phe.M_at","AFFX.r2.Bs.phe.5_at","AFFX.r2.Bs.lys.M_at","AFFX.r2.Bs.lys.5_at","AFFX.r2.Bs.dap.M_at","AFFX.r2.Bs.dap.5_at","AFFX.r2.Bs.dap.3_at","AFFX.PheX.M_at","AFFX.M27830_5_at","AFFX.HUMRGE.M10098_M_at","AFFX.HUMRGE.M10098_5_at","AFFX.HUMRGE.M10098_3_at","STAT1.4","STAT1.3","AFFX.DapX.3_at","LRTM1.1","RBM12B.2","DTX3.4","WHRN.1","RUBCNL.1","PPP1R16B.2"],[100,76,58,14,39,39,0,26,37,30,11,22,0,28,19,0,0,0,29,0,0,0,1,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,41,52,14,14,29,98,0,4,11,0,0,0,0,8,0,0,0,0,0,0,0,5,0,3,0,0,0,0,0,0,0,5,0,3,0,0,0,0,0,6,4,2,0,5,3,3,3,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,58,24,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,93,87,61,74,61,48,69,78,76,69,71,53,60,55,57,62,56,66,53,53,56,51,0,50,53,49,0,0,0,51,0,0,0,50,52,0,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[57,73,59,95,74,66,58,85,49,48,70,49,100,50,50,64,50,53,0,46,41,0,0,58,0,0,0,40,43,0,63,76,53,51,0,0,51,0,42,39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,99,100,94,92,93,89,92,96,91,91,93,87,90,92,90,89,89,92,90,87,90,88,87,88,87,88,89,87,87,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,99,100,94,92,93,89,92,96,91,91,93,87,90,92,90,89,89,92,90,87,90,88,87,88,87,88,89,87,87,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[100,5,6,19,2,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,2,4,6,0,0,0,0,3,0,0,0,0,0,0,0,0,0,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["","","","","","","","","","","","","","","","","","","","","","","Y","","","","","","Y","Y","","","Y","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","Y","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],["","","","","","Y","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],["","","","","","","","","","","","","","","","","","","","","","","Y","","","","","","","","","","Y","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Gene<\/th>\n      <th>enet<\/th>\n      <th>gbm<\/th>\n      <th>glmnet<\/th>\n      <th>pam<\/th>\n      <th>rf<\/th>\n      <th>stepLDA<\/th>\n      <th>svmRadial<\/th>\n      <th>xgbLinear<\/th>\n      <th>BANERJEA<\/th>\n      <th>CROCE<\/th>\n      <th>JORISSEN<\/th>\n      <th>KOINUMA<\/th>\n      <th>KRUHOFFER<\/th>\n      <th>MORI<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <!-- THIS IS ALSO TRUNCATED
@@ -1706,7 +1513,7 @@ build a classifier which predicts well. It is somewhat of a problem
 if we want to use biology to validate our empirically determined models.
 In that respect, the lack of agreement of gene lists across analyses
 is always a problem to contend with (see
-<span class="citation">[<a href="references.html#ref-Haury:2011aa" role="doc-biblioref">27</a>–<a href="references.html#ref-Meinshausen:2010aa" role="doc-biblioref">34</a>]</span>.)</li>
+<span class="citation">[<a href="references.html#ref-Haury:2011aa" role="doc-biblioref">27</a>–<a href="references.html#ref-Meinshausen:2010aa" role="doc-biblioref">34</a>]</span>).</li>
 </ul></li>
 <li>Models could be better optimized
 <ul>
@@ -1724,6 +1531,13 @@ vignette.</li>
 implicitly selects very few features and produces optimistic
 out-of-fold assessments of porformance. This is typical in
 small sample size settings.</li>
+</ul></li>
+<li>auc alone can be mieleading
+<ul>
+<li>ROC plots AUC are similar for enetFit and glmnetFit, but Figure
+<a href="comp-models.html#fig:comp-models-CompOOFSet-TrainProbClass1">4.3</a> shows that the enetFit
+model provides better separation between samples belonging to the two classes.
+These two assessments should be examined as a set.</li>
 </ul></li>
 </ul>
 

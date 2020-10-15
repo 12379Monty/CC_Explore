@@ -149,6 +149,10 @@ examined together to get a good sense of relative performance.
    digits=2, align='c', caption='Model Out-of-Fold Accuracy - Mode') %>%
    kableExtra::kable_styling(full_width = F)
 
+```
+
+
+```{r comp-models-OOFTrainAccuracy-2, cache=TRUE, cache.vars='', eval=F, echo=F}
  ############################################
  # alternatively, can look at the osPred by rep
  # and use mean for error rates
@@ -169,7 +173,7 @@ examined together to get a good sense of relative performance.
 
 ### Test Data Accuracy
 
-```{r comp-models-testAccuracy, cache=TRUE, cache.vars='', eval=T}
+```{r comp-models-testAccuracy, message=F, warning=F, cache=TRUE, cache.vars='', eval=T}
 
 ### BREAK CACHE
  suppressMessages(require(caret))
@@ -570,7 +574,7 @@ if we want to use biology to validate our empirically determined models.
 In that respect, the lack of agreement of gene lists across analyses
 is always a problem to contend with (see 
 [@Haury:2011aa; @Guyon:2003aa; @Ein-Dor:2005aa; @Ein-Dor:2006aa; @Lai:2006aa; @Abeel:2010aa; @Zou:2005aa;
-@Meinshausen:2010aa].)
+@Meinshausen:2010aa]).
 
 *  Models could be better optimized
    - Note that we did not attempt to optimize the model tuning parameters in
@@ -586,6 +590,13 @@ vignette.
 implicitly selects very few features and produces optimistic
 out-of-fold assessments of porformance.  This is typical in
 small sample size settings.
+
+* auc alone can be mieleading  
+   - ROC plots AUC are similar for enetFit and glmnetFit, but Figure 
+\@ref(fig:comp-models-CompOOFSet-TrainProbClass1) shows that the enetFit
+model provides better separation between samples belonging to the two classes.
+These two assessments should be examined as a set.
+
 
 
 
