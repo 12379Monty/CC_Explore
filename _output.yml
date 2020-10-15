@@ -1,4 +1,5 @@
 bookdown::gitbook:
+  split_bib: no
 # javascript for code folding is in header.html
   includes:
     in_header: header.html
@@ -6,9 +7,9 @@ bookdown::gitbook:
   config:
     toc:
       before: |
-        <li><a href="./">A Minimal Book Example</a></li>
+        <li><a href="./">Genomic Scale Classification and Clustering</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="LICENSE.md" style="font:em;" target="blank">Copyright (c) 2020 Francois Collin</a></li>
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:

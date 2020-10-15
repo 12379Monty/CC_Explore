@@ -51,7 +51,7 @@ List of 5
   |                                                                              |........                                                              |  11%
    inline R code fragments
 
-  |                                                                              |.........                                                             |  12%
+  |                                                                              |........                                                              |  12%
 label: load-data-cleanGSE (with options) 
 List of 6
  $ echo      : symbol T
@@ -73,10 +73,10 @@ List of 5
  $ fig.height: num 6
  $ eval      : symbol T
 
-  |                                                                              |...........                                                           |  15%
+  |                                                                              |..........                                                            |  15%
   ordinary text without R code
 
-  |                                                                              |............                                                          |  16%
+  |                                                                              |...........                                                           |  16%
 label: load-data-plot-poolGSE (with options) 
 List of 6
  $ cache     : logi TRUE
@@ -86,10 +86,10 @@ List of 6
  $ eval      : symbol T
  $ fig.cap   : chr "Pooled GSE Data - Before Batch Correction"
 
-  |                                                                              |............                                                          |  18%
+  |                                                                              |............                                                          |  17%
   ordinary text without R code
 
-  |                                                                              |.............                                                         |  19%
+  |                                                                              |.............                                                         |  18%
 label: load-data-svaBatchAdjust (with options) 
 List of 5
  $ cache     : logi TRUE
@@ -98,10 +98,10 @@ List of 5
  $ fig.height: num 6
  $ eval      : symbol T
 
-  |                                                                              |..............                                                        |  20%
+  |                                                                              |.............                                                         |  19%
   ordinary text without R code
 
-  |                                                                              |..............                                                        |  21%
+  |                                                                              |..............                                                        |  20%
 label: load-data-plot-svaBatchAdjust (with options) 
 List of 6
  $ cache     : logi TRUE
@@ -111,47 +111,47 @@ List of 6
  $ fig.cap   : chr "Pooled GSE Data - After Batch Correction"
  $ eval      : symbol T
 
-  |                                                                              |...............                                                       |  22%
+  |                                                                              |...............                                                       |  21%
   ordinary text without R code
 
-  |                                                                              |................                                                      |  23%
+  |                                                                              |...............                                                       |  22%
 label: load-data-getTrainTest (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ eval      : symbol T
 
-  |                                                                              |.................                                                     |  24%
+  |                                                                              |................                                                      |  23%
    inline R code fragments
 
-  |                                                                              |.................                                                     |  25%
+  |                                                                              |.................                                                     |  24%
 label: load-data-saveGeneSets (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ eval      : symbol T
 
-  |                                                                              |..................                                                    |  26%
+  |                                                                              |..................                                                    |  25%
   ordinary text without R code
 
-  |                                                                              |...................                                                   |  27%
+  |                                                                              |..................                                                    |  26%
 label: train-models-setTrainParam (with options) 
 List of 1
  $ eval: symbol T
 
-  |                                                                              |...................                                                   |  28%
+  |                                                                              |...................                                                   |  27%
   ordinary text without R code
 
-  |                                                                              |....................                                                  |  29%
+  |                                                                              |....................                                                  |  28%
 label: train-models-doMC (with options) 
 List of 2
  $ echo: symbol F
  $ eval: symbol T
 
-  |                                                                              |.....................                                                 |  30%
+  |                                                                              |....................                                                  |  29%
    inline R code fragments
 
-  |                                                                              |......................                                                |  31%
+  |                                                                              |.....................                                                 |  30%
 label: train-models-glmnetFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -159,10 +159,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |......................                                                |  32%
+  |                                                                              |......................                                                |  31%
   ordinary text without R code
 
-  |                                                                              |.......................                                               |  33%
+  |                                                                              |......................                                                |  32%
 label: train-models-enetFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -170,10 +170,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |........................                                              |  34%
+  |                                                                              |.......................                                               |  33%
   ordinary text without R code
 
-  |                                                                              |.........................                                             |  35%
+  |                                                                              |........................                                              |  34%
 label: train-models-knnFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -181,10 +181,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |.........................                                             |  36%
+  |                                                                              |........................                                              |  35%
   ordinary text without R code
 
-  |                                                                              |..........................                                            |  37%
+  |                                                                              |.........................                                             |  36%
 label: train-models-pamFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -192,10 +192,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |...........................                                           |  38%
+  |                                                                              |..........................                                            |  37%
   ordinary text without R code
 
-  |                                                                              |...........................                                           |  39%
+  |                                                                              |...........................                                           |  38%
 label: train-models-svmRadialFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -203,10 +203,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |............................                                          |  40%
+  |                                                                              |...........................                                           |  39%
   ordinary text without R code
 
-  |                                                                              |.............................                                         |  41%
+  |                                                                              |............................                                          |  40%
 label: train-models-gbmFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -214,10 +214,10 @@ List of 4
  $ ecno      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |..............................                                        |  42%
+  |                                                                              |.............................                                         |  41%
   ordinary text without R code
 
-  |                                                                              |..............................                                        |  43%
+  |                                                                              |.............................                                         |  42%
 label: train-models-xgbLinearFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -225,10 +225,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |...............................                                       |  44%
+  |                                                                              |..............................                                        |  43%
   ordinary text without R code
 
-  |                                                                              |................................                                      |  45%
+  |                                                                              |...............................                                       |  44%
 label: train-models-xgbTreeFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -236,10 +236,10 @@ List of 4
  $ echo      : logi FALSE
  $ eval      : logi FALSE
 
-  |                                                                              |................................                                      |  46%
+  |                                                                              |................................                                      |  45%
   ordinary text without R code
 
-  |                                                                              |.................................                                     |  47%
+  |                                                                              |................................                                      |  46%
 label: train-models-rfFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -247,10 +247,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |..................................                                    |  48%
+  |                                                                              |.................................                                     |  47%
   ordinary text without R code
 
-  |                                                                              |...................................                                   |  49%
+  |                                                                              |..................................                                    |  48%
 label: train-models-stepLDAFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -258,10 +258,10 @@ List of 4
  $ echo      : symbol T
  $ eval      : symbol T
 
-  |                                                                              |...................................                                   |  51%
+  |                                                                              |..................................                                    |  49%
   ordinary text without R code
 
-  |                                                                              |....................................                                  |  52%
+  |                                                                              |...................................                                   |  50%
 label: train-models-stepQDAFit (with options) 
 List of 4
  $ cache     : logi TRUE
@@ -269,29 +269,40 @@ List of 4
  $ echo      : symbol F
  $ eval      : symbol F
 
-  |                                                                              |.....................................                                 |  53%
+  |                                                                              |....................................                                  |  51%
   ordinary text without R code
 
-  |                                                                              |......................................                                |  54%
+  |                                                                              |....................................                                  |  52%
 label: comp-models-getModels (with options) 
 List of 1
  $ eval: symbol T
 
-  |                                                                              |......................................                                |  55%
+  |                                                                              |.....................................                                 |  53%
   ordinary text without R code
 
-  |                                                                              |.......................................                               |  56%
+  |                                                                              |......................................                                |  54%
 label: comp-models-compTimes (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
  $ eval      : symbol T
 
+  |                                                                              |......................................                                |  55%
+  ordinary text without R code
+
+  |                                                                              |.......................................                               |  56%
+label: comp-models-trainAccuracy (with options) 
+List of 4
+ $ cache     : logi TRUE
+ $ cache.vars: chr ""
+ $ eval      : symbol F
+ $ echo      : symbol F
+
   |                                                                              |........................................                              |  57%
   ordinary text without R code
 
-  |                                                                              |........................................                              |  58%
-label: comp-models-trainAccuracy (with options) 
+  |                                                                              |.........................................                             |  58%
+label: comp-models-OOFTrainAccuracy (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
@@ -301,7 +312,7 @@ List of 3
   ordinary text without R code
 
   |                                                                              |..........................................                            |  60%
-label: comp-models-OOSTrainAccuracy (with options) 
+label: comp-models-testAccuracy (with options) 
 List of 3
  $ cache     : logi TRUE
  $ cache.vars: chr ""
@@ -311,16 +322,6 @@ List of 3
   ordinary text without R code
 
   |                                                                              |...........................................                           |  62%
-label: comp-models-testAccuracy (with options) 
-List of 3
- $ cache     : logi TRUE
- $ cache.vars: chr ""
- $ eval      : symbol T
-
-  |                                                                              |............................................                          |  63%
-  ordinary text without R code
-
-  |                                                                              |.............................................                         |  64%
 label: comp-models-CompROCTrain (with options) 
 List of 8
  $ message   : symbol F
@@ -332,11 +333,11 @@ List of 8
  $ eval      : symbol T
  $ fig.cap   : chr "Training Data ROC"
 
-  |                                                                              |.............................................                         |  65%
+  |                                                                              |............................................                          |  63%
   ordinary text without R code
 
-  |                                                                              |..............................................                        |  66%
-label: comp-models-CompROCOOSTrain (with options) 
+  |                                                                              |.............................................                         |  64%
+label: comp-models-CompROCOOFTrain (with options) 
 List of 8
  $ message   : symbol F
  $ warning   : symbol F
@@ -345,8 +346,204 @@ List of 8
  $ fig.height: num 6
  $ fig.width : num 11
  $ eval      : symbol T
- $ fig.cap   : chr "Out-of-sample Train: Average over Repeats"
+ $ fig.cap   : chr "Out-of-fold Train: Average over Repeats"
 
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+  |                                                                              |..............................................                        |  65%
+  ordinary text without R code
+
+  |                                                                              |..............................................                        |  66%
+label: comp-models-get-CompROCIndivOOFTrain (with options) 
+List of 9
+ $ warning   : symbol F
+ $ message   : symbol F
+ $ cache     : logi FALSE
+ $ cache.vars: chr "Set.Train.indiv_osProbClass1.mtx"
+ $ fig.height: num 6
+ $ fig.width : num 11
+ $ eval      : symbol T
+ $ fig.cap   : chr "Out-of-fold Train: Individual Repeats"
+ $ echo      : symbol T
+
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
+Setting levels: control = MSI, case = MSS
+Setting direction: controls > cases
 Setting levels: control = MSI, case = MSS
 Setting direction: controls > cases
 Setting levels: control = MSI, case = MSS
@@ -366,11 +563,8 @@ Setting direction: controls > cases
 Setting levels: control = MSI, case = MSS
 Setting direction: controls > cases
   |                                                                              |...............................................                       |  67%
-  ordinary text without R code
-
-  |                                                                              |................................................                      |  68%
-label: comp-models-CompROCIndivOOSTrain (with options) 
-List of 8
+label: comp-models-plot-CompROCIndivOOFTrain (with options) 
+List of 9
  $ warning   : symbol F
  $ message   : symbol F
  $ cache     : logi FALSE
@@ -378,193 +572,14 @@ List of 8
  $ fig.height: num 6
  $ fig.width : num 11
  $ eval      : symbol T
- $ fig.cap   : chr "Out-of-sample Train: Individual Repeats"
+ $ fig.cap   : chr "Out-of-fold Train: Individual Repeats"
+ $ echo      : symbol F
 
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-Setting levels: control = MSI, case = MSS
-Setting direction: controls > cases
-  |                                                                              |................................................                      |  69%
+  |                                                                              |................................................                      |  68%
   ordinary text without R code
 
-  |                                                                              |.................................................                     |  70%
-label: comp-models-CompOOSSet.TrainProbClass1 (with options) 
+  |                                                                              |................................................                      |  69%
+label: comp-models-CompOOFSet-TrainProbClass1 (with options) 
 List of 6
  $ cache     : logi FALSE
  $ cache.vars: chr ""
@@ -573,10 +588,10 @@ List of 6
  $ eval      : symbol T
  $ fig.cap   : chr "Predicted Probabilities"
 
-  |                                                                              |..................................................                    |  71%
+  |                                                                              |.................................................                     |  70%
   ordinary text without R code
 
-  |                                                                              |...................................................                   |  72%
+  |                                                                              |..................................................                    |  71%
 label: comp-models-varImpHelp (with options) 
 List of 4
  $ echo      : logi FALSE
@@ -584,57 +599,68 @@ List of 4
  $ cache.vars: chr "caret.varImp.path"
  $ eval      : symbol F
 
-  |                                                                              |...................................................                   |  73%
+  |                                                                              |..................................................                    |  72%
   ordinary text without R code
 
-  |                                                                              |....................................................                  |  74%
+  |                                                                              |...................................................                   |  73%
 label: comp-models-readGeneSets (with options) 
 List of 3
  $ echo   : symbol T
  $ eval   : symbol T
  $ fig.cap: chr "Variable Importance"
 
-  |                                                                              |.....................................................                 |  75%
+  |                                                                              |....................................................                  |  74%
   ordinary text without R code
 
-  |                                                                              |.....................................................                 |  76%
+  |                                                                              |....................................................                  |  75%
 label: comp-models-varImp (with options) 
 List of 2
  $ cache: logi FALSE
  $ eval : symbol T
 
+  |                                                                              |.....................................................                 |  76%
+  ordinary text without R code
+
   |                                                                              |......................................................                |  77%
-   inline R code fragments
+label: comp-models-varImp-2 (with options) 
+List of 4
+ $ cache  : logi FALSE
+ $ eval   : symbol T
+ $ fig.cap: chr "Top 30 Feature"
+ $ include: symbol F
 
   |                                                                              |.......................................................               |  78%
+   inline R code fragments
+
+  |                                                                              |.......................................................               |  79%
 label: clustering-pamCluster (with options) 
 List of 1
  $ eval: symbol T
 
-  |                                                                              |........................................................              |  79%
+  |                                                                              |........................................................              |  80%
   ordinary text without R code
 
-  |                                                                              |........................................................              |  80%
+  |                                                                              |.........................................................             |  81%
 label: clustering-ViewPamCluster (with options) 
 List of 3
  $ fig.width : num 12
  $ fig.height: num 12
  $ eval      : symbol T
 
-  |                                                                              |.........................................................             |  81%
+  |                                                                              |.........................................................             |  82%
   ordinary text without R code
 
-  |                                                                              |..........................................................            |  82%
+  |                                                                              |..........................................................            |  83%
 label: clustering-BagClust2 (with options) 
 List of 3
  $ cache     : symbol T
  $ cache.vars: chr ""
  $ eval      : symbol T
 
-  |                                                                              |..........................................................            |  84%
+  |                                                                              |...........................................................           |  84%
   ordinary text without R code
 
-  |                                                                              |...........................................................           |  85%
+  |                                                                              |............................................................          |  85%
 label: clustering-lkBagClust2 (with options) 
 List of 3
  $ fig.height: num 12
@@ -649,7 +675,7 @@ label: clustering-tSNEPrelim (with options)
 List of 1
  $ eval: symbol T
 
-  |                                                                              |.............................................................         |  88%
+  |                                                                              |..............................................................        |  88%
   ordinary text without R code
 
   |                                                                              |..............................................................        |  89%
@@ -715,7 +741,7 @@ List of 4
 
 output file: ExploreCRC.knit.md
 
-/usr/local/bin/pandoc +RTS -K512m -RTS ExploreCRC.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output ExploreCRC.html --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --email-obfuscation none --wrap preserve --standalone --section-divs --table-of-contents --toc-depth 3 --template /Library/Frameworks/R.framework/Versions/4.0/Resources/library/bookdown/templates/gitbook.html --highlight-style pygments --number-sections --css style.css --include-in-header /var/folders/nt/fdw5s4y937s4pkgsdn9m7j840000gp/T//RtmpaVXuzu/rmarkdown-str300610b892a4.html --mathjax --include-in-header header.html --filter /usr/local/bin/pandoc-citeproc 
+/usr/local/bin/pandoc +RTS -K512m -RTS ExploreCRC.utf8.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output ExploreCRC.html --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.0/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --email-obfuscation none --wrap preserve --standalone --section-divs --table-of-contents --toc-depth 3 --template /Library/Frameworks/R.framework/Versions/4.0/Resources/library/bookdown/templates/gitbook.html --highlight-style pygments --number-sections --css style.css --include-in-header /var/folders/nt/fdw5s4y937s4pkgsdn9m7j840000gp/T//RtmppALCJO/rmarkdown-str38923035617c.html --mathjax --include-in-header header.html --filter /usr/local/bin/pandoc-citeproc 
 
 Output created: docs/index.html
 [1] "/Users/fcollin/Documents/Projects/CC_Explore/docs/index.html"

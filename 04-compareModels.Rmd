@@ -3,8 +3,7 @@
 Here we compare predictive models in terms of:
 
 - Processing time
-- Prediction accuracy and ROC on train samples
-- Prediction accuracy and ROC on train `out-of-sample`
+- Prediction accuracy and ROC on train `out-of-fold`
 - Prediction accuracy and ROC on test samples
 - Direct comparison of variable importance
 
@@ -69,6 +68,7 @@ Here we compare predictive models in terms of:
 ## Compare Prediction Accuracy
 
 
+<!-- SKIP  - this is misleading and hard to explain 
 ### Train Data Accuracy
 
 Train data accuracy is always perfect for models that
@@ -76,8 +76,8 @@ have a large paremeter space such a random forest models.
 This assessment is only included here for reference purposes -
 we cannot judge the relative performance of models having
 vastly different parameter spaces based on training data results.
-
-```{r comp-models-trainAccuracy, cache=TRUE, cache.vars='', eval=T}
+-->
+```{r comp-models-trainAccuracy, cache=TRUE, cache.vars='', eval=F, echo=F}
 
 ### BREAK CACHE
  suppressMessages(require(caret))
@@ -102,21 +102,22 @@ vastly different parameter spaces based on training data results.
 <!-- ######################################################################## -->
 
 
-### Out of Sample Train Data Accuracy
+### Out-of-Fold Train Data Accuracy
 
+Out-of-fold predictions are predictions for the left-out samples
+at each iteration of the cross-validated model fitting process.
 
 * The following tabulation uses model predictions
 extracted by the `predict` method applied to fitted objects.
 For models that produce a probability, a threshold of 0.5
 will be used to classify observations.  This can give a
 misleading sense of relative performance.  
-Compare Tables \@ref(tab:comp-models-OOSTrainAccuracy)
-and \@ref(tab:comp-models-testAccuracy) with
-Figures \@ref(fig:comp-models-CompROCOOSTrain) and 
-\@ref(fig:comp-models-CompOOSSet.TrainProbClass1).
+Figures \@ref(fig:comp-models-CompROCOOFTrain) and 
+\@ref(fig:comp-models-CompOOFSet-TrainProbClass1) must be
+examined together to get a good sense of relative performance.
 
 
-```{r comp-models-OOSTrainAccuracy, cache=TRUE, cache.vars='', eval=T}
+```{r comp-models-OOFTrainAccuracy, cache=TRUE, cache.vars='', eval=T}
 
 ### BREAK CACHE
 
@@ -145,7 +146,7 @@ Figures \@ref(fig:comp-models-CompROCOOSTrain) and
 
  knitr::kable(data.frame(cbind(Set.Train.osPredMode.TruthTable.frm,
                   Set.Train.osPredMode.TruthTable.frm/length(Train.Label.vec))),
-   digits=2, align='c', caption='Model Out-of-Sample Accuracy - Mode') %>%
+   digits=2, align='c', caption='Model Out-of-Fold Accuracy - Mode') %>%
    kableExtra::kable_styling(full_width = F)
 
  ############################################
@@ -160,7 +161,7 @@ Figures \@ref(fig:comp-models-CompROCOOSTrain) and
   colnames(Set.Train.osPredMean.TruthTable.frm) <- c('TN', 'FP', 'FN', 'TP')
 
   knitr::kable(data.frame(Set.Train.osPredMean.TruthTable.frm),
-   digits=2, align='c', caption='Model Out-of-Sample Accuracy - MeanPred') %>%
+   digits=2, align='c', caption='Model Out-of-Fold Accuracy - MeanPred') %>%
    kableExtra::kable_styling(full_width = F)
 
 ```
@@ -255,9 +256,9 @@ vastly different parameter spaces based on training data results.
 ```
 <!-- ######################################################################## -->
 
-### Out-of-sample Train: Average over Repeats
+### Out-of-fold Train: Average over Repeats
 
-```{r comp-models-CompROCOOSTrain, message=F, warning=F, cache=FALSE, cache.vars='', fig.height=6, fig.width=11, eval=T, fig.cap='Out-of-sample Train: Average over Repeats'}
+```{r comp-models-CompROCOOFTrain, message=F, warning=F, cache=FALSE, cache.vars='', fig.height=6, fig.width=11, eval=T, fig.cap='Out-of-fold Train: Average over Repeats'}
 
 ### BREAK CACHE
  suppressMessages(require(pROC))
@@ -312,14 +313,15 @@ vastly different parameter spaces based on training data results.
         legend=paste(names(Set.Train.mean_osProbClass1.auc.vec), ':',
           round(Set.Train.mean_osProbClass1.auc.vec,3),sep=''),
         col=Model.col[names(Set.Train.mean_osProbClass1.auc.vec)], lty=1)
- title('Model Performance on Train Set - OS mean Prob(MSS)')
+ title('Model Performance on Train Set - Out-of-fold mean Prob(MSS)')
 
 ```
 <!-- ######################################################################## -->
 
-### Out-of-sample Train Set: Individual Repeats
-
-```{r comp-models-CompROCIndivOOSTrain, warning=F, message=F, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=T,fig.cap='Out-of-sample Train: Individual Repeats'}
+<!-- SKIP AFTER EXAMINING
+### Out-of-fold Train Set: Individual Repeats
+-->
+```{r comp-models-get-CompROCIndivOOFTrain, warning=F, message=F, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=T,fig.cap='Out-of-fold Train: Individual Repeats',echo=T,eval=T}
 
 ### BREAK CACHE
  suppressMessages(require(pROC))
@@ -354,6 +356,7 @@ vastly different parameter spaces based on training data results.
    sapply(strsplit(names(Set.Train.indiv_osProbClass1.auc.vec), split='\\.'),'[',1)),
    mean)
 
+```{r comp-models-plot-CompROCIndivOOFTrain, warning=F, message=F, cache=FALSE, cache.vars='Set.Train.indiv_osProbClass1.mtx', fig.height=6, fig.width=11, eval=T,fig.cap='Out-of-fold Train: Individual Repeats',echo=F,eval=F}
  plot(x=range(do.call('c', lapply(Set.Train.indiv_osProbClass1.roc.mtx.lst,
                 function(LL) LL[,'FP'])))/sum(Train.Label.vec==CLASS2),
       y=range(do.call('c', lapply(Set.Train.indiv_osProbClass1.roc.mtx.lst,
@@ -369,7 +372,7 @@ vastly different parameter spaces based on training data results.
         legend=paste(names(Set.Train.mean_indiv_osProbClass1.auc.vec), ':',
         round(Set.Train.mean_indiv_osProbClass1.auc.vec,3),sep=''),
        col=Model.col[names(Set.Train.mean_indiv_osProbClass1.auc.vec)],lty=1)
- title('Model Performance on Set.Train Set - indiv OS Prob(MSS)')
+ title('Model Performance on Train Set - indiv out-of-fold Prob(MSS)')
 
 
  # Boxplot individual aucs
@@ -400,7 +403,7 @@ in a given model - are the errors due to bias or variability? - as well as
 chracterizing samples - some samples may be mis-labelled or hard to 
 classify correctly.
 
-```{r comp-models-CompOOSSet.TrainProbClass1, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=T, fig.cap='Predicted Probabilities'}
+```{r comp-models-CompOOFSet-TrainProbClass1, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=T, fig.cap='Predicted Probabilities'}
 
 ### BREAK CACHE
   if(sum(rownames(Set.Train.indiv_osProbClass1.mtx) !=
@@ -477,7 +480,7 @@ MSS status in other studies:
  GeneNameMap2.vec <- names(GeneNameMap.vec)
  names(GeneNameMap2.vec) <- GeneNameMap.vec
 
-  Set.ModelFit.Top20.lst <- lapply(setdiff(names(Set.ModelFit.lst),
+  Set.ModelFit.Top30.lst <- lapply(setdiff(names(Set.ModelFit.lst),
                                    c("knnFit","sddaLDAFit","sddaQDAFit")),
   function(MOD) {
     #cat(MOD,'\n')
@@ -487,91 +490,102 @@ MSS status in other studies:
     impVar.vec <- varImp(FIT)$imp[,CLASS1] else
     impVar.vec <- varImp(FIT)$imp$Overall
 
-    top20.ndx <- rev(order(impVar.vec))[1:20]
-    varImp.vec <- impVar.vec[top20.ndx]
-    names(varImp.vec) <- rownames(varImp(FIT)$imp)[top20.ndx]
+    top30.ndx <- rev(order(impVar.vec))[1:30]
+    varImp.vec <- impVar.vec[top30.ndx]
+    names(varImp.vec) <- rownames(varImp(FIT)$imp)[top30.ndx]
     varImp.vec
     })
-  names(Set.ModelFit.Top20.lst) <- setdiff(names(Set.ModelFit.lst),
+  names(Set.ModelFit.Top30.lst) <- setdiff(names(Set.ModelFit.lst),
                                    c("knnFit","sddaLDAFit","sddaQDAFit"))
 
-  Top20.Name.vec <- unique(do.call('c', lapply(Set.ModelFit.Top20.lst, function(VV) names(VV))))
+  Top30.Name.vec <- unique(do.call('c', lapply(Set.ModelFit.Top30.lst, function(VV) names(VV))))
 
-  Top20.ProbeId.vec <- GeneNameMap.vec[Top20.Name.vec]
+  Top30.ProbeId.vec <- GeneNameMap.vec[Top30.Name.vec]
 
   # Put together in a matrix
-  Top20.varImp.mtx <- do.call('cbind', lapply(Set.ModelFit.Top20.lst,
-   function(LL) LL[Top20.Name.vec]))
-  rownames(Top20.varImp.mtx) <- GeneNameMap.vec[Top20.Name.vec]
-  Top20.varImp.mtx[is.na(Top20.varImp.mtx)] <- 0
+  Top30.varImp.mtx <- do.call('cbind', lapply(Set.ModelFit.Top30.lst,
+   function(LL) LL[Top30.Name.vec]))
+  rownames(Top30.varImp.mtx) <- GeneNameMap.vec[Top30.Name.vec]
+  Top30.varImp.mtx[is.na(Top30.varImp.mtx)] <- 0
 
   # Reoder by ovrall importance
-  varImp.med.vec <- apply(Top20.varImp.mtx,1,median)
-  Top20.varImp.mtx <- Top20.varImp.mtx[rev(order(varImp.med.vec)),]
+  varImp.med.vec <- apply(Top30.varImp.mtx,1,median)
+  Top30.varImp.mtx <- Top30.varImp.mtx[rev(order(varImp.med.vec)),]
 
 
-  Top20.varImp.frm <- data.frame(PROBEID=rownames(Top20.varImp.mtx), 
-                                 Gene=GeneNameMap2.vec[rownames(Top20.varImp.mtx)],
-                                 round(Top20.varImp.mtx))
-  names(Top20.varImp.frm) <- sub('Fit', '', names(Top20.varImp.frm))
+  Top30.varImp.frm <- data.frame(PROBEID=rownames(Top30.varImp.mtx), 
+                                 Gene=GeneNameMap2.vec[rownames(Top30.varImp.mtx)],
+                                 round(Top30.varImp.mtx))
+  names(Top30.varImp.frm) <- sub('Fit', '', names(Top30.varImp.frm))
 
 
 
   # Add geneset membership
-  Top20Genes.vec <- sapply(strsplit(Top20.varImp.frm$Gene, split='\\.'),'[',1)
+  Top30Genes.vec <- sapply(strsplit(Top30.varImp.frm$Gene, split='\\.'),'[',1)
 
-  Top20GeneSetElements.frm <- data.frame(do.call('cbind', lapply(GeneSets.lst,
-  function(GS) ifelse(is.element(Top20Genes.vec, GS),'Y',''))))
-  colnames(Top20GeneSetElements.frm) <- names(GeneSets.lst)
+  Top30GeneSetElements.frm <- data.frame(do.call('cbind', lapply(GeneSets.lst,
+  function(GS) ifelse(is.element(Top30Genes.vec, GS),'Y',''))))
+  colnames(Top30GeneSetElements.frm) <- names(GeneSets.lst)
 
-  Top20.varImp.frm <- data.frame(Top20.varImp.frm, Top20GeneSetElements.frm)
+  Top30.varImp.frm <- data.frame(Top30.varImp.frm, Top30GeneSetElements.frm)
 
-  o.v <- rev(order(apply(Top20.varImp.frm[,sub('Fit','',names(Set.ModelFit.Top20.lst))],
+  o.v <- rev(order(apply(Top30.varImp.frm[,sub('Fit','',names(Set.ModelFit.Top30.lst))],
            1, mean)))
 
-REPLACE <- function() {
-  knitr::kable(Top20.varImp.frm[o.v,], align='c', row.names=F,
-    caption="Top 20 Features") %>%
-   kableExtra::kable_styling(full_width = F)
-}
 
 
-  DT::datatable(Top20.varImp.frm[o.v,], rownames=F,
-    caption="Top 20 Features") 
+  DT::datatable(Top30.varImp.frm[o.v,] %>% dplyr::select(-PROBEID), rownames=F,
+    caption="Top 30 Features") 
  
+```
+
+<!-- THIS IS ALSO TRUNCATED
+Table was truncated - display table without search tool.
+-->
+```{r comp-models-varImp-2, cache=FALSE, eval=T, fig.cap='Top 30 Feature', eval=F, include=F}
+
+  knitr::kable(Top30.varImp.frm[o.v,], align='c', row.names=F,
+    caption="Top 30 Features") %>%
+   kableExtra::kable_styling(full_width = F)
+
 ```
 
 ## Classification: Discussion
 
-### Nearest shrunken centroids does well
-
-The [nearest shrunken centriod](http://statweb.stanford.edu/~tibs/PAM/) 
- method described in Tibshirani et. al. [Tibshirani:2002aa] does very well
+*  Nearest shrunken centroids does well
+    - The [nearest shrunken centriod](http://statweb.stanford.edu/~tibs/PAM/) 
+method described in Tibshirani et. al. [Tibshirani:2002aa] does very well
 both in terms of classification accuracy, computing time and simplicity
 of predictor.  This has been our experience with many classification
 problems based on gene expression data.
 
 
-### Lack of agreement with literature gene sets
-
-The variable importance assessment shows that the genes which
+*  Lack of agreement with literature gene sets
+   - The variable importance assessment shows that the genes which
 are deemed important in the clsssifiers the we fitted
 have little overlap with the gene sets previously identified
-as being associated with MSS status.  Part of this lack of overlap
-is certanly due to the gene selection filter which we applied here
-for computing purposes.  This not a problem if we just want to
+as being associated with MSS status.  This is not a problem if we just want to
 build a classifier which predicts well.  It is somewhat of a problem 
 if we want to use biology to validate our empirically determined models.
 In that respect, the lack of agreement of gene lists across analyses
-is always a problem to contend with.
+is always a problem to contend with (see 
+[@Haury:2011aa; @Guyon:2003aa; @Ein-Dor:2005aa; @Ein-Dor:2006aa; @Lai:2006aa; @Abeel:2010aa; @Zou:2005aa;
+@Meinshausen:2010aa].)
 
-### Models could be better optimized
-
-Note that we did not attempt to optimize the model tuning parameters in
+*  Models could be better optimized
+   - Note that we did not attempt to optimize the model tuning parameters in
 any way and just used the default search grids for each model.  While
 this may be a good choice on average, better performance could be
 obtained from some of the models by specifying a tuning parameter
 space which is better suited to the problem at hand.  This requires
 a good understanding of each model and is beyond the scope of this
 vignette.
+
+* glmnet/lasso fit  
+   - the glmnet fit selects a lasso fit by cv.  The fit
+implicitly selects very few features and produces optimistic
+out-of-fold assessments of porformance.  This is typical in
+small sample size settings.
+
+
 
