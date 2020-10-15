@@ -591,7 +591,7 @@ implicitly selects very few features and produces optimistic
 out-of-fold assessments of porformance.  This is typical in
 small sample size settings.
 
-* auc alone can be mieleading  
+* auc alone can be misleading  
    - ROC plots AUC are similar for enetFit and glmnetFit, but Figure 
 \@ref(fig:comp-models-CompOOFSet-TrainProbClass1) shows that the enetFit
 model provides better separation between samples belonging to the two classes.
