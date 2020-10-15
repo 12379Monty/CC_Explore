@@ -55,9 +55,9 @@ Here we compare predictive models in terms of:
 ### BREAK CACHE
 
   Set.ModelTimes.frm <- do.call('rbind', lapply(Set.ModelFit.lst,
-  function(LL) c(all=LL$times$everything)))###, final=LL$times$final)))
+  function(LL) c(LL$times$everything)))###, final=LL$times$final)))
 
-  knitr::kable(t(Set.ModelTimes.frm), digits=2,
+  knitr::kable(Set.ModelTimes.frm, digits=2,
    caption="Compute times") %>%
    kableExtra::kable_styling(full_width = F)
 
