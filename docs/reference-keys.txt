@@ -4,6 +4,10 @@ tab:comp-models-compTimes
 tab:comp-models-trainAccuracy
 tab:comp-models-OOSTrainAccuracy
 tab:comp-models-testAccuracy
+fig:comp-models-CompROCTrain
+fig:comp-models-CompROCOOSTrain
+fig:comp-models-CompROCIndivOOSTrain-1
+fig:comp-models-CompROCIndivOOSTrain-2
 intro
 outline
 data-preprocessing
@@ -20,7 +24,8 @@ batch-correction
 separate-data-set-into-train-and-test-subsets
 save-gene-sets
 train-models
-glmnet---lasso-and-elastic-net-regularized-generalized-linear-models
+glmnet---elastic-net-regularized-generalized-linear-models
+enet---elastic-net-regularized-generalized-linear-models
 knn---k-nearest-neighbors
 pam---nearest-shrunken-centroid
 svmradial---support-vector-machines-rbf-kernel
@@ -38,8 +43,9 @@ test-data-accuracy
 compare-models-in-terms-of-roc
 training-data-roc
 out-of-sample-train-average-over-repeats
-out-of-sample-set.train-individual-repeats
+out-of-sample-train-set-individual-repeats
 compare-predicted-probabilities
+compare-predicted-probabilities---test-set
 look-at-variable-importance
 classification-discussion
 nearest-shrunken-centroids-does-well

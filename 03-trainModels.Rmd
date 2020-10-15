@@ -81,7 +81,14 @@ These methods dont work.
 * nnet - neural network
 -->
 
-## glmnet -  Lasso and Elastic-Net Regularized Generalized Linear Models
+## glmnet -  Elastic-Net Regularized Generalized Linear Models
+
+In this run, we use the default search grid:  
+
+* alpha: 0.1, 0.55, 1.00  
+
+* lambda: 0.022, 0.071, 0.223
+
 
 ```{r train-models-glmnetFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  ### CLEAR CACHE
@@ -98,6 +105,32 @@ These methods dont work.
 
 ```
 <!-- ######################################################################## -->
+
+
+## enet -  Elastic-Net Regularized Generalized Linear Models
+
+The glmnet fit selected a lasso fit with very few predictors.
+In this run, we set alpha to 0.55 and vary lambda over
+a grid ranging from 0.01 to 0.3.
+
+```{r train-models-enetFit, cache=TRUE,cache.vars='',echo=T, eval=T}
+ ### CLEAR CACHE
+ set.seed(12379)
+ SelGenes.enetFit.tm <- system.time(
+ SelGenes.enetFit <- train(Train.SelGenes.Expr.mtx, Train.Label.vec,
+               method="glmnet", 
+               trControl=cvControl, preProc=c('center','scale'),
+               tuneGrid = expand.grid(alpha = 0.55,
+                                      lambda = seq(0.01,0.3,by = 0.02)))
+ )
+ print(SelGenes.enetFit.tm)
+ print(SelGenes.enetFit)
+
+ saveObj(paste0(SelGenes.CV, '.enetFit'), 'SelGenes.enetFit')
+
+```
+<!-- ######################################################################## -->
+
 
 ## knn - k nearest neighbors
 
@@ -119,6 +152,9 @@ These methods dont work.
 <!-- ######################################################################## -->
 
 ## pam - nearest shrunken centroid
+
+See Tibshirani et al. (2002) [@Tibshirani:2002ab] and
+[web page](http://statweb.stanford.edu/~tibs/PAM/Rdist/howwork.html).
 
 ```{r train-models-pamFit, cache=TRUE,cache.vars='',echo=T, eval=T}
  set.seed(12379)
