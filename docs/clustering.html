@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Section 5 Cluster Analysis | Classification and Clustering: Case Study with CRC Gene Expression Data</title>
   <meta name="description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
-  <meta name="generator" content="bookdown 0.20.6 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Section 5 Cluster Analysis | Classification and Clustering: Case Study with CRC Gene Expression Data" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Classification and clustering methodes are explored using colorectal data from GEO website" />
   
@@ -32,8 +31,8 @@
   
 <link rel="prev" href="comp-models.html"/>
 <link rel="next" href="summary.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,17 +48,20 @@
 
 
 
-
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.15/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.34.0/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
 <script type="text/javascript">
 // source:https://stackoverflow.com/questions/45360998/code-folding-in-bookdown
 // toggle visibility of R source blocks in R Markdown output
@@ -87,9 +89,11 @@ document.write('<input onclick="toggle_R();" type="button" value="Hide Global" i
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -123,7 +127,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -136,7 +140,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -148,6 +152,33 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -253,10 +284,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="clustering" class="section level1" number="5">
-<h1><span class="header-section-number">Section 5</span> Cluster Analysis</h1>
+<div id="clustering" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Section 5</span> Cluster Analysis<a href="clustering.html#clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In some cases one may be interested in discovering sugroups of samples within the sampled population
-which are more homogenious than the popolation as a whole. Verhaak et. al. <span class="citation">[<a href="references.html#ref-Verhaak:2010aa" role="doc-biblioref">35</a>]</span> describe
+which are more homogenious than the popolation as a whole. Verhaak et. al. <span class="citation">[<a href="references.html#ref-Verhaak:2010aa">35</a>]</span> describe
 an analysis pipeline for cluster discovery consisting of the following steps:</p>
 <ol style="list-style-type: decimal">
 <li>Data collection and integration</li>
@@ -271,15 +302,15 @@ an analysis pipeline for cluster discovery consisting of the following steps:</p
 <li>t-SNE</li>
 </ul>
 <p>The PAM algorithm for clustering is described in detail
-in Kaufman and Rousseeuw <span class="citation">[<a href="references.html#ref-Kaufmann:1990aa" role="doc-biblioref">36</a>]</span>. t-SNE is described
+in Kaufman and Rousseeuw <span class="citation">[<a href="references.html#ref-Kaufmann:1990aa">36</a>]</span>. t-SNE is described
 in <a href="https://lvdmaaten.github.io/tsne/">here</a>, with some
 illustrations <a href="http://distill.pub/2016/misread-tsne/">here</a>.</p>
 <p>We will treat the MSS/MSI status of samples in our data set as unknown and see if the
 clustering algorithms can <em>discover</em> these hidden classes. A more interesting problem
 on the biological pint of view would be to try to <strong>discover</strong> truly unknown subgroups
 within the MSS and the MSI groups.</p>
-<div id="the-pam-clustering-algorithm" class="section level4 unnumbered">
-<h4>The PAM Clustering Algorithm</h4>
+<div id="the-pam-clustering-algorithm" class="section level4 unnumbered hasAnchor">
+<h4>The PAM Clustering Algorithm<a href="clustering.html#the-pam-clustering-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The PAM algorithm for clustering has some desirable attributes:</p>
 <ul>
 <li>the algorithm provides a way of estimating the number of clusters present in the data</li>
@@ -311,13 +342,13 @@ where</p>
 Multidimensional scaling can be used to get a two-dimensional representation of the sample data points such that distances on the dimensional plane are good approximations of the actual distances in the original gene space. The scatter-plot on the right panel of Figure F1 is an example of a two-dimensional representation of the sample data.  In the scatter-plot, cluster assignment is indicated by the plotting character.  The ellipses that overlay the scatter-plot are minimum area ellipsoids that contain all of the samples in each cluster.  
 -->
 </div>
-<div id="bootstrap-aggregating-of-clusters" class="section level4 unnumbered">
-<h4>Bootstrap Aggregating of Clusters</h4>
-<p>The application of bagging to clustering is discussed in Dudoit and Fridlyand <span class="citation">[<a href="references.html#ref-Dudoit:2003aa" role="doc-biblioref">37</a>]</span>.</p>
-<p>Bootstrap aggregation entails performing the clustering analysis repeatedly on bootstrap subsets of samples – sample sets resulting from randomly selecting samples from the original set of samples. The clustering results for the bootstrap samples are then pooled, or aggregated, to produce the final clustering results. Two methods of aggregation are proposed in Dudoit and Fridlyand <span class="citation">[<a href="references.html#ref-Dudoit:2003aa" role="doc-biblioref">37</a>]</span>. One method (BagClust1) allocates samples to clusters according to a voting scheme. The other method (BagClust2) uses the relative frequency across bootstrap samples with which sample pairs are clustered together as a new measure of distance which is then used by the PAM algorithm to cluster the samples. In our exploration we have found the two approaches to give rise to comparable results. We find the latter to be preferable as the distance matrix used for aggregating the bootstrap clustering results can be used like any other distance matrix to assess confidence in sample assignments and overall clustering homogeneity.</p>
+<div id="bootstrap-aggregating-of-clusters" class="section level4 unnumbered hasAnchor">
+<h4>Bootstrap Aggregating of Clusters<a href="clustering.html#bootstrap-aggregating-of-clusters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The application of bagging to clustering is discussed in Dudoit and Fridlyand <span class="citation">[<a href="references.html#ref-Dudoit:2003aa">37</a>]</span>.</p>
+<p>Bootstrap aggregation entails performing the clustering analysis repeatedly on bootstrap subsets of samples – sample sets resulting from randomly selecting samples from the original set of samples. The clustering results for the bootstrap samples are then pooled, or aggregated, to produce the final clustering results. Two methods of aggregation are proposed in Dudoit and Fridlyand <span class="citation">[<a href="references.html#ref-Dudoit:2003aa">37</a>]</span>. One method (BagClust1) allocates samples to clusters according to a voting scheme. The other method (BagClust2) uses the relative frequency across bootstrap samples with which sample pairs are clustered together as a new measure of distance which is then used by the PAM algorithm to cluster the samples. In our exploration we have found the two approaches to give rise to comparable results. We find the latter to be preferable as the distance matrix used for aggregating the bootstrap clustering results can be used like any other distance matrix to assess confidence in sample assignments and overall clustering homogeneity.</p>
 <p>Alternative methods of bagging clusters exist.<br />
 <a href="https://github.com/SimonRaper/buster">buster</a> is an R package which implements
-some form of bagging of hierarchical clustering results. Li <span class="citation">[<a href="references.html#ref-Li:2011aa" role="doc-biblioref">38</a>]</span>
+some form of bagging of hierarchical clustering results. Li <span class="citation">[<a href="references.html#ref-Li:2011aa">38</a>]</span>
 discusses a bagged clustering algorithm which is resistent to outliers and scalable.</p>
 <p>Clustering preliminaries - load data and set parameters.</p>
 <p># Load Data
@@ -342,7 +373,7 @@ labels, we can compute [Cohen&#39;s Kappa](https://en.wikipedia.org/wiki/Cohen%2
 
 
 
-```r
+``` r
  suppressMessages(require(stats))
  suppressMessages(require(cluster))
 
@@ -366,65 +397,65 @@ labels, we can compute [Cohen&#39;s Kappa](https://en.wikipedia.org/wiki/Cohen%2
 ## 0.020 0.012 0.010 0.004</code></pre>
 <p>PAM returns the correct number of clusters, if we are trying to recover the MSS/MSI
 subgroups. Let us look at what the clustering looks like.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="clustering.html#cb124-1" aria-hidden="true"></a><span class="co">###, results=&#39;hold&#39;} this  r chunk option doesn&#39;t appear to work!</span></span>
-<span id="cb124-2"><a href="clustering.html#cb124-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb124-3"><a href="clustering.html#cb124-3" aria-hidden="true"></a> BestK &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">sub</span>(<span class="st">&#39;K_&#39;</span>,<span class="st">&#39;&#39;</span>, <span class="kw">names</span>(asw.vec)[<span class="kw">which.max</span>(asw.vec)]))</span>
-<span id="cb124-4"><a href="clustering.html#cb124-4" aria-hidden="true"></a></span>
-<span id="cb124-5"><a href="clustering.html#cb124-5" aria-hidden="true"></a> <span class="co"># Make sure Expr.dist hasn&#39;t changed!</span></span>
-<span id="cb124-6"><a href="clustering.html#cb124-6" aria-hidden="true"></a> Expr.pam &lt;-<span class="st"> </span><span class="kw">pam</span>(Expr.dist, <span class="dt">k=</span>BestK, <span class="dt">keep.diss=</span>T)</span>
-<span id="cb124-7"><a href="clustering.html#cb124-7" aria-hidden="true"></a></span>
-<span id="cb124-8"><a href="clustering.html#cb124-8" aria-hidden="true"></a> <span class="co"># Look at agreement with MSS label</span></span>
-<span id="cb124-9"><a href="clustering.html#cb124-9" aria-hidden="true"></a> Pam.agree.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(Expr.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb124-10"><a href="clustering.html#cb124-10" aria-hidden="true"></a></span>
-<span id="cb124-11"><a href="clustering.html#cb124-11" aria-hidden="true"></a> <span class="co"># Compute kappa for display on figure</span></span>
-<span id="cb124-12"><a href="clustering.html#cb124-12" aria-hidden="true"></a> <span class="co"># (Only makes sense for BestK==2)</span></span>
-<span id="cb124-13"><a href="clustering.html#cb124-13" aria-hidden="true"></a> kappa.v &lt;-<span class="st"> </span><span class="ot">NA</span></span>
-<span id="cb124-14"><a href="clustering.html#cb124-14" aria-hidden="true"></a> <span class="cf">if</span>(BestK <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) kappa.v &lt;-<span class="st"> </span><span class="kw">getKappa</span>(Expr.pam<span class="op">$</span>clustering, Train.Label.vec)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="clustering.html#cb119-1" tabindex="-1"></a><span class="do">###, results=&#39;hold&#39;} this  r chunk option doesn&#39;t appear to work!</span></span>
+<span id="cb119-2"><a href="clustering.html#cb119-2" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb119-3"><a href="clustering.html#cb119-3" tabindex="-1"></a> BestK <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">&#39;K_&#39;</span>,<span class="st">&#39;&#39;</span>, <span class="fu">names</span>(asw.vec)[<span class="fu">which.max</span>(asw.vec)]))</span>
+<span id="cb119-4"><a href="clustering.html#cb119-4" tabindex="-1"></a></span>
+<span id="cb119-5"><a href="clustering.html#cb119-5" tabindex="-1"></a> <span class="co"># Make sure Expr.dist hasn&#39;t changed!</span></span>
+<span id="cb119-6"><a href="clustering.html#cb119-6" tabindex="-1"></a> Expr.pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(Expr.dist, <span class="at">k=</span>BestK, <span class="at">keep.diss=</span>T)</span>
+<span id="cb119-7"><a href="clustering.html#cb119-7" tabindex="-1"></a></span>
+<span id="cb119-8"><a href="clustering.html#cb119-8" tabindex="-1"></a> <span class="co"># Look at agreement with MSS label</span></span>
+<span id="cb119-9"><a href="clustering.html#cb119-9" tabindex="-1"></a> Pam.agree.tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(Expr.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb119-10"><a href="clustering.html#cb119-10" tabindex="-1"></a></span>
+<span id="cb119-11"><a href="clustering.html#cb119-11" tabindex="-1"></a> <span class="co"># Compute kappa for display on figure</span></span>
+<span id="cb119-12"><a href="clustering.html#cb119-12" tabindex="-1"></a> <span class="co"># (Only makes sense for BestK==2)</span></span>
+<span id="cb119-13"><a href="clustering.html#cb119-13" tabindex="-1"></a> kappa.v <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb119-14"><a href="clustering.html#cb119-14" tabindex="-1"></a> <span class="cf">if</span>(BestK <span class="sc">==</span> <span class="dv">2</span>) kappa.v <span class="ot">&lt;-</span> <span class="fu">getKappa</span>(Expr.pam<span class="sc">$</span>clustering, Train.Label.vec)</span></code></pre></div>
 <pre><code>## Loading required package: concord</code></pre>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="clustering.html#cb126-1" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb126-2"><a href="clustering.html#cb126-2" aria-hidden="true"></a> <span class="co"># Visualization</span></span>
-<span id="cb126-3"><a href="clustering.html#cb126-3" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb126-4"><a href="clustering.html#cb126-4" aria-hidden="true"></a> old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
-<span id="cb126-5"><a href="clustering.html#cb126-5" aria-hidden="true"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
-<span id="cb126-6"><a href="clustering.html#cb126-6" aria-hidden="true"></a>       <span class="dt">cex.main=</span><span class="fl">1.0</span>,<span class="dt">cex.lab=</span><span class="fl">1.0</span>,<span class="dt">cex.axis=</span><span class="fl">1.0</span>)</span>
-<span id="cb126-7"><a href="clustering.html#cb126-7" aria-hidden="true"></a></span>
-<span id="cb126-8"><a href="clustering.html#cb126-8" aria-hidden="true"></a><span class="co"># DEBUG</span></span>
-<span id="cb126-9"><a href="clustering.html#cb126-9" aria-hidden="true"></a><span class="co">#save(Expr.pam, file=file.path(WRKDIR,&#39;Data&#39;, &#39;Expr.pam&#39;))</span></span>
-<span id="cb126-10"><a href="clustering.html#cb126-10" aria-hidden="true"></a><span class="co">#THIS DOEST WORK ANY MORE</span></span>
-<span id="cb126-11"><a href="clustering.html#cb126-11" aria-hidden="true"></a>SKIP &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb126-12"><a href="clustering.html#cb126-12" aria-hidden="true"></a>   <span class="kw">plot</span>(Expr.pam,<span class="dt">main=</span><span class="st">&#39;&#39;</span>)</span>
-<span id="cb126-13"><a href="clustering.html#cb126-13" aria-hidden="true"></a>   <span class="kw">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
-<span id="cb126-14"><a href="clustering.html#cb126-14" aria-hidden="true"></a>}<span class="co"># SKIP</span></span>
-<span id="cb126-15"><a href="clustering.html#cb126-15" aria-hidden="true"></a></span>
-<span id="cb126-16"><a href="clustering.html#cb126-16" aria-hidden="true"></a> <span class="co">###################################</span></span>
-<span id="cb126-17"><a href="clustering.html#cb126-17" aria-hidden="true"></a> <span class="kw">clusplot</span>(Expr.pam, <span class="dt">main=</span><span class="st">&#39;&#39;</span>)<span class="co">###, pch=DataSource.pch)</span></span>
-<span id="cb126-18"><a href="clustering.html#cb126-18" aria-hidden="true"></a></span>
-<span id="cb126-19"><a href="clustering.html#cb126-19" aria-hidden="true"></a> <span class="co">### Recolor samples according to MSS/MSI status</span></span>
-<span id="cb126-20"><a href="clustering.html#cb126-20" aria-hidden="true"></a> <span class="co">#xD &lt;- eval(Expr.pam$call[[2]])</span></span>
-<span id="cb126-21"><a href="clustering.html#cb126-21" aria-hidden="true"></a> xD &lt;-<span class="st"> </span>Expr.pam<span class="op">$</span>diss</span>
-<span id="cb126-22"><a href="clustering.html#cb126-22" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T, <span class="dt">add=</span>T)</span>
-<span id="cb126-23"><a href="clustering.html#cb126-23" aria-hidden="true"></a> <span class="cf">if</span>(x1<span class="op">$</span>ac <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb126-24"><a href="clustering.html#cb126-24" aria-hidden="true"></a>    x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T)</span>
-<span id="cb126-25"><a href="clustering.html#cb126-25" aria-hidden="true"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
-<span id="cb126-26"><a href="clustering.html#cb126-26" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span>x1<span class="op">$</span>points</span>
-<span id="cb126-27"><a href="clustering.html#cb126-27" aria-hidden="true"></a></span>
-<span id="cb126-28"><a href="clustering.html#cb126-28" aria-hidden="true"></a> <span class="kw">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>],</span>
-<span id="cb126-29"><a href="clustering.html#cb126-29" aria-hidden="true"></a>         <span class="dt">pch=</span><span class="st">&#39;.&#39;</span>,<span class="dt">cex=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb126-30"><a href="clustering.html#cb126-30" aria-hidden="true"></a> <span class="co"># add 2x2 tbale in margin</span></span>
-<span id="cb126-31"><a href="clustering.html#cb126-31" aria-hidden="true"></a> <span class="kw">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
-<span id="cb126-32"><a href="clustering.html#cb126-32" aria-hidden="true"></a></span>
-<span id="cb126-33"><a href="clustering.html#cb126-33" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&#39;Red dot = MSI samples&#39;</span>,</span>
-<span id="cb126-34"><a href="clustering.html#cb126-34" aria-hidden="true"></a>  <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="kw">round</span>(Expr.pam<span class="op">$</span>silinfo<span class="op">$</span>avg.width,<span class="dv">3</span>),</span>
-<span id="cb126-35"><a href="clustering.html#cb126-35" aria-hidden="true"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="kw">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="clustering.html#cb121-1" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb121-2"><a href="clustering.html#cb121-2" tabindex="-1"></a> <span class="co"># Visualization</span></span>
+<span id="cb121-3"><a href="clustering.html#cb121-3" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb121-4"><a href="clustering.html#cb121-4" tabindex="-1"></a> old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
+<span id="cb121-5"><a href="clustering.html#cb121-5" tabindex="-1"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
+<span id="cb121-6"><a href="clustering.html#cb121-6" tabindex="-1"></a>       <span class="at">cex.main=</span><span class="fl">1.0</span>,<span class="at">cex.lab=</span><span class="fl">1.0</span>,<span class="at">cex.axis=</span><span class="fl">1.0</span>)</span>
+<span id="cb121-7"><a href="clustering.html#cb121-7" tabindex="-1"></a></span>
+<span id="cb121-8"><a href="clustering.html#cb121-8" tabindex="-1"></a><span class="co"># DEBUG</span></span>
+<span id="cb121-9"><a href="clustering.html#cb121-9" tabindex="-1"></a><span class="co">#save(Expr.pam, file=file.path(WRKDIR,&#39;Data&#39;, &#39;Expr.pam&#39;))</span></span>
+<span id="cb121-10"><a href="clustering.html#cb121-10" tabindex="-1"></a><span class="co">#THIS DOEST WORK ANY MORE</span></span>
+<span id="cb121-11"><a href="clustering.html#cb121-11" tabindex="-1"></a>SKIP <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb121-12"><a href="clustering.html#cb121-12" tabindex="-1"></a>   <span class="fu">plot</span>(Expr.pam,<span class="at">main=</span><span class="st">&#39;&#39;</span>)</span>
+<span id="cb121-13"><a href="clustering.html#cb121-13" tabindex="-1"></a>   <span class="fu">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
+<span id="cb121-14"><a href="clustering.html#cb121-14" tabindex="-1"></a>}<span class="co"># SKIP</span></span>
+<span id="cb121-15"><a href="clustering.html#cb121-15" tabindex="-1"></a></span>
+<span id="cb121-16"><a href="clustering.html#cb121-16" tabindex="-1"></a> <span class="do">###################################</span></span>
+<span id="cb121-17"><a href="clustering.html#cb121-17" tabindex="-1"></a> <span class="fu">clusplot</span>(Expr.pam, <span class="at">main=</span><span class="st">&#39;&#39;</span>)<span class="do">###, pch=DataSource.pch)</span></span>
+<span id="cb121-18"><a href="clustering.html#cb121-18" tabindex="-1"></a></span>
+<span id="cb121-19"><a href="clustering.html#cb121-19" tabindex="-1"></a> <span class="do">### Recolor samples according to MSS/MSI status</span></span>
+<span id="cb121-20"><a href="clustering.html#cb121-20" tabindex="-1"></a> <span class="co">#xD &lt;- eval(Expr.pam$call[[2]])</span></span>
+<span id="cb121-21"><a href="clustering.html#cb121-21" tabindex="-1"></a> xD <span class="ot">&lt;-</span> Expr.pam<span class="sc">$</span>diss</span>
+<span id="cb121-22"><a href="clustering.html#cb121-22" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T, <span class="at">add=</span>T)</span>
+<span id="cb121-23"><a href="clustering.html#cb121-23" tabindex="-1"></a> <span class="cf">if</span>(x1<span class="sc">$</span>ac <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb121-24"><a href="clustering.html#cb121-24" tabindex="-1"></a>    x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T)</span>
+<span id="cb121-25"><a href="clustering.html#cb121-25" tabindex="-1"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
+<span id="cb121-26"><a href="clustering.html#cb121-26" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> x1<span class="sc">$</span>points</span>
+<span id="cb121-27"><a href="clustering.html#cb121-27" tabindex="-1"></a></span>
+<span id="cb121-28"><a href="clustering.html#cb121-28" tabindex="-1"></a> <span class="fu">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>],</span>
+<span id="cb121-29"><a href="clustering.html#cb121-29" tabindex="-1"></a>         <span class="at">pch=</span><span class="st">&#39;.&#39;</span>,<span class="at">cex=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb121-30"><a href="clustering.html#cb121-30" tabindex="-1"></a> <span class="co"># add 2x2 tbale in margin</span></span>
+<span id="cb121-31"><a href="clustering.html#cb121-31" tabindex="-1"></a> <span class="fu">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
+<span id="cb121-32"><a href="clustering.html#cb121-32" tabindex="-1"></a></span>
+<span id="cb121-33"><a href="clustering.html#cb121-33" tabindex="-1"></a> <span class="fu">title</span>(<span class="fu">paste</span>(<span class="st">&#39;Red dot = MSI samples&#39;</span>,</span>
+<span id="cb121-34"><a href="clustering.html#cb121-34" tabindex="-1"></a>  <span class="st">&#39;</span><span class="sc">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="fu">round</span>(Expr.pam<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width,<span class="dv">3</span>),</span>
+<span id="cb121-35"><a href="clustering.html#cb121-35" tabindex="-1"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="fu">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
 <p><img src="Static/figures/clustering-ViewPamCluster-1.png" width="1152" /></p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="clustering.html#cb127-1" aria-hidden="true"></a> <span class="kw">par</span>(old_par)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="clustering.html#cb122-1" tabindex="-1"></a> <span class="fu">par</span>(old_par)</span></code></pre></div>
 <p>Although the MSS and MSI somewhat colocate on the
 two dimensional projection of their gene expression vectors, one would be hard-pressed
 to make the case that clusters exist in these data.
 Next we’ll see if bootstrap aggregation helps.</p>
 </div>
-<div id="bootstrap-aggregation-of-clusters" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Bootstrap Aggregation of Clusters</h2>
+<div id="bootstrap-aggregation-of-clusters" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Bootstrap Aggregation of Clusters<a href="clustering.html#bootstrap-aggregation-of-clusters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Next we will implement the baaged clustering procedure, BagClust2:</p>
 <p>For a fixed number of clusters K:</p>
 <ol style="list-style-type: decimal">
@@ -441,79 +472,79 @@ Next we’ll see if bootstrap aggregation helps.</p>
 <li>Define a new dissimilarity matrix <span class="math inline">\(D = 1 - A/M\)</span></li>
 <li>Cluster samples on the basis of this dissimilarity matrix.</li>
 </ol>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="clustering.html#cb129-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb129-2"><a href="clustering.html#cb129-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(stats))</span>
-<span id="cb129-3"><a href="clustering.html#cb129-3" aria-hidden="true"></a></span>
-<span id="cb129-4"><a href="clustering.html#cb129-4" aria-hidden="true"></a> N_BOOT &lt;-<span class="st"> </span><span class="dv">30</span></span>
-<span id="cb129-5"><a href="clustering.html#cb129-5" aria-hidden="true"></a></span>
-<span id="cb129-6"><a href="clustering.html#cb129-6" aria-hidden="true"></a> <span class="co"># initialize list to store BagCLust results</span></span>
-<span id="cb129-7"><a href="clustering.html#cb129-7" aria-hidden="true"></a> SelGenes.BagClust.pam.lst &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
-<span id="cb129-8"><a href="clustering.html#cb129-8" aria-hidden="true"></a> </span>
-<span id="cb129-9"><a href="clustering.html#cb129-9" aria-hidden="true"></a> <span class="cf">for</span>(KK <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>) {</span>
-<span id="cb129-10"><a href="clustering.html#cb129-10" aria-hidden="true"></a>  <span class="co"># Initialize counting matrices</span></span>
-<span id="cb129-11"><a href="clustering.html#cb129-11" aria-hidden="true"></a>  A.mtx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol=</span><span class="kw">length</span>(Train.Label.vec),</span>
-<span id="cb129-12"><a href="clustering.html#cb129-12" aria-hidden="true"></a>                     <span class="dt">nrow=</span><span class="kw">length</span>(Train.Label.vec))</span>
-<span id="cb129-13"><a href="clustering.html#cb129-13" aria-hidden="true"></a>  <span class="kw">rownames</span>(A.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb129-14"><a href="clustering.html#cb129-14" aria-hidden="true"></a>  <span class="kw">colnames</span>(A.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb129-15"><a href="clustering.html#cb129-15" aria-hidden="true"></a></span>
-<span id="cb129-16"><a href="clustering.html#cb129-16" aria-hidden="true"></a>  M.mtx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol=</span><span class="kw">length</span>(Train.Label.vec),</span>
-<span id="cb129-17"><a href="clustering.html#cb129-17" aria-hidden="true"></a>                     <span class="dt">nrow=</span><span class="kw">length</span>(Train.Label.vec))</span>
-<span id="cb129-18"><a href="clustering.html#cb129-18" aria-hidden="true"></a>  <span class="kw">rownames</span>(M.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb129-19"><a href="clustering.html#cb129-19" aria-hidden="true"></a>  <span class="kw">colnames</span>(M.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb129-20"><a href="clustering.html#cb129-20" aria-hidden="true"></a></span>
-<span id="cb129-21"><a href="clustering.html#cb129-21" aria-hidden="true"></a></span>
-<span id="cb129-22"><a href="clustering.html#cb129-22" aria-hidden="true"></a>  <span class="co"># Repeat 2-4 B times</span></span>
-<span id="cb129-23"><a href="clustering.html#cb129-23" aria-hidden="true"></a>  <span class="co"># 2. Form the b_th bootstrap sample Bt_Samp =</span></span>
-<span id="cb129-24"><a href="clustering.html#cb129-24" aria-hidden="true"></a>  <span class="co">#       sample(Samp.vec, size=N_Samp, replace=T)</span></span>
-<span id="cb129-25"><a href="clustering.html#cb129-25" aria-hidden="true"></a>  <span class="co"># 3. Cluster to obtain cluster labels Bt_Clust for samples in Bt_Samp</span></span>
-<span id="cb129-26"><a href="clustering.html#cb129-26" aria-hidden="true"></a>  <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
-<span id="cb129-27"><a href="clustering.html#cb129-27" aria-hidden="true"></a>  <span class="co">#     - increment M[s1,s2]</span></span>
-<span id="cb129-28"><a href="clustering.html#cb129-28" aria-hidden="true"></a>  <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
-<span id="cb129-29"><a href="clustering.html#cb129-29" aria-hidden="true"></a>  <span class="co"># end repeat</span></span>
-<span id="cb129-30"><a href="clustering.html#cb129-30" aria-hidden="true"></a>  <span class="cf">for</span>(BB <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N_BOOT){</span>
-<span id="cb129-31"><a href="clustering.html#cb129-31" aria-hidden="true"></a>   <span class="kw">cat</span>(<span class="st">&#39;.&#39;</span>)</span>
-<span id="cb129-32"><a href="clustering.html#cb129-32" aria-hidden="true"></a>   <span class="co"># 2. form the BS sample</span></span>
-<span id="cb129-33"><a href="clustering.html#cb129-33" aria-hidden="true"></a>   B_Samp &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">names</span>(Train.Label.vec), <span class="dt">size=</span><span class="kw">length</span>(Train.Label.vec), <span class="dt">replace=</span>T)</span>
-<span id="cb129-34"><a href="clustering.html#cb129-34" aria-hidden="true"></a></span>
-<span id="cb129-35"><a href="clustering.html#cb129-35" aria-hidden="true"></a>   Expr.B.mtx &lt;-<span class="st"> </span>Expr.mtx[B_Samp,]</span>
-<span id="cb129-36"><a href="clustering.html#cb129-36" aria-hidden="true"></a></span>
-<span id="cb129-37"><a href="clustering.html#cb129-37" aria-hidden="true"></a>   <span class="co"># Get dissimilarity</span></span>
-<span id="cb129-38"><a href="clustering.html#cb129-38" aria-hidden="true"></a>   {<span class="cf">if</span>(DM <span class="op">==</span><span class="st"> &quot;1-pearson&quot;</span>)</span>
-<span id="cb129-39"><a href="clustering.html#cb129-39" aria-hidden="true"></a>     Expr.B.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">cor</span>(<span class="kw">t</span>(Expr.B.mtx))) <span class="cf">else</span></span>
-<span id="cb129-40"><a href="clustering.html#cb129-40" aria-hidden="true"></a>     Expr.B.dist &lt;-<span class="st"> </span><span class="kw">daisy</span>(Expr.B.mtx, DM)</span>
-<span id="cb129-41"><a href="clustering.html#cb129-41" aria-hidden="true"></a>   }</span>
-<span id="cb129-42"><a href="clustering.html#cb129-42" aria-hidden="true"></a>   <span class="kw">rm</span>(Expr.B.mtx)</span>
-<span id="cb129-43"><a href="clustering.html#cb129-43" aria-hidden="true"></a></span>
-<span id="cb129-44"><a href="clustering.html#cb129-44" aria-hidden="true"></a>   <span class="co"># 3. cluster</span></span>
-<span id="cb129-45"><a href="clustering.html#cb129-45" aria-hidden="true"></a>   Expr.B.pam &lt;-<span class="st"> </span><span class="kw">pam</span>(Expr.B.dist, <span class="dt">k=</span>KK)</span>
-<span id="cb129-46"><a href="clustering.html#cb129-46" aria-hidden="true"></a></span>
-<span id="cb129-47"><a href="clustering.html#cb129-47" aria-hidden="true"></a>   <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
-<span id="cb129-48"><a href="clustering.html#cb129-48" aria-hidden="true"></a>   <span class="co">#     - increment M[s1,s2]</span></span>
-<span id="cb129-49"><a href="clustering.html#cb129-49" aria-hidden="true"></a>   <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
-<span id="cb129-50"><a href="clustering.html#cb129-50" aria-hidden="true"></a>   B_Samp.lst &lt;-<span class="st"> </span><span class="kw">unique</span>(B_Samp)</span>
-<span id="cb129-51"><a href="clustering.html#cb129-51" aria-hidden="true"></a></span>
-<span id="cb129-52"><a href="clustering.html#cb129-52" aria-hidden="true"></a>   M.mtx[B_Samp.lst, B_Samp.lst] &lt;-<span class="st">   </span>M.mtx[B_Samp.lst, B_Samp.lst] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb129-53"><a href="clustering.html#cb129-53" aria-hidden="true"></a></span>
-<span id="cb129-54"><a href="clustering.html#cb129-54" aria-hidden="true"></a>   <span class="co"># patition in list</span></span>
-<span id="cb129-55"><a href="clustering.html#cb129-55" aria-hidden="true"></a>   B_Samp.Cluster &lt;-<span class="st"> </span>Expr.B.pam<span class="op">$</span>clustering[B_Samp.lst]</span>
-<span id="cb129-56"><a href="clustering.html#cb129-56" aria-hidden="true"></a>   B_Samp.Clust.lst &lt;-<span class="st"> </span><span class="kw">split</span>(B_Samp.lst, B_Samp.Cluster)</span>
-<span id="cb129-57"><a href="clustering.html#cb129-57" aria-hidden="true"></a></span>
-<span id="cb129-58"><a href="clustering.html#cb129-58" aria-hidden="true"></a>   <span class="cf">for</span>(LL <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(B_Samp.Clust.lst)) {</span>
-<span id="cb129-59"><a href="clustering.html#cb129-59" aria-hidden="true"></a>    Clust.Samp &lt;-<span class="st"> </span>B_Samp.Clust.lst[[LL]]</span>
-<span id="cb129-60"><a href="clustering.html#cb129-60" aria-hidden="true"></a>    A.mtx[Clust.Samp, Clust.Samp] &lt;-<span class="st">   </span>A.mtx[Clust.Samp, Clust.Samp] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb129-61"><a href="clustering.html#cb129-61" aria-hidden="true"></a>   }</span>
-<span id="cb129-62"><a href="clustering.html#cb129-62" aria-hidden="true"></a>  } <span class="co"># end BB loop</span></span>
-<span id="cb129-63"><a href="clustering.html#cb129-63" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
-<span id="cb129-64"><a href="clustering.html#cb129-64" aria-hidden="true"></a></span>
-<span id="cb129-65"><a href="clustering.html#cb129-65" aria-hidden="true"></a>  <span class="co"># 5. Define new dissimilariy matirx D = 1 - A/M</span></span>
-<span id="cb129-66"><a href="clustering.html#cb129-66" aria-hidden="true"></a>  D.mtx &lt;-<span class="st"> </span>A.mtx<span class="op">/</span>M.mtx</span>
-<span id="cb129-67"><a href="clustering.html#cb129-67" aria-hidden="true"></a>  D.mtx[<span class="kw">is.na</span>(D.mtx)] &lt;-<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb129-68"><a href="clustering.html#cb129-68" aria-hidden="true"></a> </span>
-<span id="cb129-69"><a href="clustering.html#cb129-69" aria-hidden="true"></a>  <span class="co"># 6. Cluster observations on the basis of this dissimilarity matrix</span></span>
-<span id="cb129-70"><a href="clustering.html#cb129-70" aria-hidden="true"></a>  D.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span>D.mtx)</span>
-<span id="cb129-71"><a href="clustering.html#cb129-71" aria-hidden="true"></a>  SelGenes.BagClust.pam.lst[[<span class="kw">paste0</span>(<span class="st">&#39;K_&#39;</span>,KK)]] &lt;-<span class="st"> </span><span class="kw">pam</span>(D.dist, <span class="dt">k=</span>KK, <span class="dt">keep.diss=</span>T)</span>
-<span id="cb129-72"><a href="clustering.html#cb129-72" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&#39;KK =&#39;</span>,KK, <span class="st">&#39;   sil.avg.width =&#39;</span>, SelGenes.BagClust.pam.lst[[<span class="kw">paste0</span>(<span class="st">&#39;K_&#39;</span>,KK)]]<span class="op">$</span>silinfo<span class="op">$</span>avg.width, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
-<span id="cb129-73"><a href="clustering.html#cb129-73" aria-hidden="true"></a> }<span class="co">#for(KK</span></span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="clustering.html#cb124-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb124-2"><a href="clustering.html#cb124-2" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(stats))</span>
+<span id="cb124-3"><a href="clustering.html#cb124-3" tabindex="-1"></a></span>
+<span id="cb124-4"><a href="clustering.html#cb124-4" tabindex="-1"></a> N_BOOT <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb124-5"><a href="clustering.html#cb124-5" tabindex="-1"></a></span>
+<span id="cb124-6"><a href="clustering.html#cb124-6" tabindex="-1"></a> <span class="co"># initialize list to store BagCLust results</span></span>
+<span id="cb124-7"><a href="clustering.html#cb124-7" tabindex="-1"></a> SelGenes.BagClust.pam.lst <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb124-8"><a href="clustering.html#cb124-8" tabindex="-1"></a> </span>
+<span id="cb124-9"><a href="clustering.html#cb124-9" tabindex="-1"></a> <span class="cf">for</span>(KK <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb124-10"><a href="clustering.html#cb124-10" tabindex="-1"></a>  <span class="co"># Initialize counting matrices</span></span>
+<span id="cb124-11"><a href="clustering.html#cb124-11" tabindex="-1"></a>  A.mtx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol=</span><span class="fu">length</span>(Train.Label.vec),</span>
+<span id="cb124-12"><a href="clustering.html#cb124-12" tabindex="-1"></a>                     <span class="at">nrow=</span><span class="fu">length</span>(Train.Label.vec))</span>
+<span id="cb124-13"><a href="clustering.html#cb124-13" tabindex="-1"></a>  <span class="fu">rownames</span>(A.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb124-14"><a href="clustering.html#cb124-14" tabindex="-1"></a>  <span class="fu">colnames</span>(A.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb124-15"><a href="clustering.html#cb124-15" tabindex="-1"></a></span>
+<span id="cb124-16"><a href="clustering.html#cb124-16" tabindex="-1"></a>  M.mtx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol=</span><span class="fu">length</span>(Train.Label.vec),</span>
+<span id="cb124-17"><a href="clustering.html#cb124-17" tabindex="-1"></a>                     <span class="at">nrow=</span><span class="fu">length</span>(Train.Label.vec))</span>
+<span id="cb124-18"><a href="clustering.html#cb124-18" tabindex="-1"></a>  <span class="fu">rownames</span>(M.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb124-19"><a href="clustering.html#cb124-19" tabindex="-1"></a>  <span class="fu">colnames</span>(M.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb124-20"><a href="clustering.html#cb124-20" tabindex="-1"></a></span>
+<span id="cb124-21"><a href="clustering.html#cb124-21" tabindex="-1"></a></span>
+<span id="cb124-22"><a href="clustering.html#cb124-22" tabindex="-1"></a>  <span class="co"># Repeat 2-4 B times</span></span>
+<span id="cb124-23"><a href="clustering.html#cb124-23" tabindex="-1"></a>  <span class="co"># 2. Form the b_th bootstrap sample Bt_Samp =</span></span>
+<span id="cb124-24"><a href="clustering.html#cb124-24" tabindex="-1"></a>  <span class="co">#       sample(Samp.vec, size=N_Samp, replace=T)</span></span>
+<span id="cb124-25"><a href="clustering.html#cb124-25" tabindex="-1"></a>  <span class="co"># 3. Cluster to obtain cluster labels Bt_Clust for samples in Bt_Samp</span></span>
+<span id="cb124-26"><a href="clustering.html#cb124-26" tabindex="-1"></a>  <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
+<span id="cb124-27"><a href="clustering.html#cb124-27" tabindex="-1"></a>  <span class="co">#     - increment M[s1,s2]</span></span>
+<span id="cb124-28"><a href="clustering.html#cb124-28" tabindex="-1"></a>  <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
+<span id="cb124-29"><a href="clustering.html#cb124-29" tabindex="-1"></a>  <span class="co"># end repeat</span></span>
+<span id="cb124-30"><a href="clustering.html#cb124-30" tabindex="-1"></a>  <span class="cf">for</span>(BB <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N_BOOT){</span>
+<span id="cb124-31"><a href="clustering.html#cb124-31" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">&#39;.&#39;</span>)</span>
+<span id="cb124-32"><a href="clustering.html#cb124-32" tabindex="-1"></a>   <span class="co"># 2. form the BS sample</span></span>
+<span id="cb124-33"><a href="clustering.html#cb124-33" tabindex="-1"></a>   B_Samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">names</span>(Train.Label.vec), <span class="at">size=</span><span class="fu">length</span>(Train.Label.vec), <span class="at">replace=</span>T)</span>
+<span id="cb124-34"><a href="clustering.html#cb124-34" tabindex="-1"></a></span>
+<span id="cb124-35"><a href="clustering.html#cb124-35" tabindex="-1"></a>   Expr.B.mtx <span class="ot">&lt;-</span> Expr.mtx[B_Samp,]</span>
+<span id="cb124-36"><a href="clustering.html#cb124-36" tabindex="-1"></a></span>
+<span id="cb124-37"><a href="clustering.html#cb124-37" tabindex="-1"></a>   <span class="co"># Get dissimilarity</span></span>
+<span id="cb124-38"><a href="clustering.html#cb124-38" tabindex="-1"></a>   {<span class="cf">if</span>(DM <span class="sc">==</span> <span class="st">&quot;1-pearson&quot;</span>)</span>
+<span id="cb124-39"><a href="clustering.html#cb124-39" tabindex="-1"></a>     Expr.B.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(Expr.B.mtx))) <span class="cf">else</span></span>
+<span id="cb124-40"><a href="clustering.html#cb124-40" tabindex="-1"></a>     Expr.B.dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(Expr.B.mtx, DM)</span>
+<span id="cb124-41"><a href="clustering.html#cb124-41" tabindex="-1"></a>   }</span>
+<span id="cb124-42"><a href="clustering.html#cb124-42" tabindex="-1"></a>   <span class="fu">rm</span>(Expr.B.mtx)</span>
+<span id="cb124-43"><a href="clustering.html#cb124-43" tabindex="-1"></a></span>
+<span id="cb124-44"><a href="clustering.html#cb124-44" tabindex="-1"></a>   <span class="co"># 3. cluster</span></span>
+<span id="cb124-45"><a href="clustering.html#cb124-45" tabindex="-1"></a>   Expr.B.pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(Expr.B.dist, <span class="at">k=</span>KK)</span>
+<span id="cb124-46"><a href="clustering.html#cb124-46" tabindex="-1"></a></span>
+<span id="cb124-47"><a href="clustering.html#cb124-47" tabindex="-1"></a>   <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
+<span id="cb124-48"><a href="clustering.html#cb124-48" tabindex="-1"></a>   <span class="co">#     - increment M[s1,s2]</span></span>
+<span id="cb124-49"><a href="clustering.html#cb124-49" tabindex="-1"></a>   <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
+<span id="cb124-50"><a href="clustering.html#cb124-50" tabindex="-1"></a>   B_Samp.lst <span class="ot">&lt;-</span> <span class="fu">unique</span>(B_Samp)</span>
+<span id="cb124-51"><a href="clustering.html#cb124-51" tabindex="-1"></a></span>
+<span id="cb124-52"><a href="clustering.html#cb124-52" tabindex="-1"></a>   M.mtx[B_Samp.lst, B_Samp.lst] <span class="ot">&lt;-</span>   M.mtx[B_Samp.lst, B_Samp.lst] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb124-53"><a href="clustering.html#cb124-53" tabindex="-1"></a></span>
+<span id="cb124-54"><a href="clustering.html#cb124-54" tabindex="-1"></a>   <span class="co"># patition in list</span></span>
+<span id="cb124-55"><a href="clustering.html#cb124-55" tabindex="-1"></a>   B_Samp.Cluster <span class="ot">&lt;-</span> Expr.B.pam<span class="sc">$</span>clustering[B_Samp.lst]</span>
+<span id="cb124-56"><a href="clustering.html#cb124-56" tabindex="-1"></a>   B_Samp.Clust.lst <span class="ot">&lt;-</span> <span class="fu">split</span>(B_Samp.lst, B_Samp.Cluster)</span>
+<span id="cb124-57"><a href="clustering.html#cb124-57" tabindex="-1"></a></span>
+<span id="cb124-58"><a href="clustering.html#cb124-58" tabindex="-1"></a>   <span class="cf">for</span>(LL <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(B_Samp.Clust.lst)) {</span>
+<span id="cb124-59"><a href="clustering.html#cb124-59" tabindex="-1"></a>    Clust.Samp <span class="ot">&lt;-</span> B_Samp.Clust.lst[[LL]]</span>
+<span id="cb124-60"><a href="clustering.html#cb124-60" tabindex="-1"></a>    A.mtx[Clust.Samp, Clust.Samp] <span class="ot">&lt;-</span>   A.mtx[Clust.Samp, Clust.Samp] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb124-61"><a href="clustering.html#cb124-61" tabindex="-1"></a>   }</span>
+<span id="cb124-62"><a href="clustering.html#cb124-62" tabindex="-1"></a>  } <span class="co"># end BB loop</span></span>
+<span id="cb124-63"><a href="clustering.html#cb124-63" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb124-64"><a href="clustering.html#cb124-64" tabindex="-1"></a></span>
+<span id="cb124-65"><a href="clustering.html#cb124-65" tabindex="-1"></a>  <span class="co"># 5. Define new dissimilariy matirx D = 1 - A/M</span></span>
+<span id="cb124-66"><a href="clustering.html#cb124-66" tabindex="-1"></a>  D.mtx <span class="ot">&lt;-</span> A.mtx<span class="sc">/</span>M.mtx</span>
+<span id="cb124-67"><a href="clustering.html#cb124-67" tabindex="-1"></a>  D.mtx[<span class="fu">is.na</span>(D.mtx)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb124-68"><a href="clustering.html#cb124-68" tabindex="-1"></a> </span>
+<span id="cb124-69"><a href="clustering.html#cb124-69" tabindex="-1"></a>  <span class="co"># 6. Cluster observations on the basis of this dissimilarity matrix</span></span>
+<span id="cb124-70"><a href="clustering.html#cb124-70" tabindex="-1"></a>  D.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span>D.mtx)</span>
+<span id="cb124-71"><a href="clustering.html#cb124-71" tabindex="-1"></a>  SelGenes.BagClust.pam.lst[[<span class="fu">paste0</span>(<span class="st">&#39;K_&#39;</span>,KK)]] <span class="ot">&lt;-</span> <span class="fu">pam</span>(D.dist, <span class="at">k=</span>KK, <span class="at">keep.diss=</span>T)</span>
+<span id="cb124-72"><a href="clustering.html#cb124-72" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;KK =&#39;</span>,KK, <span class="st">&#39;   sil.avg.width =&#39;</span>, SelGenes.BagClust.pam.lst[[<span class="fu">paste0</span>(<span class="st">&#39;K_&#39;</span>,KK)]]<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width, <span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb124-73"><a href="clustering.html#cb124-73" tabindex="-1"></a> }<span class="co">#for(KK</span></span></code></pre></div>
 <pre><code>## ..............................
 ## KK = 2    sil.avg.width = 0.2822617 
 ## ..............................
@@ -522,67 +553,67 @@ Next we’ll see if bootstrap aggregation helps.</p>
 ## KK = 4    sil.avg.width = 0.2862272 
 ## ..............................
 ## KK = 5    sil.avg.width = 0.1644449</code></pre>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="clustering.html#cb131-1" aria-hidden="true"></a> <span class="co">## save </span></span>
-<span id="cb131-2"><a href="clustering.html#cb131-2" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.BagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.BagClust.pam.lst&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="clustering.html#cb126-1" tabindex="-1"></a> <span class="do">## save </span></span>
+<span id="cb126-2"><a href="clustering.html#cb126-2" tabindex="-1"></a> <span class="fu">saveObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.BagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.BagClust.pam.lst&#39;</span>)</span></code></pre></div>
 <!-- ****************************************************************** -->
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="clustering.html#cb132-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb132-2"><a href="clustering.html#cb132-2" aria-hidden="true"></a></span>
-<span id="cb132-3"><a href="clustering.html#cb132-3" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.BagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.BagClust.pam.lst&#39;</span>)</span>
-<span id="cb132-4"><a href="clustering.html#cb132-4" aria-hidden="true"></a></span>
-<span id="cb132-5"><a href="clustering.html#cb132-5" aria-hidden="true"></a> <span class="co"># Get best K model</span></span>
-<span id="cb132-6"><a href="clustering.html#cb132-6" aria-hidden="true"></a> BagClustBestK &lt;-<span class="st"> </span><span class="kw">names</span>(SelGenes.BagClust.pam.lst)[<span class="kw">which.max</span>(<span class="kw">sapply</span>(SelGenes.BagClust.pam.lst,</span>
-<span id="cb132-7"><a href="clustering.html#cb132-7" aria-hidden="true"></a>  <span class="cf">function</span>(x) x<span class="op">$</span>silinfo<span class="op">$</span>avg.width))]</span>
-<span id="cb132-8"><a href="clustering.html#cb132-8" aria-hidden="true"></a></span>
-<span id="cb132-9"><a href="clustering.html#cb132-9" aria-hidden="true"></a> BagClustBestK.pam &lt;-<span class="st"> </span>SelGenes.BagClust.pam.lst[[BagClustBestK]]</span>
-<span id="cb132-10"><a href="clustering.html#cb132-10" aria-hidden="true"></a></span>
-<span id="cb132-11"><a href="clustering.html#cb132-11" aria-hidden="true"></a> <span class="co"># Get agreement table</span></span>
-<span id="cb132-12"><a href="clustering.html#cb132-12" aria-hidden="true"></a> BagClustBestK.pam.agree.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(BagClustBestK.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb132-13"><a href="clustering.html#cb132-13" aria-hidden="true"></a></span>
-<span id="cb132-14"><a href="clustering.html#cb132-14" aria-hidden="true"></a> <span class="co">#Compute kappa for display on figure</span></span>
-<span id="cb132-15"><a href="clustering.html#cb132-15" aria-hidden="true"></a> <span class="co"># (Only makes sense for KK==2)</span></span>
-<span id="cb132-16"><a href="clustering.html#cb132-16" aria-hidden="true"></a> <span class="cf">if</span>(BagClustBestK <span class="op">==</span><span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;K_&#39;</span>,<span class="dv">2</span>)) </span>
-<span id="cb132-17"><a href="clustering.html#cb132-17" aria-hidden="true"></a> kappa.v &lt;-<span class="st"> </span><span class="kw">getKappa</span>(BagClustBestK.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb132-18"><a href="clustering.html#cb132-18" aria-hidden="true"></a> <span class="co">#cat(&#39;kappa =&#39;, kappa.v, &#39;\n&#39;)</span></span>
-<span id="cb132-19"><a href="clustering.html#cb132-19" aria-hidden="true"></a></span>
-<span id="cb132-20"><a href="clustering.html#cb132-20" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb132-21"><a href="clustering.html#cb132-21" aria-hidden="true"></a> <span class="co"># Visualization</span></span>
-<span id="cb132-22"><a href="clustering.html#cb132-22" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb132-23"><a href="clustering.html#cb132-23" aria-hidden="true"></a> old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
-<span id="cb132-24"><a href="clustering.html#cb132-24" aria-hidden="true"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
-<span id="cb132-25"><a href="clustering.html#cb132-25" aria-hidden="true"></a>       <span class="dt">cex.main=</span><span class="fl">1.0</span>,<span class="dt">cex.lab=</span><span class="fl">1.0</span>,<span class="dt">cex.axis=</span><span class="fl">1.0</span>)</span>
-<span id="cb132-26"><a href="clustering.html#cb132-26" aria-hidden="true"></a></span>
-<span id="cb132-27"><a href="clustering.html#cb132-27" aria-hidden="true"></a> <span class="co">#plot(BagClustBestK.pam,main=&#39;&#39;)</span></span>
-<span id="cb132-28"><a href="clustering.html#cb132-28" aria-hidden="true"></a></span>
-<span id="cb132-29"><a href="clustering.html#cb132-29" aria-hidden="true"></a> <span class="kw">clusplot</span>(BagClustBestK.pam, <span class="dt">main=</span><span class="st">&#39;&#39;</span>)<span class="co">###, pch=DataSource.pch)</span></span>
-<span id="cb132-30"><a href="clustering.html#cb132-30" aria-hidden="true"></a></span>
-<span id="cb132-31"><a href="clustering.html#cb132-31" aria-hidden="true"></a> <span class="co">### Recolor samples according to MSS/MSI status</span></span>
-<span id="cb132-32"><a href="clustering.html#cb132-32" aria-hidden="true"></a> <span class="co">#xD &lt;- eval(BagClustBestK.pam$call[[2]])</span></span>
-<span id="cb132-33"><a href="clustering.html#cb132-33" aria-hidden="true"></a> xD &lt;-<span class="st"> </span>BagClustBestK.pam<span class="op">$</span>diss</span>
-<span id="cb132-34"><a href="clustering.html#cb132-34" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T, <span class="dt">add=</span>T)</span>
-<span id="cb132-35"><a href="clustering.html#cb132-35" aria-hidden="true"></a> <span class="cf">if</span>(x1<span class="op">$</span>ac <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb132-36"><a href="clustering.html#cb132-36" aria-hidden="true"></a>    x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T)</span>
-<span id="cb132-37"><a href="clustering.html#cb132-37" aria-hidden="true"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
-<span id="cb132-38"><a href="clustering.html#cb132-38" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span>x1<span class="op">$</span>points</span>
-<span id="cb132-39"><a href="clustering.html#cb132-39" aria-hidden="true"></a></span>
-<span id="cb132-40"><a href="clustering.html#cb132-40" aria-hidden="true"></a> <span class="kw">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>],</span>
-<span id="cb132-41"><a href="clustering.html#cb132-41" aria-hidden="true"></a>         <span class="dt">pch=</span><span class="st">&#39;.&#39;</span>,<span class="dt">cex=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb132-42"><a href="clustering.html#cb132-42" aria-hidden="true"></a></span>
-<span id="cb132-43"><a href="clustering.html#cb132-43" aria-hidden="true"></a> <span class="co"># add 2x2 tbale in margin</span></span>
-<span id="cb132-44"><a href="clustering.html#cb132-44" aria-hidden="true"></a> <span class="kw">mtext2by2Tbl</span>(BagClustBestK.pam.agree.tbl)</span>
-<span id="cb132-45"><a href="clustering.html#cb132-45" aria-hidden="true"></a></span>
-<span id="cb132-46"><a href="clustering.html#cb132-46" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&#39;Red dot = MSI samples&#39;</span>,</span>
-<span id="cb132-47"><a href="clustering.html#cb132-47" aria-hidden="true"></a>  <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="kw">round</span>(BagClustBestK.pam<span class="op">$</span>silinfo<span class="op">$</span>avg.width,<span class="dv">3</span>),</span>
-<span id="cb132-48"><a href="clustering.html#cb132-48" aria-hidden="true"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="kw">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="clustering.html#cb127-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb127-2"><a href="clustering.html#cb127-2" tabindex="-1"></a></span>
+<span id="cb127-3"><a href="clustering.html#cb127-3" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.BagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.BagClust.pam.lst&#39;</span>)</span>
+<span id="cb127-4"><a href="clustering.html#cb127-4" tabindex="-1"></a></span>
+<span id="cb127-5"><a href="clustering.html#cb127-5" tabindex="-1"></a> <span class="co"># Get best K model</span></span>
+<span id="cb127-6"><a href="clustering.html#cb127-6" tabindex="-1"></a> BagClustBestK <span class="ot">&lt;-</span> <span class="fu">names</span>(SelGenes.BagClust.pam.lst)[<span class="fu">which.max</span>(<span class="fu">sapply</span>(SelGenes.BagClust.pam.lst,</span>
+<span id="cb127-7"><a href="clustering.html#cb127-7" tabindex="-1"></a>  <span class="cf">function</span>(x) x<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width))]</span>
+<span id="cb127-8"><a href="clustering.html#cb127-8" tabindex="-1"></a></span>
+<span id="cb127-9"><a href="clustering.html#cb127-9" tabindex="-1"></a> BagClustBestK.pam <span class="ot">&lt;-</span> SelGenes.BagClust.pam.lst[[BagClustBestK]]</span>
+<span id="cb127-10"><a href="clustering.html#cb127-10" tabindex="-1"></a></span>
+<span id="cb127-11"><a href="clustering.html#cb127-11" tabindex="-1"></a> <span class="co"># Get agreement table</span></span>
+<span id="cb127-12"><a href="clustering.html#cb127-12" tabindex="-1"></a> BagClustBestK.pam.agree.tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(BagClustBestK.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb127-13"><a href="clustering.html#cb127-13" tabindex="-1"></a></span>
+<span id="cb127-14"><a href="clustering.html#cb127-14" tabindex="-1"></a> <span class="co">#Compute kappa for display on figure</span></span>
+<span id="cb127-15"><a href="clustering.html#cb127-15" tabindex="-1"></a> <span class="co"># (Only makes sense for KK==2)</span></span>
+<span id="cb127-16"><a href="clustering.html#cb127-16" tabindex="-1"></a> <span class="cf">if</span>(BagClustBestK <span class="sc">==</span> <span class="fu">paste0</span>(<span class="st">&#39;K_&#39;</span>,<span class="dv">2</span>)) </span>
+<span id="cb127-17"><a href="clustering.html#cb127-17" tabindex="-1"></a> kappa.v <span class="ot">&lt;-</span> <span class="fu">getKappa</span>(BagClustBestK.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb127-18"><a href="clustering.html#cb127-18" tabindex="-1"></a> <span class="co">#cat(&#39;kappa =&#39;, kappa.v, &#39;\n&#39;)</span></span>
+<span id="cb127-19"><a href="clustering.html#cb127-19" tabindex="-1"></a></span>
+<span id="cb127-20"><a href="clustering.html#cb127-20" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb127-21"><a href="clustering.html#cb127-21" tabindex="-1"></a> <span class="co"># Visualization</span></span>
+<span id="cb127-22"><a href="clustering.html#cb127-22" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb127-23"><a href="clustering.html#cb127-23" tabindex="-1"></a> old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
+<span id="cb127-24"><a href="clustering.html#cb127-24" tabindex="-1"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
+<span id="cb127-25"><a href="clustering.html#cb127-25" tabindex="-1"></a>       <span class="at">cex.main=</span><span class="fl">1.0</span>,<span class="at">cex.lab=</span><span class="fl">1.0</span>,<span class="at">cex.axis=</span><span class="fl">1.0</span>)</span>
+<span id="cb127-26"><a href="clustering.html#cb127-26" tabindex="-1"></a></span>
+<span id="cb127-27"><a href="clustering.html#cb127-27" tabindex="-1"></a> <span class="co">#plot(BagClustBestK.pam,main=&#39;&#39;)</span></span>
+<span id="cb127-28"><a href="clustering.html#cb127-28" tabindex="-1"></a></span>
+<span id="cb127-29"><a href="clustering.html#cb127-29" tabindex="-1"></a> <span class="fu">clusplot</span>(BagClustBestK.pam, <span class="at">main=</span><span class="st">&#39;&#39;</span>)<span class="do">###, pch=DataSource.pch)</span></span>
+<span id="cb127-30"><a href="clustering.html#cb127-30" tabindex="-1"></a></span>
+<span id="cb127-31"><a href="clustering.html#cb127-31" tabindex="-1"></a> <span class="do">### Recolor samples according to MSS/MSI status</span></span>
+<span id="cb127-32"><a href="clustering.html#cb127-32" tabindex="-1"></a> <span class="co">#xD &lt;- eval(BagClustBestK.pam$call[[2]])</span></span>
+<span id="cb127-33"><a href="clustering.html#cb127-33" tabindex="-1"></a> xD <span class="ot">&lt;-</span> BagClustBestK.pam<span class="sc">$</span>diss</span>
+<span id="cb127-34"><a href="clustering.html#cb127-34" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T, <span class="at">add=</span>T)</span>
+<span id="cb127-35"><a href="clustering.html#cb127-35" tabindex="-1"></a> <span class="cf">if</span>(x1<span class="sc">$</span>ac <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb127-36"><a href="clustering.html#cb127-36" tabindex="-1"></a>    x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T)</span>
+<span id="cb127-37"><a href="clustering.html#cb127-37" tabindex="-1"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
+<span id="cb127-38"><a href="clustering.html#cb127-38" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> x1<span class="sc">$</span>points</span>
+<span id="cb127-39"><a href="clustering.html#cb127-39" tabindex="-1"></a></span>
+<span id="cb127-40"><a href="clustering.html#cb127-40" tabindex="-1"></a> <span class="fu">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>],</span>
+<span id="cb127-41"><a href="clustering.html#cb127-41" tabindex="-1"></a>         <span class="at">pch=</span><span class="st">&#39;.&#39;</span>,<span class="at">cex=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb127-42"><a href="clustering.html#cb127-42" tabindex="-1"></a></span>
+<span id="cb127-43"><a href="clustering.html#cb127-43" tabindex="-1"></a> <span class="co"># add 2x2 tbale in margin</span></span>
+<span id="cb127-44"><a href="clustering.html#cb127-44" tabindex="-1"></a> <span class="fu">mtext2by2Tbl</span>(BagClustBestK.pam.agree.tbl)</span>
+<span id="cb127-45"><a href="clustering.html#cb127-45" tabindex="-1"></a></span>
+<span id="cb127-46"><a href="clustering.html#cb127-46" tabindex="-1"></a> <span class="fu">title</span>(<span class="fu">paste</span>(<span class="st">&#39;Red dot = MSI samples&#39;</span>,</span>
+<span id="cb127-47"><a href="clustering.html#cb127-47" tabindex="-1"></a>  <span class="st">&#39;</span><span class="sc">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="fu">round</span>(BagClustBestK.pam<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width,<span class="dv">3</span>),</span>
+<span id="cb127-48"><a href="clustering.html#cb127-48" tabindex="-1"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="fu">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
 <p><img src="Static/figures/clustering-lkBagClust2-1.png" width="1152" /></p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="clustering.html#cb133-1" aria-hidden="true"></a> <span class="kw">par</span>(old_par)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="clustering.html#cb128-1" tabindex="-1"></a> <span class="fu">par</span>(old_par)</span></code></pre></div>
 <p>The groupings discovered by BagClust2 are essentially the same as those discovered
 by the PAM cluster analysis. The main effect of the bagging is to reduce noise and
 provide better separation between groups, which greatly increases our confidence in the
 groupings.</p>
 <p>Next we look at the application of t-SNE algorithm to this problem.</p>
 </div>
-<div id="t-sne" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> t-SNE</h2>
+<div id="t-sne" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> t-SNE<a href="clustering.html#t-sne" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>t-SNE is a dimensionality reduction techique that is particularly well suited for the
 visualization of high-dimensional datasets. Here we will use the t-SNE algorithm to
 reduce the gene expression data martrix to a few dimensions. These will then be
@@ -590,273 +621,273 @@ used as inputs to some clustering algorithm for the purpose of discovering subgr
 in the data. Here we will assess the benefit of the t-SNE embedding by repeating the
 cluster analysis above - PAM and BagClust2 clustering - using the t-SNE embedding as input
 instead of the scales expression matrix.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="clustering.html#cb134-1" aria-hidden="true"></a> <span class="co"># Load Data</span></span>
-<span id="cb134-2"><a href="clustering.html#cb134-2" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(<span class="st">&#39;Train.&#39;</span>,SelGenes,<span class="st">&#39;.vec&#39;</span>), <span class="st">&#39;SelGenes.vec&#39;</span>)</span>
-<span id="cb134-3"><a href="clustering.html#cb134-3" aria-hidden="true"></a> </span>
-<span id="cb134-4"><a href="clustering.html#cb134-4" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
-<span id="cb134-5"><a href="clustering.html#cb134-5" aria-hidden="true"></a> Train.SelGenes.Expr.mtx &lt;-<span class="st"> </span>Train.Expr.mtx[, SelGenes.vec]</span>
-<span id="cb134-6"><a href="clustering.html#cb134-6" aria-hidden="true"></a> <span class="kw">rm</span>(Train.Expr.mtx)</span>
-<span id="cb134-7"><a href="clustering.html#cb134-7" aria-hidden="true"></a></span>
-<span id="cb134-8"><a href="clustering.html#cb134-8" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
-<span id="cb134-9"><a href="clustering.html#cb134-9" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.DataSource.vec&#39;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="clustering.html#cb135-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(Rtsne))</span>
-<span id="cb135-2"><a href="clustering.html#cb135-2" aria-hidden="true"></a> PERP &lt;-<span class="st"> </span><span class="dv">50</span></span>
-<span id="cb135-3"><a href="clustering.html#cb135-3" aria-hidden="true"></a> SelGenes.tsne.lst &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
-<span id="cb135-4"><a href="clustering.html#cb135-4" aria-hidden="true"></a></span>
-<span id="cb135-5"><a href="clustering.html#cb135-5" aria-hidden="true"></a> <span class="co">#for(DD in c(2,5,10))</span></span>
-<span id="cb135-6"><a href="clustering.html#cb135-6" aria-hidden="true"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb135-7"><a href="clustering.html#cb135-7" aria-hidden="true"></a>  SelGenes.tsne.lst[[<span class="kw">paste0</span>(<span class="st">&#39;D_&#39;</span>, DD)]] &lt;-<span class="st"> </span></span>
-<span id="cb135-8"><a href="clustering.html#cb135-8" aria-hidden="true"></a><span class="st">  </span><span class="kw">Rtsne</span>(Train.SelGenes.Expr.mtx, <span class="dt">check_duplicates=</span><span class="ot">FALSE</span>, </span>
-<span id="cb135-9"><a href="clustering.html#cb135-9" aria-hidden="true"></a>        <span class="dt">pca=</span><span class="ot">TRUE</span>, <span class="dt">pca_center=</span>T, <span class="dt">pca_scale=</span>T,</span>
-<span id="cb135-10"><a href="clustering.html#cb135-10" aria-hidden="true"></a>        <span class="dt">perplexity=</span>PERP, <span class="dt">theta=</span><span class="fl">0.0</span>, <span class="dt">dims=</span>DD, <span class="dt">max_iter =</span> <span class="dv">5000</span>)</span>
-<span id="cb135-11"><a href="clustering.html#cb135-11" aria-hidden="true"></a>  </span>
-<span id="cb135-12"><a href="clustering.html#cb135-12" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span></code></pre></div>
-<div id="t-sne-pam" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> t-SNE + PAM</h3>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="clustering.html#cb136-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(stats))</span>
-<span id="cb136-2"><a href="clustering.html#cb136-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb136-3"><a href="clustering.html#cb136-3" aria-hidden="true"></a></span>
-<span id="cb136-4"><a href="clustering.html#cb136-4" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
-<span id="cb136-5"><a href="clustering.html#cb136-5" aria-hidden="true"></a></span>
-<span id="cb136-6"><a href="clustering.html#cb136-6" aria-hidden="true"></a></span>
-<span id="cb136-7"><a href="clustering.html#cb136-7" aria-hidden="true"></a> tsne.asw.mtx &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="kw">lapply</span>(<span class="kw">names</span>(SelGenes.tsne.lst),</span>
-<span id="cb136-8"><a href="clustering.html#cb136-8" aria-hidden="true"></a> <span class="cf">function</span>(DD) {</span>
-<span id="cb136-9"><a href="clustering.html#cb136-9" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span>SelGenes.tsne.lst[[DD]]<span class="op">$</span>Y</span>
-<span id="cb136-10"><a href="clustering.html#cb136-10" aria-hidden="true"></a></span>
-<span id="cb136-11"><a href="clustering.html#cb136-11" aria-hidden="true"></a>  <span class="co"># Standardize?</span></span>
-<span id="cb136-12"><a href="clustering.html#cb136-12" aria-hidden="true"></a>  <span class="co">#if(STAND) Expr.mtx &lt;- scale(Expr.mtx)</span></span>
-<span id="cb136-13"><a href="clustering.html#cb136-13" aria-hidden="true"></a></span>
-<span id="cb136-14"><a href="clustering.html#cb136-14" aria-hidden="true"></a>  <span class="co"># Get dissimilarity</span></span>
-<span id="cb136-15"><a href="clustering.html#cb136-15" aria-hidden="true"></a>  {<span class="cf">if</span>(DM <span class="op">==</span><span class="st"> &quot;1-pearson&quot;</span>)</span>
-<span id="cb136-16"><a href="clustering.html#cb136-16" aria-hidden="true"></a>    Expr.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">cor</span>(<span class="kw">t</span>(Expr.mtx))) <span class="cf">else</span></span>
-<span id="cb136-17"><a href="clustering.html#cb136-17" aria-hidden="true"></a>    Expr.dist &lt;-<span class="st"> </span><span class="kw">daisy</span>(Expr.mtx, DM)</span>
-<span id="cb136-18"><a href="clustering.html#cb136-18" aria-hidden="true"></a>  }</span>
-<span id="cb136-19"><a href="clustering.html#cb136-19" aria-hidden="true"></a></span>
-<span id="cb136-20"><a href="clustering.html#cb136-20" aria-hidden="true"></a>  <span class="co"># get ave sil width for range of K</span></span>
-<span id="cb136-21"><a href="clustering.html#cb136-21" aria-hidden="true"></a>  asw.vec &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="cf">function</span>(kk) <span class="kw">pam</span>(Expr.dist, <span class="dt">diss=</span>T, <span class="dt">k=</span>kk)<span class="op">$</span>silinfo<span class="op">$</span>avg.width)</span>
-<span id="cb136-22"><a href="clustering.html#cb136-22" aria-hidden="true"></a>  <span class="kw">names</span>(asw.vec) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;K_&#39;</span>, <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>)</span>
-<span id="cb136-23"><a href="clustering.html#cb136-23" aria-hidden="true"></a></span>
-<span id="cb136-24"><a href="clustering.html#cb136-24" aria-hidden="true"></a>  asw.vec}))</span>
-<span id="cb136-25"><a href="clustering.html#cb136-25" aria-hidden="true"></a>  <span class="kw">rownames</span>(tsne.asw.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(SelGenes.tsne.lst)</span>
-<span id="cb136-26"><a href="clustering.html#cb136-26" aria-hidden="true"></a></span>
-<span id="cb136-27"><a href="clustering.html#cb136-27" aria-hidden="true"></a>  <span class="kw">print</span>(<span class="kw">round</span>(tsne.asw.mtx,<span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="clustering.html#cb129-1" tabindex="-1"></a> <span class="co"># Load Data</span></span>
+<span id="cb129-2"><a href="clustering.html#cb129-2" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(<span class="st">&#39;Train.&#39;</span>,SelGenes,<span class="st">&#39;.vec&#39;</span>), <span class="st">&#39;SelGenes.vec&#39;</span>)</span>
+<span id="cb129-3"><a href="clustering.html#cb129-3" tabindex="-1"></a> </span>
+<span id="cb129-4"><a href="clustering.html#cb129-4" tabindex="-1"></a> <span class="fu">load</span>(<span class="at">file=</span><span class="fu">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Expr.mtx&#39;</span>))</span>
+<span id="cb129-5"><a href="clustering.html#cb129-5" tabindex="-1"></a> Train.SelGenes.Expr.mtx <span class="ot">&lt;-</span> Train.Expr.mtx[, SelGenes.vec]</span>
+<span id="cb129-6"><a href="clustering.html#cb129-6" tabindex="-1"></a> <span class="fu">rm</span>(Train.Expr.mtx)</span>
+<span id="cb129-7"><a href="clustering.html#cb129-7" tabindex="-1"></a></span>
+<span id="cb129-8"><a href="clustering.html#cb129-8" tabindex="-1"></a> <span class="fu">load</span>(<span class="at">file=</span><span class="fu">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
+<span id="cb129-9"><a href="clustering.html#cb129-9" tabindex="-1"></a> <span class="fu">load</span>(<span class="at">file=</span><span class="fu">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.DataSource.vec&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="clustering.html#cb130-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(Rtsne))</span>
+<span id="cb130-2"><a href="clustering.html#cb130-2" tabindex="-1"></a> PERP <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb130-3"><a href="clustering.html#cb130-3" tabindex="-1"></a> SelGenes.tsne.lst <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb130-4"><a href="clustering.html#cb130-4" tabindex="-1"></a></span>
+<span id="cb130-5"><a href="clustering.html#cb130-5" tabindex="-1"></a> <span class="co">#for(DD in c(2,5,10))</span></span>
+<span id="cb130-6"><a href="clustering.html#cb130-6" tabindex="-1"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb130-7"><a href="clustering.html#cb130-7" tabindex="-1"></a>  SelGenes.tsne.lst[[<span class="fu">paste0</span>(<span class="st">&#39;D_&#39;</span>, DD)]] <span class="ot">&lt;-</span> </span>
+<span id="cb130-8"><a href="clustering.html#cb130-8" tabindex="-1"></a>  <span class="fu">Rtsne</span>(Train.SelGenes.Expr.mtx, <span class="at">check_duplicates=</span><span class="cn">FALSE</span>, </span>
+<span id="cb130-9"><a href="clustering.html#cb130-9" tabindex="-1"></a>        <span class="at">pca=</span><span class="cn">TRUE</span>, <span class="at">pca_center=</span>T, <span class="at">pca_scale=</span>T,</span>
+<span id="cb130-10"><a href="clustering.html#cb130-10" tabindex="-1"></a>        <span class="at">perplexity=</span>PERP, <span class="at">theta=</span><span class="fl">0.0</span>, <span class="at">dims=</span>DD, <span class="at">max_iter =</span> <span class="dv">5000</span>)</span>
+<span id="cb130-11"><a href="clustering.html#cb130-11" tabindex="-1"></a>  </span>
+<span id="cb130-12"><a href="clustering.html#cb130-12" tabindex="-1"></a> <span class="fu">saveObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span></code></pre></div>
+<div id="t-sne-pam" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> t-SNE + PAM<a href="clustering.html#t-sne-pam" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="clustering.html#cb131-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(stats))</span>
+<span id="cb131-2"><a href="clustering.html#cb131-2" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb131-3"><a href="clustering.html#cb131-3" tabindex="-1"></a></span>
+<span id="cb131-4"><a href="clustering.html#cb131-4" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
+<span id="cb131-5"><a href="clustering.html#cb131-5" tabindex="-1"></a></span>
+<span id="cb131-6"><a href="clustering.html#cb131-6" tabindex="-1"></a></span>
+<span id="cb131-7"><a href="clustering.html#cb131-7" tabindex="-1"></a> tsne.asw.mtx <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&#39;rbind&#39;</span>, <span class="fu">lapply</span>(<span class="fu">names</span>(SelGenes.tsne.lst),</span>
+<span id="cb131-8"><a href="clustering.html#cb131-8" tabindex="-1"></a> <span class="cf">function</span>(DD) {</span>
+<span id="cb131-9"><a href="clustering.html#cb131-9" tabindex="-1"></a>  Expr.mtx <span class="ot">&lt;-</span> SelGenes.tsne.lst[[DD]]<span class="sc">$</span>Y</span>
+<span id="cb131-10"><a href="clustering.html#cb131-10" tabindex="-1"></a></span>
+<span id="cb131-11"><a href="clustering.html#cb131-11" tabindex="-1"></a>  <span class="co"># Standardize?</span></span>
+<span id="cb131-12"><a href="clustering.html#cb131-12" tabindex="-1"></a>  <span class="co">#if(STAND) Expr.mtx &lt;- scale(Expr.mtx)</span></span>
+<span id="cb131-13"><a href="clustering.html#cb131-13" tabindex="-1"></a></span>
+<span id="cb131-14"><a href="clustering.html#cb131-14" tabindex="-1"></a>  <span class="co"># Get dissimilarity</span></span>
+<span id="cb131-15"><a href="clustering.html#cb131-15" tabindex="-1"></a>  {<span class="cf">if</span>(DM <span class="sc">==</span> <span class="st">&quot;1-pearson&quot;</span>)</span>
+<span id="cb131-16"><a href="clustering.html#cb131-16" tabindex="-1"></a>    Expr.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(Expr.mtx))) <span class="cf">else</span></span>
+<span id="cb131-17"><a href="clustering.html#cb131-17" tabindex="-1"></a>    Expr.dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(Expr.mtx, DM)</span>
+<span id="cb131-18"><a href="clustering.html#cb131-18" tabindex="-1"></a>  }</span>
+<span id="cb131-19"><a href="clustering.html#cb131-19" tabindex="-1"></a></span>
+<span id="cb131-20"><a href="clustering.html#cb131-20" tabindex="-1"></a>  <span class="co"># get ave sil width for range of K</span></span>
+<span id="cb131-21"><a href="clustering.html#cb131-21" tabindex="-1"></a>  asw.vec <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(kk) <span class="fu">pam</span>(Expr.dist, <span class="at">diss=</span>T, <span class="at">k=</span>kk)<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width)</span>
+<span id="cb131-22"><a href="clustering.html#cb131-22" tabindex="-1"></a>  <span class="fu">names</span>(asw.vec) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;K_&#39;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb131-23"><a href="clustering.html#cb131-23" tabindex="-1"></a></span>
+<span id="cb131-24"><a href="clustering.html#cb131-24" tabindex="-1"></a>  asw.vec}))</span>
+<span id="cb131-25"><a href="clustering.html#cb131-25" tabindex="-1"></a>  <span class="fu">rownames</span>(tsne.asw.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(SelGenes.tsne.lst)</span>
+<span id="cb131-26"><a href="clustering.html#cb131-26" tabindex="-1"></a></span>
+<span id="cb131-27"><a href="clustering.html#cb131-27" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">round</span>(tsne.asw.mtx,<span class="dv">3</span>))</span></code></pre></div>
 <pre><code>##       K_2   K_3   K_4   K_5
-## D_2 0.427 0.394 0.391 0.367
-## D_3 0.346 0.329 0.300 0.287</code></pre>
+## D_2 0.441 0.363 0.398 0.349
+## D_3 0.358 0.339 0.326 0.326</code></pre>
 <p>PAM clustering based on t-SNE embeddings of various dimensions does not
 return allow us to discriminate among the number of clusters based on average
 silhouette width. Let’s see what the 2-D scatters look like
 as well as the PAM clustering into two groups.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="clustering.html#cb138-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb138-2"><a href="clustering.html#cb138-2" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
-<span id="cb138-3"><a href="clustering.html#cb138-3" aria-hidden="true"></a></span>
-<span id="cb138-4"><a href="clustering.html#cb138-4" aria-hidden="true"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="kw">names</span>(SelGenes.tsne.lst)){</span>
-<span id="cb138-5"><a href="clustering.html#cb138-5" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span>SelGenes.tsne.lst[[DD]]<span class="op">$</span>Y</span>
-<span id="cb138-6"><a href="clustering.html#cb138-6" aria-hidden="true"></a></span>
-<span id="cb138-7"><a href="clustering.html#cb138-7" aria-hidden="true"></a>  <span class="co"># Standardize?</span></span>
-<span id="cb138-8"><a href="clustering.html#cb138-8" aria-hidden="true"></a>  <span class="co">#if(STAND) Expr.mtx &lt;- scale(Expr.mtx)</span></span>
-<span id="cb138-9"><a href="clustering.html#cb138-9" aria-hidden="true"></a></span>
-<span id="cb138-10"><a href="clustering.html#cb138-10" aria-hidden="true"></a>  <span class="co"># Get dissimilarity</span></span>
-<span id="cb138-11"><a href="clustering.html#cb138-11" aria-hidden="true"></a>  {<span class="cf">if</span>(DM <span class="op">==</span><span class="st"> &quot;1-pearson&quot;</span>)</span>
-<span id="cb138-12"><a href="clustering.html#cb138-12" aria-hidden="true"></a>    Expr.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">cor</span>(<span class="kw">t</span>(Expr.mtx))) <span class="cf">else</span></span>
-<span id="cb138-13"><a href="clustering.html#cb138-13" aria-hidden="true"></a>    Expr.dist &lt;-<span class="st"> </span><span class="kw">daisy</span>(Expr.mtx, DM)</span>
-<span id="cb138-14"><a href="clustering.html#cb138-14" aria-hidden="true"></a>  }</span>
-<span id="cb138-15"><a href="clustering.html#cb138-15" aria-hidden="true"></a></span>
-<span id="cb138-16"><a href="clustering.html#cb138-16" aria-hidden="true"></a>  <span class="co">#for(KK in 2:5) {</span></span>
-<span id="cb138-17"><a href="clustering.html#cb138-17" aria-hidden="true"></a>  KK &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb138-18"><a href="clustering.html#cb138-18" aria-hidden="true"></a>  Expr.pam &lt;-<span class="st"> </span><span class="kw">pam</span>(Expr.dist, <span class="dt">diss=</span>T, <span class="dt">k=</span>KK, <span class="dt">keep.diss=</span>T)</span>
-<span id="cb138-19"><a href="clustering.html#cb138-19" aria-hidden="true"></a>  Pam.agree.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(Expr.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb138-20"><a href="clustering.html#cb138-20" aria-hidden="true"></a>  kappa.v &lt;-<span class="st"> </span><span class="kw">getKappa</span>(Expr.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb138-21"><a href="clustering.html#cb138-21" aria-hidden="true"></a> </span>
-<span id="cb138-22"><a href="clustering.html#cb138-22" aria-hidden="true"></a>  <span class="co">#######################################</span></span>
-<span id="cb138-23"><a href="clustering.html#cb138-23" aria-hidden="true"></a>  <span class="co"># Visualization</span></span>
-<span id="cb138-24"><a href="clustering.html#cb138-24" aria-hidden="true"></a>  <span class="co">#######################################</span></span>
-<span id="cb138-25"><a href="clustering.html#cb138-25" aria-hidden="true"></a>  old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
-<span id="cb138-26"><a href="clustering.html#cb138-26" aria-hidden="true"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
-<span id="cb138-27"><a href="clustering.html#cb138-27" aria-hidden="true"></a>       <span class="dt">cex.main=</span><span class="fl">1.0</span>,<span class="dt">cex.lab=</span><span class="fl">1.0</span>,<span class="dt">cex.axis=</span><span class="fl">1.0</span>)</span>
-<span id="cb138-28"><a href="clustering.html#cb138-28" aria-hidden="true"></a></span>
-<span id="cb138-29"><a href="clustering.html#cb138-29" aria-hidden="true"></a>  <span class="co">#plot(Expr.pam,main=&#39;&#39;)</span></span>
-<span id="cb138-30"><a href="clustering.html#cb138-30" aria-hidden="true"></a></span>
-<span id="cb138-31"><a href="clustering.html#cb138-31" aria-hidden="true"></a>  <span class="co">###################################</span></span>
-<span id="cb138-32"><a href="clustering.html#cb138-32" aria-hidden="true"></a>  <span class="kw">clusplot</span>(Expr.pam, <span class="dt">main=</span><span class="st">&#39;&#39;</span>)<span class="co">###, pch=DataSource.pch)</span></span>
-<span id="cb138-33"><a href="clustering.html#cb138-33" aria-hidden="true"></a></span>
-<span id="cb138-34"><a href="clustering.html#cb138-34" aria-hidden="true"></a>  <span class="co">### Recolor samples according to MSS/MSI status</span></span>
-<span id="cb138-35"><a href="clustering.html#cb138-35" aria-hidden="true"></a>  <span class="co">#xD &lt;- eval(Expr.pam$call[[2]])</span></span>
-<span id="cb138-36"><a href="clustering.html#cb138-36" aria-hidden="true"></a>  xD &lt;-<span class="st"> </span>Expr.pam<span class="op">$</span>diss</span>
-<span id="cb138-37"><a href="clustering.html#cb138-37" aria-hidden="true"></a>  x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T, <span class="dt">add=</span>T)</span>
-<span id="cb138-38"><a href="clustering.html#cb138-38" aria-hidden="true"></a>  <span class="cf">if</span>(x1<span class="op">$</span>ac <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb138-39"><a href="clustering.html#cb138-39" aria-hidden="true"></a>     x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T)</span>
-<span id="cb138-40"><a href="clustering.html#cb138-40" aria-hidden="true"></a>  <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
-<span id="cb138-41"><a href="clustering.html#cb138-41" aria-hidden="true"></a>  x1 &lt;-<span class="st"> </span>x1<span class="op">$</span>points</span>
-<span id="cb138-42"><a href="clustering.html#cb138-42" aria-hidden="true"></a> </span>
-<span id="cb138-43"><a href="clustering.html#cb138-43" aria-hidden="true"></a>  <span class="kw">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>],</span>
-<span id="cb138-44"><a href="clustering.html#cb138-44" aria-hidden="true"></a>          <span class="dt">pch=</span><span class="st">&#39;.&#39;</span>,<span class="dt">cex=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb138-45"><a href="clustering.html#cb138-45" aria-hidden="true"></a></span>
-<span id="cb138-46"><a href="clustering.html#cb138-46" aria-hidden="true"></a>  <span class="co"># add 2x2 tbale in margin</span></span>
-<span id="cb138-47"><a href="clustering.html#cb138-47" aria-hidden="true"></a>  <span class="kw">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
-<span id="cb138-48"><a href="clustering.html#cb138-48" aria-hidden="true"></a></span>
-<span id="cb138-49"><a href="clustering.html#cb138-49" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&#39;Dim =&#39;</span>, DD, <span class="st">&#39; - Red dot = MSI samples&#39;</span>,</span>
-<span id="cb138-50"><a href="clustering.html#cb138-50" aria-hidden="true"></a>  <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="kw">round</span>(Expr.pam<span class="op">$</span>silinfo<span class="op">$</span>avg.width,<span class="dv">3</span>),</span>
-<span id="cb138-51"><a href="clustering.html#cb138-51" aria-hidden="true"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="kw">round</span>(kappa.v,<span class="dv">3</span>)))</span>
-<span id="cb138-52"><a href="clustering.html#cb138-52" aria-hidden="true"></a></span>
-<span id="cb138-53"><a href="clustering.html#cb138-53" aria-hidden="true"></a>  <span class="kw">par</span>(old_par)</span>
-<span id="cb138-54"><a href="clustering.html#cb138-54" aria-hidden="true"></a></span>
-<span id="cb138-55"><a href="clustering.html#cb138-55" aria-hidden="true"></a> }<span class="co">#for(DD</span></span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="clustering.html#cb133-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb133-2"><a href="clustering.html#cb133-2" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
+<span id="cb133-3"><a href="clustering.html#cb133-3" tabindex="-1"></a></span>
+<span id="cb133-4"><a href="clustering.html#cb133-4" tabindex="-1"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="fu">names</span>(SelGenes.tsne.lst)){</span>
+<span id="cb133-5"><a href="clustering.html#cb133-5" tabindex="-1"></a>  Expr.mtx <span class="ot">&lt;-</span> SelGenes.tsne.lst[[DD]]<span class="sc">$</span>Y</span>
+<span id="cb133-6"><a href="clustering.html#cb133-6" tabindex="-1"></a></span>
+<span id="cb133-7"><a href="clustering.html#cb133-7" tabindex="-1"></a>  <span class="co"># Standardize?</span></span>
+<span id="cb133-8"><a href="clustering.html#cb133-8" tabindex="-1"></a>  <span class="co">#if(STAND) Expr.mtx &lt;- scale(Expr.mtx)</span></span>
+<span id="cb133-9"><a href="clustering.html#cb133-9" tabindex="-1"></a></span>
+<span id="cb133-10"><a href="clustering.html#cb133-10" tabindex="-1"></a>  <span class="co"># Get dissimilarity</span></span>
+<span id="cb133-11"><a href="clustering.html#cb133-11" tabindex="-1"></a>  {<span class="cf">if</span>(DM <span class="sc">==</span> <span class="st">&quot;1-pearson&quot;</span>)</span>
+<span id="cb133-12"><a href="clustering.html#cb133-12" tabindex="-1"></a>    Expr.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(Expr.mtx))) <span class="cf">else</span></span>
+<span id="cb133-13"><a href="clustering.html#cb133-13" tabindex="-1"></a>    Expr.dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(Expr.mtx, DM)</span>
+<span id="cb133-14"><a href="clustering.html#cb133-14" tabindex="-1"></a>  }</span>
+<span id="cb133-15"><a href="clustering.html#cb133-15" tabindex="-1"></a></span>
+<span id="cb133-16"><a href="clustering.html#cb133-16" tabindex="-1"></a>  <span class="co">#for(KK in 2:5) {</span></span>
+<span id="cb133-17"><a href="clustering.html#cb133-17" tabindex="-1"></a>  KK <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb133-18"><a href="clustering.html#cb133-18" tabindex="-1"></a>  Expr.pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(Expr.dist, <span class="at">diss=</span>T, <span class="at">k=</span>KK, <span class="at">keep.diss=</span>T)</span>
+<span id="cb133-19"><a href="clustering.html#cb133-19" tabindex="-1"></a>  Pam.agree.tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(Expr.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb133-20"><a href="clustering.html#cb133-20" tabindex="-1"></a>  kappa.v <span class="ot">&lt;-</span> <span class="fu">getKappa</span>(Expr.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb133-21"><a href="clustering.html#cb133-21" tabindex="-1"></a> </span>
+<span id="cb133-22"><a href="clustering.html#cb133-22" tabindex="-1"></a>  <span class="do">#######################################</span></span>
+<span id="cb133-23"><a href="clustering.html#cb133-23" tabindex="-1"></a>  <span class="co"># Visualization</span></span>
+<span id="cb133-24"><a href="clustering.html#cb133-24" tabindex="-1"></a>  <span class="do">#######################################</span></span>
+<span id="cb133-25"><a href="clustering.html#cb133-25" tabindex="-1"></a>  old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
+<span id="cb133-26"><a href="clustering.html#cb133-26" tabindex="-1"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
+<span id="cb133-27"><a href="clustering.html#cb133-27" tabindex="-1"></a>       <span class="at">cex.main=</span><span class="fl">1.0</span>,<span class="at">cex.lab=</span><span class="fl">1.0</span>,<span class="at">cex.axis=</span><span class="fl">1.0</span>)</span>
+<span id="cb133-28"><a href="clustering.html#cb133-28" tabindex="-1"></a></span>
+<span id="cb133-29"><a href="clustering.html#cb133-29" tabindex="-1"></a>  <span class="co">#plot(Expr.pam,main=&#39;&#39;)</span></span>
+<span id="cb133-30"><a href="clustering.html#cb133-30" tabindex="-1"></a></span>
+<span id="cb133-31"><a href="clustering.html#cb133-31" tabindex="-1"></a>  <span class="do">###################################</span></span>
+<span id="cb133-32"><a href="clustering.html#cb133-32" tabindex="-1"></a>  <span class="fu">clusplot</span>(Expr.pam, <span class="at">main=</span><span class="st">&#39;&#39;</span>)<span class="do">###, pch=DataSource.pch)</span></span>
+<span id="cb133-33"><a href="clustering.html#cb133-33" tabindex="-1"></a></span>
+<span id="cb133-34"><a href="clustering.html#cb133-34" tabindex="-1"></a>  <span class="do">### Recolor samples according to MSS/MSI status</span></span>
+<span id="cb133-35"><a href="clustering.html#cb133-35" tabindex="-1"></a>  <span class="co">#xD &lt;- eval(Expr.pam$call[[2]])</span></span>
+<span id="cb133-36"><a href="clustering.html#cb133-36" tabindex="-1"></a>  xD <span class="ot">&lt;-</span> Expr.pam<span class="sc">$</span>diss</span>
+<span id="cb133-37"><a href="clustering.html#cb133-37" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T, <span class="at">add=</span>T)</span>
+<span id="cb133-38"><a href="clustering.html#cb133-38" tabindex="-1"></a>  <span class="cf">if</span>(x1<span class="sc">$</span>ac <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb133-39"><a href="clustering.html#cb133-39" tabindex="-1"></a>     x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T)</span>
+<span id="cb133-40"><a href="clustering.html#cb133-40" tabindex="-1"></a>  <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
+<span id="cb133-41"><a href="clustering.html#cb133-41" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> x1<span class="sc">$</span>points</span>
+<span id="cb133-42"><a href="clustering.html#cb133-42" tabindex="-1"></a> </span>
+<span id="cb133-43"><a href="clustering.html#cb133-43" tabindex="-1"></a>  <span class="fu">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>],</span>
+<span id="cb133-44"><a href="clustering.html#cb133-44" tabindex="-1"></a>          <span class="at">pch=</span><span class="st">&#39;.&#39;</span>,<span class="at">cex=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb133-45"><a href="clustering.html#cb133-45" tabindex="-1"></a></span>
+<span id="cb133-46"><a href="clustering.html#cb133-46" tabindex="-1"></a>  <span class="co"># add 2x2 tbale in margin</span></span>
+<span id="cb133-47"><a href="clustering.html#cb133-47" tabindex="-1"></a>  <span class="fu">mtext2by2Tbl</span>(Pam.agree.tbl)</span>
+<span id="cb133-48"><a href="clustering.html#cb133-48" tabindex="-1"></a></span>
+<span id="cb133-49"><a href="clustering.html#cb133-49" tabindex="-1"></a> <span class="fu">title</span>(<span class="fu">paste</span>(<span class="st">&#39;Dim =&#39;</span>, DD, <span class="st">&#39; - Red dot = MSI samples&#39;</span>,</span>
+<span id="cb133-50"><a href="clustering.html#cb133-50" tabindex="-1"></a>  <span class="st">&#39;</span><span class="sc">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="fu">round</span>(Expr.pam<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width,<span class="dv">3</span>),</span>
+<span id="cb133-51"><a href="clustering.html#cb133-51" tabindex="-1"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="fu">round</span>(kappa.v,<span class="dv">3</span>)))</span>
+<span id="cb133-52"><a href="clustering.html#cb133-52" tabindex="-1"></a></span>
+<span id="cb133-53"><a href="clustering.html#cb133-53" tabindex="-1"></a>  <span class="fu">par</span>(old_par)</span>
+<span id="cb133-54"><a href="clustering.html#cb133-54" tabindex="-1"></a></span>
+<span id="cb133-55"><a href="clustering.html#cb133-55" tabindex="-1"></a> }<span class="co">#for(DD</span></span></code></pre></div>
 <p><img src="Static/figures/clustering-ViewTsnePamCluster-1.png" width="1152" /><img src="Static/figures/clustering-ViewTsnePamCluster-2.png" width="1152" /></p>
 <p>PAM applied to t-SNE embeddings produce larger silhuoette profiles than
 PAM applied to the gene expression data. Let’s see how bagging helps here.</p>
 </div>
-<div id="t-sne-bagclust2" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> t-SNE + BagClust2</h3>
+<div id="t-sne-bagclust2" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> t-SNE + BagClust2<a href="clustering.html#t-sne-bagclust2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An important parameter in the application of t-SNE to clustering is the
 number of dimensions used in the t-SNE embedding. We will assess the effect of
 this parameter here, keeping the specified number of clusters fixed at k=2 while
 varying the number of embedding dimensions.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="clustering.html#cb139-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb139-2"><a href="clustering.html#cb139-2" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(stats))</span>
-<span id="cb139-3"><a href="clustering.html#cb139-3" aria-hidden="true"></a></span>
-<span id="cb139-4"><a href="clustering.html#cb139-4" aria-hidden="true"></a> KK &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb139-5"><a href="clustering.html#cb139-5" aria-hidden="true"></a></span>
-<span id="cb139-6"><a href="clustering.html#cb139-6" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
-<span id="cb139-7"><a href="clustering.html#cb139-7" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
-<span id="cb139-8"><a href="clustering.html#cb139-8" aria-hidden="true"></a></span>
-<span id="cb139-9"><a href="clustering.html#cb139-9" aria-hidden="true"></a> N_BOOT &lt;-<span class="st"> </span><span class="dv">30</span></span>
-<span id="cb139-10"><a href="clustering.html#cb139-10" aria-hidden="true"></a></span>
-<span id="cb139-11"><a href="clustering.html#cb139-11" aria-hidden="true"></a> <span class="co"># initialize list to store BagCLust results</span></span>
-<span id="cb139-12"><a href="clustering.html#cb139-12" aria-hidden="true"></a> SelGenes.tsneBagClust.pam.lst &lt;-<span class="st"> </span><span class="kw">list</span>()</span>
-<span id="cb139-13"><a href="clustering.html#cb139-13" aria-hidden="true"></a> </span>
-<span id="cb139-14"><a href="clustering.html#cb139-14" aria-hidden="true"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="kw">names</span>(SelGenes.tsne.lst)){</span>
-<span id="cb139-15"><a href="clustering.html#cb139-15" aria-hidden="true"></a>  Expr.mtx &lt;-<span class="st"> </span>SelGenes.tsne.lst[[DD]]<span class="op">$</span>Y</span>
-<span id="cb139-16"><a href="clustering.html#cb139-16" aria-hidden="true"></a> </span>
-<span id="cb139-17"><a href="clustering.html#cb139-17" aria-hidden="true"></a>  <span class="co"># Add rownames (assuming order is correct!)</span></span>
-<span id="cb139-18"><a href="clustering.html#cb139-18" aria-hidden="true"></a>  <span class="kw">rownames</span>(Expr.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb139-19"><a href="clustering.html#cb139-19" aria-hidden="true"></a></span>
-<span id="cb139-20"><a href="clustering.html#cb139-20" aria-hidden="true"></a>  <span class="co"># Initialize counting matrices</span></span>
-<span id="cb139-21"><a href="clustering.html#cb139-21" aria-hidden="true"></a>  A.mtx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol=</span><span class="kw">length</span>(Train.Label.vec),</span>
-<span id="cb139-22"><a href="clustering.html#cb139-22" aria-hidden="true"></a>                     <span class="dt">nrow=</span><span class="kw">length</span>(Train.Label.vec))</span>
-<span id="cb139-23"><a href="clustering.html#cb139-23" aria-hidden="true"></a>  <span class="kw">rownames</span>(A.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb139-24"><a href="clustering.html#cb139-24" aria-hidden="true"></a>  <span class="kw">colnames</span>(A.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb139-25"><a href="clustering.html#cb139-25" aria-hidden="true"></a></span>
-<span id="cb139-26"><a href="clustering.html#cb139-26" aria-hidden="true"></a>  M.mtx &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol=</span><span class="kw">length</span>(Train.Label.vec),</span>
-<span id="cb139-27"><a href="clustering.html#cb139-27" aria-hidden="true"></a>                     <span class="dt">nrow=</span><span class="kw">length</span>(Train.Label.vec))</span>
-<span id="cb139-28"><a href="clustering.html#cb139-28" aria-hidden="true"></a>  <span class="kw">rownames</span>(M.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb139-29"><a href="clustering.html#cb139-29" aria-hidden="true"></a>  <span class="kw">colnames</span>(M.mtx) &lt;-<span class="st"> </span><span class="kw">names</span>(Train.Label.vec)</span>
-<span id="cb139-30"><a href="clustering.html#cb139-30" aria-hidden="true"></a></span>
-<span id="cb139-31"><a href="clustering.html#cb139-31" aria-hidden="true"></a></span>
-<span id="cb139-32"><a href="clustering.html#cb139-32" aria-hidden="true"></a>  <span class="co"># Repeat 2-4 B times</span></span>
-<span id="cb139-33"><a href="clustering.html#cb139-33" aria-hidden="true"></a>  <span class="co"># 2. Form the b_th bootstrap sample Bt_Samp =</span></span>
-<span id="cb139-34"><a href="clustering.html#cb139-34" aria-hidden="true"></a>  <span class="co">#       sample(Samp.vec, size=N_Samp, replace=T)</span></span>
-<span id="cb139-35"><a href="clustering.html#cb139-35" aria-hidden="true"></a>  <span class="co"># 3. Cluster to obtain cluster labels Bt_Clust for samples in Bt_Samp</span></span>
-<span id="cb139-36"><a href="clustering.html#cb139-36" aria-hidden="true"></a>  <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
-<span id="cb139-37"><a href="clustering.html#cb139-37" aria-hidden="true"></a>  <span class="co">#     - increment M[s1,s2]</span></span>
-<span id="cb139-38"><a href="clustering.html#cb139-38" aria-hidden="true"></a>  <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
-<span id="cb139-39"><a href="clustering.html#cb139-39" aria-hidden="true"></a>  <span class="co"># end repeat</span></span>
-<span id="cb139-40"><a href="clustering.html#cb139-40" aria-hidden="true"></a>  <span class="cf">for</span>(BB <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N_BOOT){</span>
-<span id="cb139-41"><a href="clustering.html#cb139-41" aria-hidden="true"></a>   <span class="kw">cat</span>(<span class="st">&#39;.&#39;</span>)</span>
-<span id="cb139-42"><a href="clustering.html#cb139-42" aria-hidden="true"></a>   <span class="co"># 2. form the BS sample</span></span>
-<span id="cb139-43"><a href="clustering.html#cb139-43" aria-hidden="true"></a>   B_Samp &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">names</span>(Train.Label.vec), <span class="dt">size=</span><span class="kw">length</span>(Train.Label.vec), <span class="dt">replace=</span>T)</span>
-<span id="cb139-44"><a href="clustering.html#cb139-44" aria-hidden="true"></a></span>
-<span id="cb139-45"><a href="clustering.html#cb139-45" aria-hidden="true"></a>   Expr.B.mtx &lt;-<span class="st"> </span>Expr.mtx[B_Samp,]</span>
-<span id="cb139-46"><a href="clustering.html#cb139-46" aria-hidden="true"></a></span>
-<span id="cb139-47"><a href="clustering.html#cb139-47" aria-hidden="true"></a>   <span class="co"># Get dissimilarity</span></span>
-<span id="cb139-48"><a href="clustering.html#cb139-48" aria-hidden="true"></a>   {<span class="cf">if</span>(DM <span class="op">==</span><span class="st"> &quot;1-pearson&quot;</span>)</span>
-<span id="cb139-49"><a href="clustering.html#cb139-49" aria-hidden="true"></a>     Expr.B.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">cor</span>(<span class="kw">t</span>(Expr.B.mtx))) <span class="cf">else</span></span>
-<span id="cb139-50"><a href="clustering.html#cb139-50" aria-hidden="true"></a>     Expr.B.dist &lt;-<span class="st"> </span><span class="kw">daisy</span>(Expr.B.mtx, DM)</span>
-<span id="cb139-51"><a href="clustering.html#cb139-51" aria-hidden="true"></a>   }</span>
-<span id="cb139-52"><a href="clustering.html#cb139-52" aria-hidden="true"></a>   <span class="kw">rm</span>(Expr.B.mtx)</span>
-<span id="cb139-53"><a href="clustering.html#cb139-53" aria-hidden="true"></a></span>
-<span id="cb139-54"><a href="clustering.html#cb139-54" aria-hidden="true"></a>   <span class="co"># 3. cluster</span></span>
-<span id="cb139-55"><a href="clustering.html#cb139-55" aria-hidden="true"></a>   Expr.B.pam &lt;-<span class="st"> </span><span class="kw">pam</span>(Expr.B.dist, <span class="dt">k=</span>KK)</span>
-<span id="cb139-56"><a href="clustering.html#cb139-56" aria-hidden="true"></a></span>
-<span id="cb139-57"><a href="clustering.html#cb139-57" aria-hidden="true"></a>   <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
-<span id="cb139-58"><a href="clustering.html#cb139-58" aria-hidden="true"></a>   <span class="co">#     - increment M[s1,s2]</span></span>
-<span id="cb139-59"><a href="clustering.html#cb139-59" aria-hidden="true"></a>   <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
-<span id="cb139-60"><a href="clustering.html#cb139-60" aria-hidden="true"></a>   B_Samp.lst &lt;-<span class="st"> </span><span class="kw">unique</span>(B_Samp)</span>
-<span id="cb139-61"><a href="clustering.html#cb139-61" aria-hidden="true"></a></span>
-<span id="cb139-62"><a href="clustering.html#cb139-62" aria-hidden="true"></a>   M.mtx[B_Samp.lst, B_Samp.lst] &lt;-<span class="st">   </span>M.mtx[B_Samp.lst, B_Samp.lst] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb139-63"><a href="clustering.html#cb139-63" aria-hidden="true"></a></span>
-<span id="cb139-64"><a href="clustering.html#cb139-64" aria-hidden="true"></a>   <span class="co"># patition in list</span></span>
-<span id="cb139-65"><a href="clustering.html#cb139-65" aria-hidden="true"></a>   B_Samp.Cluster &lt;-<span class="st"> </span>Expr.B.pam<span class="op">$</span>clustering[B_Samp.lst]</span>
-<span id="cb139-66"><a href="clustering.html#cb139-66" aria-hidden="true"></a>   B_Samp.Clust.lst &lt;-<span class="st"> </span><span class="kw">split</span>(B_Samp.lst, B_Samp.Cluster)</span>
-<span id="cb139-67"><a href="clustering.html#cb139-67" aria-hidden="true"></a></span>
-<span id="cb139-68"><a href="clustering.html#cb139-68" aria-hidden="true"></a>   <span class="cf">for</span>(LL <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(B_Samp.Clust.lst)) {</span>
-<span id="cb139-69"><a href="clustering.html#cb139-69" aria-hidden="true"></a>    Clust.Samp &lt;-<span class="st"> </span>B_Samp.Clust.lst[[LL]]</span>
-<span id="cb139-70"><a href="clustering.html#cb139-70" aria-hidden="true"></a>    A.mtx[Clust.Samp, Clust.Samp] &lt;-<span class="st">   </span>A.mtx[Clust.Samp, Clust.Samp] <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb139-71"><a href="clustering.html#cb139-71" aria-hidden="true"></a>   }</span>
-<span id="cb139-72"><a href="clustering.html#cb139-72" aria-hidden="true"></a>  } <span class="co"># end BB loop</span></span>
-<span id="cb139-73"><a href="clustering.html#cb139-73" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
-<span id="cb139-74"><a href="clustering.html#cb139-74" aria-hidden="true"></a></span>
-<span id="cb139-75"><a href="clustering.html#cb139-75" aria-hidden="true"></a>  <span class="co"># 5. Define new dissimilariy matirx D = 1 - A/M</span></span>
-<span id="cb139-76"><a href="clustering.html#cb139-76" aria-hidden="true"></a>  D.mtx &lt;-<span class="st"> </span>A.mtx<span class="op">/</span>M.mtx</span>
-<span id="cb139-77"><a href="clustering.html#cb139-77" aria-hidden="true"></a>  D.mtx[<span class="kw">is.na</span>(D.mtx)] &lt;-<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb139-78"><a href="clustering.html#cb139-78" aria-hidden="true"></a> </span>
-<span id="cb139-79"><a href="clustering.html#cb139-79" aria-hidden="true"></a>  <span class="co"># 6. Cluster observations on the basis of this dissimilarity matrix</span></span>
-<span id="cb139-80"><a href="clustering.html#cb139-80" aria-hidden="true"></a>  D.dist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span>D.mtx)</span>
-<span id="cb139-81"><a href="clustering.html#cb139-81" aria-hidden="true"></a>  SelGenes.tsneBagClust.pam.lst[[DD]] &lt;-<span class="st"> </span><span class="kw">pam</span>(D.dist, <span class="dt">k=</span>KK, <span class="dt">keep.diss=</span>T)</span>
-<span id="cb139-82"><a href="clustering.html#cb139-82" aria-hidden="true"></a>  <span class="kw">cat</span>(<span class="st">&#39;DD =&#39;</span>,DD, <span class="st">&#39;   sil.avg.width =&#39;</span>, SelGenes.tsneBagClust.pam.lst[[DD]]<span class="op">$</span>silinfo<span class="op">$</span>avg.width, <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
-<span id="cb139-83"><a href="clustering.html#cb139-83" aria-hidden="true"></a></span>
-<span id="cb139-84"><a href="clustering.html#cb139-84" aria-hidden="true"></a> }<span class="co">#for(DD</span></span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="clustering.html#cb134-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb134-2"><a href="clustering.html#cb134-2" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(stats))</span>
+<span id="cb134-3"><a href="clustering.html#cb134-3" tabindex="-1"></a></span>
+<span id="cb134-4"><a href="clustering.html#cb134-4" tabindex="-1"></a> KK <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb134-5"><a href="clustering.html#cb134-5" tabindex="-1"></a></span>
+<span id="cb134-6"><a href="clustering.html#cb134-6" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsne.lst&#39;</span>), <span class="st">&#39;SelGenes.tsne.lst&#39;</span>)</span>
+<span id="cb134-7"><a href="clustering.html#cb134-7" tabindex="-1"></a> <span class="fu">load</span>(<span class="at">file=</span><span class="fu">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
+<span id="cb134-8"><a href="clustering.html#cb134-8" tabindex="-1"></a></span>
+<span id="cb134-9"><a href="clustering.html#cb134-9" tabindex="-1"></a> N_BOOT <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb134-10"><a href="clustering.html#cb134-10" tabindex="-1"></a></span>
+<span id="cb134-11"><a href="clustering.html#cb134-11" tabindex="-1"></a> <span class="co"># initialize list to store BagCLust results</span></span>
+<span id="cb134-12"><a href="clustering.html#cb134-12" tabindex="-1"></a> SelGenes.tsneBagClust.pam.lst <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb134-13"><a href="clustering.html#cb134-13" tabindex="-1"></a> </span>
+<span id="cb134-14"><a href="clustering.html#cb134-14" tabindex="-1"></a> <span class="cf">for</span>(DD <span class="cf">in</span> <span class="fu">names</span>(SelGenes.tsne.lst)){</span>
+<span id="cb134-15"><a href="clustering.html#cb134-15" tabindex="-1"></a>  Expr.mtx <span class="ot">&lt;-</span> SelGenes.tsne.lst[[DD]]<span class="sc">$</span>Y</span>
+<span id="cb134-16"><a href="clustering.html#cb134-16" tabindex="-1"></a> </span>
+<span id="cb134-17"><a href="clustering.html#cb134-17" tabindex="-1"></a>  <span class="co"># Add rownames (assuming order is correct!)</span></span>
+<span id="cb134-18"><a href="clustering.html#cb134-18" tabindex="-1"></a>  <span class="fu">rownames</span>(Expr.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb134-19"><a href="clustering.html#cb134-19" tabindex="-1"></a></span>
+<span id="cb134-20"><a href="clustering.html#cb134-20" tabindex="-1"></a>  <span class="co"># Initialize counting matrices</span></span>
+<span id="cb134-21"><a href="clustering.html#cb134-21" tabindex="-1"></a>  A.mtx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol=</span><span class="fu">length</span>(Train.Label.vec),</span>
+<span id="cb134-22"><a href="clustering.html#cb134-22" tabindex="-1"></a>                     <span class="at">nrow=</span><span class="fu">length</span>(Train.Label.vec))</span>
+<span id="cb134-23"><a href="clustering.html#cb134-23" tabindex="-1"></a>  <span class="fu">rownames</span>(A.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb134-24"><a href="clustering.html#cb134-24" tabindex="-1"></a>  <span class="fu">colnames</span>(A.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb134-25"><a href="clustering.html#cb134-25" tabindex="-1"></a></span>
+<span id="cb134-26"><a href="clustering.html#cb134-26" tabindex="-1"></a>  M.mtx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">ncol=</span><span class="fu">length</span>(Train.Label.vec),</span>
+<span id="cb134-27"><a href="clustering.html#cb134-27" tabindex="-1"></a>                     <span class="at">nrow=</span><span class="fu">length</span>(Train.Label.vec))</span>
+<span id="cb134-28"><a href="clustering.html#cb134-28" tabindex="-1"></a>  <span class="fu">rownames</span>(M.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb134-29"><a href="clustering.html#cb134-29" tabindex="-1"></a>  <span class="fu">colnames</span>(M.mtx) <span class="ot">&lt;-</span> <span class="fu">names</span>(Train.Label.vec)</span>
+<span id="cb134-30"><a href="clustering.html#cb134-30" tabindex="-1"></a></span>
+<span id="cb134-31"><a href="clustering.html#cb134-31" tabindex="-1"></a></span>
+<span id="cb134-32"><a href="clustering.html#cb134-32" tabindex="-1"></a>  <span class="co"># Repeat 2-4 B times</span></span>
+<span id="cb134-33"><a href="clustering.html#cb134-33" tabindex="-1"></a>  <span class="co"># 2. Form the b_th bootstrap sample Bt_Samp =</span></span>
+<span id="cb134-34"><a href="clustering.html#cb134-34" tabindex="-1"></a>  <span class="co">#       sample(Samp.vec, size=N_Samp, replace=T)</span></span>
+<span id="cb134-35"><a href="clustering.html#cb134-35" tabindex="-1"></a>  <span class="co"># 3. Cluster to obtain cluster labels Bt_Clust for samples in Bt_Samp</span></span>
+<span id="cb134-36"><a href="clustering.html#cb134-36" tabindex="-1"></a>  <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
+<span id="cb134-37"><a href="clustering.html#cb134-37" tabindex="-1"></a>  <span class="co">#     - increment M[s1,s2]</span></span>
+<span id="cb134-38"><a href="clustering.html#cb134-38" tabindex="-1"></a>  <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
+<span id="cb134-39"><a href="clustering.html#cb134-39" tabindex="-1"></a>  <span class="co"># end repeat</span></span>
+<span id="cb134-40"><a href="clustering.html#cb134-40" tabindex="-1"></a>  <span class="cf">for</span>(BB <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N_BOOT){</span>
+<span id="cb134-41"><a href="clustering.html#cb134-41" tabindex="-1"></a>   <span class="fu">cat</span>(<span class="st">&#39;.&#39;</span>)</span>
+<span id="cb134-42"><a href="clustering.html#cb134-42" tabindex="-1"></a>   <span class="co"># 2. form the BS sample</span></span>
+<span id="cb134-43"><a href="clustering.html#cb134-43" tabindex="-1"></a>   B_Samp <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">names</span>(Train.Label.vec), <span class="at">size=</span><span class="fu">length</span>(Train.Label.vec), <span class="at">replace=</span>T)</span>
+<span id="cb134-44"><a href="clustering.html#cb134-44" tabindex="-1"></a></span>
+<span id="cb134-45"><a href="clustering.html#cb134-45" tabindex="-1"></a>   Expr.B.mtx <span class="ot">&lt;-</span> Expr.mtx[B_Samp,]</span>
+<span id="cb134-46"><a href="clustering.html#cb134-46" tabindex="-1"></a></span>
+<span id="cb134-47"><a href="clustering.html#cb134-47" tabindex="-1"></a>   <span class="co"># Get dissimilarity</span></span>
+<span id="cb134-48"><a href="clustering.html#cb134-48" tabindex="-1"></a>   {<span class="cf">if</span>(DM <span class="sc">==</span> <span class="st">&quot;1-pearson&quot;</span>)</span>
+<span id="cb134-49"><a href="clustering.html#cb134-49" tabindex="-1"></a>     Expr.B.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(Expr.B.mtx))) <span class="cf">else</span></span>
+<span id="cb134-50"><a href="clustering.html#cb134-50" tabindex="-1"></a>     Expr.B.dist <span class="ot">&lt;-</span> <span class="fu">daisy</span>(Expr.B.mtx, DM)</span>
+<span id="cb134-51"><a href="clustering.html#cb134-51" tabindex="-1"></a>   }</span>
+<span id="cb134-52"><a href="clustering.html#cb134-52" tabindex="-1"></a>   <span class="fu">rm</span>(Expr.B.mtx)</span>
+<span id="cb134-53"><a href="clustering.html#cb134-53" tabindex="-1"></a></span>
+<span id="cb134-54"><a href="clustering.html#cb134-54" tabindex="-1"></a>   <span class="co"># 3. cluster</span></span>
+<span id="cb134-55"><a href="clustering.html#cb134-55" tabindex="-1"></a>   Expr.B.pam <span class="ot">&lt;-</span> <span class="fu">pam</span>(Expr.B.dist, <span class="at">k=</span>KK)</span>
+<span id="cb134-56"><a href="clustering.html#cb134-56" tabindex="-1"></a></span>
+<span id="cb134-57"><a href="clustering.html#cb134-57" tabindex="-1"></a>   <span class="co"># 4. For each pair of samples in Bt_Samp, s1, s2,</span></span>
+<span id="cb134-58"><a href="clustering.html#cb134-58" tabindex="-1"></a>   <span class="co">#     - increment M[s1,s2]</span></span>
+<span id="cb134-59"><a href="clustering.html#cb134-59" tabindex="-1"></a>   <span class="co">#     - increment A[s1,s1] if Bt_Clust[s1] == Bt_Clust[2]</span></span>
+<span id="cb134-60"><a href="clustering.html#cb134-60" tabindex="-1"></a>   B_Samp.lst <span class="ot">&lt;-</span> <span class="fu">unique</span>(B_Samp)</span>
+<span id="cb134-61"><a href="clustering.html#cb134-61" tabindex="-1"></a></span>
+<span id="cb134-62"><a href="clustering.html#cb134-62" tabindex="-1"></a>   M.mtx[B_Samp.lst, B_Samp.lst] <span class="ot">&lt;-</span>   M.mtx[B_Samp.lst, B_Samp.lst] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb134-63"><a href="clustering.html#cb134-63" tabindex="-1"></a></span>
+<span id="cb134-64"><a href="clustering.html#cb134-64" tabindex="-1"></a>   <span class="co"># patition in list</span></span>
+<span id="cb134-65"><a href="clustering.html#cb134-65" tabindex="-1"></a>   B_Samp.Cluster <span class="ot">&lt;-</span> Expr.B.pam<span class="sc">$</span>clustering[B_Samp.lst]</span>
+<span id="cb134-66"><a href="clustering.html#cb134-66" tabindex="-1"></a>   B_Samp.Clust.lst <span class="ot">&lt;-</span> <span class="fu">split</span>(B_Samp.lst, B_Samp.Cluster)</span>
+<span id="cb134-67"><a href="clustering.html#cb134-67" tabindex="-1"></a></span>
+<span id="cb134-68"><a href="clustering.html#cb134-68" tabindex="-1"></a>   <span class="cf">for</span>(LL <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(B_Samp.Clust.lst)) {</span>
+<span id="cb134-69"><a href="clustering.html#cb134-69" tabindex="-1"></a>    Clust.Samp <span class="ot">&lt;-</span> B_Samp.Clust.lst[[LL]]</span>
+<span id="cb134-70"><a href="clustering.html#cb134-70" tabindex="-1"></a>    A.mtx[Clust.Samp, Clust.Samp] <span class="ot">&lt;-</span>   A.mtx[Clust.Samp, Clust.Samp] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb134-71"><a href="clustering.html#cb134-71" tabindex="-1"></a>   }</span>
+<span id="cb134-72"><a href="clustering.html#cb134-72" tabindex="-1"></a>  } <span class="co"># end BB loop</span></span>
+<span id="cb134-73"><a href="clustering.html#cb134-73" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb134-74"><a href="clustering.html#cb134-74" tabindex="-1"></a></span>
+<span id="cb134-75"><a href="clustering.html#cb134-75" tabindex="-1"></a>  <span class="co"># 5. Define new dissimilariy matirx D = 1 - A/M</span></span>
+<span id="cb134-76"><a href="clustering.html#cb134-76" tabindex="-1"></a>  D.mtx <span class="ot">&lt;-</span> A.mtx<span class="sc">/</span>M.mtx</span>
+<span id="cb134-77"><a href="clustering.html#cb134-77" tabindex="-1"></a>  D.mtx[<span class="fu">is.na</span>(D.mtx)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb134-78"><a href="clustering.html#cb134-78" tabindex="-1"></a> </span>
+<span id="cb134-79"><a href="clustering.html#cb134-79" tabindex="-1"></a>  <span class="co"># 6. Cluster observations on the basis of this dissimilarity matrix</span></span>
+<span id="cb134-80"><a href="clustering.html#cb134-80" tabindex="-1"></a>  D.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span>D.mtx)</span>
+<span id="cb134-81"><a href="clustering.html#cb134-81" tabindex="-1"></a>  SelGenes.tsneBagClust.pam.lst[[DD]] <span class="ot">&lt;-</span> <span class="fu">pam</span>(D.dist, <span class="at">k=</span>KK, <span class="at">keep.diss=</span>T)</span>
+<span id="cb134-82"><a href="clustering.html#cb134-82" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&#39;DD =&#39;</span>,DD, <span class="st">&#39;   sil.avg.width =&#39;</span>, SelGenes.tsneBagClust.pam.lst[[DD]]<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width, <span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb134-83"><a href="clustering.html#cb134-83" tabindex="-1"></a></span>
+<span id="cb134-84"><a href="clustering.html#cb134-84" tabindex="-1"></a> }<span class="co">#for(DD</span></span></code></pre></div>
 <pre><code>## ..............................
-## DD = D_2    sil.avg.width = 0.9368571 
+## DD = D_2    sil.avg.width = 0.935729 
 ## ..............................
-## DD = D_3    sil.avg.width = 0.8470974</code></pre>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="clustering.html#cb141-1" aria-hidden="true"></a> <span class="co">## save </span></span>
-<span id="cb141-2"><a href="clustering.html#cb141-2" aria-hidden="true"></a> <span class="kw">saveObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsneBagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.tsneBagClust.pam.lst&#39;</span>)</span></code></pre></div>
+## DD = D_3    sil.avg.width = 0.8040044</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="clustering.html#cb136-1" tabindex="-1"></a> <span class="do">## save </span></span>
+<span id="cb136-2"><a href="clustering.html#cb136-2" tabindex="-1"></a> <span class="fu">saveObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsneBagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.tsneBagClust.pam.lst&#39;</span>)</span></code></pre></div>
 <!-- ****************************************************************** -->
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="clustering.html#cb142-1" aria-hidden="true"></a> <span class="kw">suppressMessages</span>(<span class="kw">require</span>(cluster))</span>
-<span id="cb142-2"><a href="clustering.html#cb142-2" aria-hidden="true"></a></span>
-<span id="cb142-3"><a href="clustering.html#cb142-3" aria-hidden="true"></a> <span class="kw">loadObj</span>(<span class="kw">paste0</span>(SelGenes, <span class="st">&#39;.tsneBagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.tsneBagClust.pam.lst&#39;</span>)</span>
-<span id="cb142-4"><a href="clustering.html#cb142-4" aria-hidden="true"></a> <span class="kw">load</span>(<span class="dt">file=</span><span class="kw">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
-<span id="cb142-5"><a href="clustering.html#cb142-5" aria-hidden="true"></a></span>
-<span id="cb142-6"><a href="clustering.html#cb142-6" aria-hidden="true"></a> <span class="co"># Get best K model</span></span>
-<span id="cb142-7"><a href="clustering.html#cb142-7" aria-hidden="true"></a> BagClustBestD &lt;-<span class="st"> </span><span class="kw">names</span>(SelGenes.tsneBagClust.pam.lst)[<span class="kw">which.max</span>(<span class="kw">sapply</span>(SelGenes.tsneBagClust.pam.lst,</span>
-<span id="cb142-8"><a href="clustering.html#cb142-8" aria-hidden="true"></a>  <span class="cf">function</span>(x) x<span class="op">$</span>silinfo<span class="op">$</span>avg.width))]</span>
-<span id="cb142-9"><a href="clustering.html#cb142-9" aria-hidden="true"></a></span>
-<span id="cb142-10"><a href="clustering.html#cb142-10" aria-hidden="true"></a> BagClustBestD.pam &lt;-<span class="st"> </span>SelGenes.tsneBagClust.pam.lst[[BagClustBestD]]</span>
-<span id="cb142-11"><a href="clustering.html#cb142-11" aria-hidden="true"></a></span>
-<span id="cb142-12"><a href="clustering.html#cb142-12" aria-hidden="true"></a> <span class="co"># Get agreement table</span></span>
-<span id="cb142-13"><a href="clustering.html#cb142-13" aria-hidden="true"></a> BagClustBestD.pam.agree.tbl &lt;-<span class="st"> </span><span class="kw">table</span>(BagClustBestD.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb142-14"><a href="clustering.html#cb142-14" aria-hidden="true"></a></span>
-<span id="cb142-15"><a href="clustering.html#cb142-15" aria-hidden="true"></a> <span class="co">#Compute kappa for display on figure</span></span>
-<span id="cb142-16"><a href="clustering.html#cb142-16" aria-hidden="true"></a> <span class="co"># (Only makes sense for KK==2)</span></span>
-<span id="cb142-17"><a href="clustering.html#cb142-17" aria-hidden="true"></a> kappa.v &lt;-<span class="st"> </span><span class="kw">getKappa</span>(BagClustBestD.pam<span class="op">$</span>clustering, Train.Label.vec)</span>
-<span id="cb142-18"><a href="clustering.html#cb142-18" aria-hidden="true"></a> <span class="co">#cat(&#39;kappa =&#39;, kappa.v, &#39;\n&#39;)</span></span>
-<span id="cb142-19"><a href="clustering.html#cb142-19" aria-hidden="true"></a></span>
-<span id="cb142-20"><a href="clustering.html#cb142-20" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb142-21"><a href="clustering.html#cb142-21" aria-hidden="true"></a> <span class="co"># Visualization</span></span>
-<span id="cb142-22"><a href="clustering.html#cb142-22" aria-hidden="true"></a> <span class="co">#######################################</span></span>
-<span id="cb142-23"><a href="clustering.html#cb142-23" aria-hidden="true"></a> old_par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
-<span id="cb142-24"><a href="clustering.html#cb142-24" aria-hidden="true"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
-<span id="cb142-25"><a href="clustering.html#cb142-25" aria-hidden="true"></a>       <span class="dt">cex.main=</span><span class="fl">1.0</span>,<span class="dt">cex.lab=</span><span class="fl">1.0</span>,<span class="dt">cex.axis=</span><span class="fl">1.0</span>)</span>
-<span id="cb142-26"><a href="clustering.html#cb142-26" aria-hidden="true"></a></span>
-<span id="cb142-27"><a href="clustering.html#cb142-27" aria-hidden="true"></a> <span class="co">#plot(BagClustBestD.pam,main=&#39;&#39;)</span></span>
-<span id="cb142-28"><a href="clustering.html#cb142-28" aria-hidden="true"></a></span>
-<span id="cb142-29"><a href="clustering.html#cb142-29" aria-hidden="true"></a> <span class="co">###################################</span></span>
-<span id="cb142-30"><a href="clustering.html#cb142-30" aria-hidden="true"></a> <span class="kw">clusplot</span>(BagClustBestD.pam, <span class="dt">main=</span><span class="st">&#39;&#39;</span>)<span class="co">###, pch=DataSource.pch)</span></span>
-<span id="cb142-31"><a href="clustering.html#cb142-31" aria-hidden="true"></a></span>
-<span id="cb142-32"><a href="clustering.html#cb142-32" aria-hidden="true"></a> <span class="co">### Recolor samples according to MSS/MSI status</span></span>
-<span id="cb142-33"><a href="clustering.html#cb142-33" aria-hidden="true"></a> <span class="co">#xD &lt;- eval(BagClustBestD.pam$call[[2]])</span></span>
-<span id="cb142-34"><a href="clustering.html#cb142-34" aria-hidden="true"></a> xD &lt;-<span class="st"> </span>BagClustBestD.pam<span class="op">$</span>diss</span>
-<span id="cb142-35"><a href="clustering.html#cb142-35" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T, <span class="dt">add=</span>T)</span>
-<span id="cb142-36"><a href="clustering.html#cb142-36" aria-hidden="true"></a> <span class="cf">if</span>(x1<span class="op">$</span>ac <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb142-37"><a href="clustering.html#cb142-37" aria-hidden="true"></a>    x1 &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(xD, <span class="dt">k=</span><span class="dv">2</span>, <span class="dt">eig=</span>T)</span>
-<span id="cb142-38"><a href="clustering.html#cb142-38" aria-hidden="true"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
-<span id="cb142-39"><a href="clustering.html#cb142-39" aria-hidden="true"></a> x1 &lt;-<span class="st"> </span>x1<span class="op">$</span>points</span>
-<span id="cb142-40"><a href="clustering.html#cb142-40" aria-hidden="true"></a></span>
-<span id="cb142-41"><a href="clustering.html#cb142-41" aria-hidden="true"></a> <span class="kw">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="op">==</span><span class="st">&#39;MSI&#39;</span>],</span>
-<span id="cb142-42"><a href="clustering.html#cb142-42" aria-hidden="true"></a>         <span class="dt">pch=</span><span class="st">&#39;.&#39;</span>,<span class="dt">cex=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb142-43"><a href="clustering.html#cb142-43" aria-hidden="true"></a>  <span class="co"># add 2x2 tbale in margin</span></span>
-<span id="cb142-44"><a href="clustering.html#cb142-44" aria-hidden="true"></a>  <span class="kw">mtext2by2Tbl</span>(BagClustBestD.pam.agree.tbl)</span>
-<span id="cb142-45"><a href="clustering.html#cb142-45" aria-hidden="true"></a></span>
-<span id="cb142-46"><a href="clustering.html#cb142-46" aria-hidden="true"></a> <span class="kw">title</span>(<span class="kw">paste</span>(<span class="st">&#39;Dim =&#39;</span>, BagClustBestD, <span class="st">&#39; - Red dot = MSI samples&#39;</span>,</span>
-<span id="cb142-47"><a href="clustering.html#cb142-47" aria-hidden="true"></a>  <span class="st">&#39;</span><span class="ch">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="kw">round</span>(BagClustBestD.pam<span class="op">$</span>silinfo<span class="op">$</span>avg.width,<span class="dv">3</span>),</span>
-<span id="cb142-48"><a href="clustering.html#cb142-48" aria-hidden="true"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="kw">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="clustering.html#cb137-1" tabindex="-1"></a> <span class="fu">suppressMessages</span>(<span class="fu">require</span>(cluster))</span>
+<span id="cb137-2"><a href="clustering.html#cb137-2" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="clustering.html#cb137-3" tabindex="-1"></a> <span class="fu">loadObj</span>(<span class="fu">paste0</span>(SelGenes, <span class="st">&#39;.tsneBagClust.pam.lst&#39;</span>), <span class="st">&#39;SelGenes.tsneBagClust.pam.lst&#39;</span>)</span>
+<span id="cb137-4"><a href="clustering.html#cb137-4" tabindex="-1"></a> <span class="fu">load</span>(<span class="at">file=</span><span class="fu">file.path</span>(<span class="st">&#39;RData&#39;</span>, <span class="st">&#39;Train.Label.vec&#39;</span>))</span>
+<span id="cb137-5"><a href="clustering.html#cb137-5" tabindex="-1"></a></span>
+<span id="cb137-6"><a href="clustering.html#cb137-6" tabindex="-1"></a> <span class="co"># Get best K model</span></span>
+<span id="cb137-7"><a href="clustering.html#cb137-7" tabindex="-1"></a> BagClustBestD <span class="ot">&lt;-</span> <span class="fu">names</span>(SelGenes.tsneBagClust.pam.lst)[<span class="fu">which.max</span>(<span class="fu">sapply</span>(SelGenes.tsneBagClust.pam.lst,</span>
+<span id="cb137-8"><a href="clustering.html#cb137-8" tabindex="-1"></a>  <span class="cf">function</span>(x) x<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width))]</span>
+<span id="cb137-9"><a href="clustering.html#cb137-9" tabindex="-1"></a></span>
+<span id="cb137-10"><a href="clustering.html#cb137-10" tabindex="-1"></a> BagClustBestD.pam <span class="ot">&lt;-</span> SelGenes.tsneBagClust.pam.lst[[BagClustBestD]]</span>
+<span id="cb137-11"><a href="clustering.html#cb137-11" tabindex="-1"></a></span>
+<span id="cb137-12"><a href="clustering.html#cb137-12" tabindex="-1"></a> <span class="co"># Get agreement table</span></span>
+<span id="cb137-13"><a href="clustering.html#cb137-13" tabindex="-1"></a> BagClustBestD.pam.agree.tbl <span class="ot">&lt;-</span> <span class="fu">table</span>(BagClustBestD.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb137-14"><a href="clustering.html#cb137-14" tabindex="-1"></a></span>
+<span id="cb137-15"><a href="clustering.html#cb137-15" tabindex="-1"></a> <span class="co">#Compute kappa for display on figure</span></span>
+<span id="cb137-16"><a href="clustering.html#cb137-16" tabindex="-1"></a> <span class="co"># (Only makes sense for KK==2)</span></span>
+<span id="cb137-17"><a href="clustering.html#cb137-17" tabindex="-1"></a> kappa.v <span class="ot">&lt;-</span> <span class="fu">getKappa</span>(BagClustBestD.pam<span class="sc">$</span>clustering, Train.Label.vec)</span>
+<span id="cb137-18"><a href="clustering.html#cb137-18" tabindex="-1"></a> <span class="co">#cat(&#39;kappa =&#39;, kappa.v, &#39;\n&#39;)</span></span>
+<span id="cb137-19"><a href="clustering.html#cb137-19" tabindex="-1"></a></span>
+<span id="cb137-20"><a href="clustering.html#cb137-20" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb137-21"><a href="clustering.html#cb137-21" tabindex="-1"></a> <span class="co"># Visualization</span></span>
+<span id="cb137-22"><a href="clustering.html#cb137-22" tabindex="-1"></a> <span class="do">#######################################</span></span>
+<span id="cb137-23"><a href="clustering.html#cb137-23" tabindex="-1"></a> old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>), <span class="co">#mar=c(4.2, 3.2, 1.1, 0.2),</span></span>
+<span id="cb137-24"><a href="clustering.html#cb137-24" tabindex="-1"></a>      <span class="co">#bg=rgb(0,0,.606),fg=7,col.axis=7,col.lab=7,col.main=7, col.sub=7,</span></span>
+<span id="cb137-25"><a href="clustering.html#cb137-25" tabindex="-1"></a>       <span class="at">cex.main=</span><span class="fl">1.0</span>,<span class="at">cex.lab=</span><span class="fl">1.0</span>,<span class="at">cex.axis=</span><span class="fl">1.0</span>)</span>
+<span id="cb137-26"><a href="clustering.html#cb137-26" tabindex="-1"></a></span>
+<span id="cb137-27"><a href="clustering.html#cb137-27" tabindex="-1"></a> <span class="co">#plot(BagClustBestD.pam,main=&#39;&#39;)</span></span>
+<span id="cb137-28"><a href="clustering.html#cb137-28" tabindex="-1"></a></span>
+<span id="cb137-29"><a href="clustering.html#cb137-29" tabindex="-1"></a> <span class="do">###################################</span></span>
+<span id="cb137-30"><a href="clustering.html#cb137-30" tabindex="-1"></a> <span class="fu">clusplot</span>(BagClustBestD.pam, <span class="at">main=</span><span class="st">&#39;&#39;</span>)<span class="do">###, pch=DataSource.pch)</span></span>
+<span id="cb137-31"><a href="clustering.html#cb137-31" tabindex="-1"></a></span>
+<span id="cb137-32"><a href="clustering.html#cb137-32" tabindex="-1"></a> <span class="do">### Recolor samples according to MSS/MSI status</span></span>
+<span id="cb137-33"><a href="clustering.html#cb137-33" tabindex="-1"></a> <span class="co">#xD &lt;- eval(BagClustBestD.pam$call[[2]])</span></span>
+<span id="cb137-34"><a href="clustering.html#cb137-34" tabindex="-1"></a> xD <span class="ot">&lt;-</span> BagClustBestD.pam<span class="sc">$</span>diss</span>
+<span id="cb137-35"><a href="clustering.html#cb137-35" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T, <span class="at">add=</span>T)</span>
+<span id="cb137-36"><a href="clustering.html#cb137-36" tabindex="-1"></a> <span class="cf">if</span>(x1<span class="sc">$</span>ac <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
+<span id="cb137-37"><a href="clustering.html#cb137-37" tabindex="-1"></a>    x1 <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(xD, <span class="at">k=</span><span class="dv">2</span>, <span class="at">eig=</span>T)</span>
+<span id="cb137-38"><a href="clustering.html#cb137-38" tabindex="-1"></a> <span class="co">#var.dec &lt;- x1$GOF[2]</span></span>
+<span id="cb137-39"><a href="clustering.html#cb137-39" tabindex="-1"></a> x1 <span class="ot">&lt;-</span> x1<span class="sc">$</span>points</span>
+<span id="cb137-40"><a href="clustering.html#cb137-40" tabindex="-1"></a></span>
+<span id="cb137-41"><a href="clustering.html#cb137-41" tabindex="-1"></a> <span class="fu">points</span>(x1[,<span class="dv">1</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>], x1[,<span class="dv">2</span>][Train.Label.vec<span class="sc">==</span><span class="st">&#39;MSI&#39;</span>],</span>
+<span id="cb137-42"><a href="clustering.html#cb137-42" tabindex="-1"></a>         <span class="at">pch=</span><span class="st">&#39;.&#39;</span>,<span class="at">cex=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb137-43"><a href="clustering.html#cb137-43" tabindex="-1"></a>  <span class="co"># add 2x2 tbale in margin</span></span>
+<span id="cb137-44"><a href="clustering.html#cb137-44" tabindex="-1"></a>  <span class="fu">mtext2by2Tbl</span>(BagClustBestD.pam.agree.tbl)</span>
+<span id="cb137-45"><a href="clustering.html#cb137-45" tabindex="-1"></a></span>
+<span id="cb137-46"><a href="clustering.html#cb137-46" tabindex="-1"></a> <span class="fu">title</span>(<span class="fu">paste</span>(<span class="st">&#39;Dim =&#39;</span>, BagClustBestD, <span class="st">&#39; - Red dot = MSI samples&#39;</span>,</span>
+<span id="cb137-47"><a href="clustering.html#cb137-47" tabindex="-1"></a>  <span class="st">&#39;</span><span class="sc">\n</span><span class="st">Ave. Sil. Width = &#39;</span>, <span class="fu">round</span>(BagClustBestD.pam<span class="sc">$</span>silinfo<span class="sc">$</span>avg.width,<span class="dv">3</span>),</span>
+<span id="cb137-48"><a href="clustering.html#cb137-48" tabindex="-1"></a>  <span class="st">&#39;  Kappa = &#39;</span>, <span class="fu">round</span>(kappa.v,<span class="dv">3</span>)))</span></code></pre></div>
 <p><img src="Static/figures/clustering-lktsneBagClust2-1.png" width="1152" /></p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="clustering.html#cb143-1" aria-hidden="true"></a> <span class="kw">par</span>(old_par)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="clustering.html#cb138-1" tabindex="-1"></a> <span class="fu">par</span>(old_par)</span></code></pre></div>
 </div>
 </div>
-<div id="cluster-analysis-discussion" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Cluster Analysis: Discussion</h2>
+<div id="cluster-analysis-discussion" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Cluster Analysis: Discussion<a href="clustering.html#cluster-analysis-discussion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>The PAM algorithm does a decent job at “discovering” the MSS vs MSI grouping
 in an unsupervised analysis of the gene expression vectors. In this analysis,
@@ -883,8 +914,8 @@ that can be adjusted in these analyses. In any given situation, the sensitivity
 of results produced by a method to changes in parameter settings or
 slight perturbations of the data is an important part of cluster analysis.</p>
 </div>
-<div id="next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question." class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Next Step: Look for subgroups in the MSS population - an open biological question.</h2>
+<div id="next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question." class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Next Step: Look for subgroups in the MSS population - an open biological question.<a href="clustering.html#next-step-look-for-subgroups-in-the-mss-population---an-open-biological-question." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 
 </div>
 </div>
@@ -898,7 +929,6 @@ slight perturbations of the data is an important part of cluster analysis.</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -909,37 +939,42 @@ slight perturbations of the data is an important part of cluster analysis.</p>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["ExploreCRC.pdf", "ExploreCRC.epub"],
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["ExploreCRC.pdf", "ExploreCRC.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
@@ -950,7 +985,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
