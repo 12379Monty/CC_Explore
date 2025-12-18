@@ -69,3 +69,46 @@ processing file: ExploreCRC.Rmd
 66/102 [comp-models-CompROCOOFTrain]           
 67/102                                         
 68/102 [comp-models-get-CompROCIndivOOFTrain]  
+69/102 [comp-models-plot-CompROCIndivOOFTrain] 
+70/102                                         
+71/102 [comp-models-CompOOFSet-TrainProbClass1]
+72/102                                         
+73/102 [comp-models-varImpHelp]                
+74/102                                         
+75/102 [comp-models-readGeneSets]              
+76/102                                         
+77/102 [comp-models-varImp]                    
+78/102                                         
+79/102 [comp-models-varImp-2]                  
+80/102                                         
+81/102 [clustering-pamCluster]                 
+82/102                                         
+83/102 [clustering-ViewPamCluster]             
+84/102                                         
+85/102 [clustering-BagClust2]                  
+86/102                                         
+87/102 [clustering-lkBagClust2]                
+88/102                                         
+89/102 [clustering-tSNEPrelim]                 
+90/102                                         
+91/102 [clustering-tSNE]                       
+92/102                                         
+93/102 [clustering-tsnePAMCluster}]            
+94/102                                         
+95/102 [clustering-ViewTsnePamCluster]         
+96/102                                         
+97/102 [clustering-tsneBagClust2]              
+98/102                                         
+99/102 [clustering-lktsneBagClust2]            
+100/102                                         
+101/102 [appendix1]                             
+102/102                                         
+output file: ExploreCRC.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS ExploreCRC.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output ExploreCRC.html --lua-filter /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/rmarkdown/lua/custom-environment.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/anchor-sections.lua --metadata-file /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpuHS1Fg/file1de129f7c4a6 --wrap preserve --standalone --section-divs --table-of-contents --toc-depth 3 --template /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/templates/gitbook.html --highlight-style pygments --number-sections --css style.css --mathjax --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpuHS1Fg/rmarkdown-str1de14fd6c1ab.html --include-in-header header.html --citeproc 
+
+Output created: docs/index.html
+[1] "/Users/fcollin/Documents/Projects/CC_Explore/docs/index.html"
+Warning message:
+In call_block(x) :
+  The chunk 'appendix1' has the 'child' option, and this code chunk must be empty. Its code will be ignored.
