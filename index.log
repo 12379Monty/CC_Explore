@@ -1,0 +1,119 @@
+
+
+processing file: ExploreCRC.Rmd
+1/104                                                 
+2/104 [index-setup]                                   
+3/104                                                 
+4/104 [index-functionDef]                             
+5/104                                                 
+6/104 [index-runParam]                                
+7/104                                                 
+8/104 [load-data-dnldGSE]                             
+9/104                                                 
+10/104 [load-data-peekGSE]                             
+11/104                                                 
+12/104 [load-data-cleanGSE]                            
+13/104                                                 
+14/104 [load-data-poolGSE]                             
+15/104                                                 
+16/104 [load-data-plot-poolGSE]                        
+17/104                                                 
+18/104 [load-data-svaBatchAdjust]                      
+19/104                                                 
+20/104 [load-data-plot-svaBatchAdjust]                 
+21/104                                                 
+22/104 [load-data-getTrainTest]                        
+23/104                                                 
+24/104 [load-data-saveGeneSets]                        
+25/104                                                 
+26/104 [train-models-setTrainParam]                    
+27/104                                                 
+28/104 [train-models-doMC]                             
+29/104                                                 
+30/104 [train-models-glmnetFit]                        
+31/104                                                 
+32/104 [train-models-enetFit]                          
+33/104                                                 
+34/104 [train-models-knnFit]                           
+35/104                                                 
+36/104 [train-models-pamFit]                           
+37/104                                                 
+38/104 [train-models-svmRadialFit]                     
+39/104                                                 
+40/104 [train-models-gbmFit]                           
+41/104                                                 
+42/104 [train-models-xgbLinearFit]                     
+43/104                                                 
+44/104 [train-models-xgbTreeFit]                       
+45/104                                                 
+46/104 [train-models-rfFit]                            
+47/104                                                 
+48/104 [train-models-stepLDAFit]                       
+49/104                                                 
+50/104 [train-models-stepQDAFit]                       
+51/104                                                 
+52/104 [comp-models-getModels]                         
+53/104                                                 
+54/104 [comp-models-compTimes]                         
+55/104                                                 
+56/104 [comp-models-trainAccuracy]                     
+57/104                                                 
+58/104 [comp-models-OOFTrainAccuracy]                  
+59/104                                                 
+60/104 [comp-models-OOFTrainAccuracy-2]                
+61/104                                                 
+62/104 [comp-models-testAccuracy]                      
+63/104                                                 
+64/104 [comp-models-CompROCTrain]                      
+65/104                                                 
+66/104 [comp-models-CompROCOOFTrain]                   
+67/104                                                 
+68/104 [comp-models-get-CompROCIndivOOFTrain]          
+69/104 [comp-models-plot-CompROCIndivOOFTrain]         
+70/104                                                 
+71/104 [comp-models-CompOOFSet-TrainProbClass1]        
+72/104                                                 
+73/104 [comp-models-CompOOFSet-TrainProbClass1-5models]
+74/104                                                 
+75/104 [comp-models-varImpHelp]                        
+76/104                                                 
+77/104 [comp-models-readGeneSets]                      
+78/104                                                 
+79/104 [comp-models-varImp]                            
+80/104                                                 
+81/104 [comp-models-varImp-2]                          
+82/104                                                 
+83/104 [clustering-pamCluster]                         
+84/104                                                 
+85/104 [clustering-ViewPamCluster]                     
+86/104                                                 
+87/104 [clustering-BagClust2]                          
+88/104                                                 
+89/104 [clustering-lkBagClust2]                        
+90/104                                                 
+91/104 [clustering-tSNEPrelim]                         
+92/104                                                 
+93/104 [clustering-tSNE]                               
+94/104                                                 
+95/104 [clustering-tsnePAMCluster}]                    
+96/104                                                 
+97/104 [clustering-ViewTsnePamCluster]                 
+98/104                                                 
+99/104 [clustering-tsneBagClust2]                      
+100/104                                                 
+101/104 [clustering-lktsneBagClust2]                    
+102/104                                                 
+103/104 [appendix1]                                     
+104/104                                                 
+output file: ExploreCRC.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS ExploreCRC.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output ExploreCRC.html --lua-filter /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/rmarkdown/lua/custom-environment.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/anchor-sections.lua --metadata-file /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpHtlIV3/file12d522ed3286b --wrap preserve --standalone --section-divs --table-of-contents --toc-depth 3 --template /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/templates/gitbook.html --highlight-style pygments --number-sections --css style.css --mathjax --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpHtlIV3/rmarkdown-str12d525de3b753.html --include-in-header header.html --citeproc 
+
+Output created: docs/index.html
+[1] "/Users/fcollin/Documents/Projects/CC_Explore/docs/index.html"
+Warning messages:
+1: In call_block(x) :
+  The chunk 'appendix1' has the 'child' option, and this code chunk must be empty. Its code will be ignored.
+2: In split_chapters(output, gitbook_page, global_numbering, split_by,  :
+  You have 8 Rmd input file(s) but only 7 first-level heading(s). Did you forget first-level headings in certain Rmd files?
+3: The label(s) comp-models not found 

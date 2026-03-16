@@ -81,6 +81,7 @@ These methods dont work.
 * nnet - neural network
 -->
 
+<!-- SKIP FOR NOW
 ## glmnet -  Elastic-Net Regularized Generalized Linear Models
 
 In this run, we use the default search grid:  
@@ -104,6 +105,9 @@ In this run, we use the default search grid:
  saveObj(paste0(SelGenes.CV, '.glmnetFit'), 'SelGenes.glmnetFit')
 
 ```
+### COMMENTED OUT enet
+-->
+
 <!-- ######################################################################## -->
 
 

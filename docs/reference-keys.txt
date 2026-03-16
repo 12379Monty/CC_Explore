@@ -6,6 +6,7 @@ tab:comp-models-testAccuracy
 fig:comp-models-CompROCTrain
 fig:comp-models-CompROCOOFTrain
 fig:comp-models-CompOOFSet-TrainProbClass1
+fig:comp-models-CompOOFSet-TrainProbClass1-5models
 intro
 outline
 data-preprocessing
@@ -22,7 +23,6 @@ batch-correction
 separate-data-set-into-train-and-test-subsets
 save-gene-sets
 train-models
-glmnet---elastic-net-regularized-generalized-linear-models
 enet---elastic-net-regularized-generalized-linear-models
 knn---k-nearest-neighbors
 pam---nearest-shrunken-centroid
@@ -31,7 +31,6 @@ gbm---boosted-trees
 xgblinear---extreme-gradient-boosting
 rf---random-forests
 stepldafit---stepwise-linear-discriminant-analysis
-comp-models
 load-models
 compare-times
 compare-prediction-accuracy

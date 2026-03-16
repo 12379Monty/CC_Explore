@@ -1,4 +1,4 @@
-# Compare Predictive Models {#comp-models}
+resoluti# Compare Predictive Models {#comp-models}
 
 Here we compare predictive models in terms of:
 
@@ -93,8 +93,9 @@ vastly different parameter spaces based on training data results.
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
-  knitr::kable(data.frame(cbind(Set.Train.TruthTable.frm,
-                  Set.Train.TruthTable.frm/length(Train.Label.vec))),
+  knitr::kable(data.frame(cbind(
+  cnt=Set.Train.TruthTable.frm,
+  prop=Set.Train.TruthTable.frm/length(Train.Label.vec))),
     digits=2, align='c', caption='Model CV Accuracy') %>%
    kableExtra::kable_styling(full_width = F)
 
@@ -144,8 +145,9 @@ examined together to get a good sense of relative performance.
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
- knitr::kable(data.frame(cbind(Set.Train.osPredMode.TruthTable.frm,
-                  Set.Train.osPredMode.TruthTable.frm/length(Train.Label.vec))),
+ knitr::kable(data.frame(cbind(
+   cnt=Set.Train.osPredMode.TruthTable.frm,
+   prop=Set.Train.osPredMode.TruthTable.frm/length(Train.Label.vec))),
    digits=2, align='c', caption='Model Out-of-Fold Accuracy - Mode') %>%
    kableExtra::kable_styling(full_width = F)
 
@@ -174,7 +176,6 @@ examined together to get a good sense of relative performance.
 ### Test Data Accuracy
 
 ```{r comp-models-testAccuracy, message=F, warning=F, cache=TRUE, cache.vars='', eval=T}
-
 ### BREAK CACHE
  suppressMessages(require(caret))
 
@@ -189,8 +190,9 @@ examined together to get a good sense of relative performance.
    names(truth.vec) <- c('TN', 'FP', 'FN', 'TP')
    truth.vec}))
 
- knitr::kable(data.frame(cbind(Set.Test.TruthTable.frm,
-                  Set.Test.TruthTable.frm/length(Test.Label.vec))),
+ knitr::kable(data.frame(cbind(
+    cnt=Set.Test.TruthTable.frm,
+    prop=Set.Test.TruthTable.frm/length(Test.Label.vec))),
    digits=2, align='c', caption='Model Test Set Accuracy') %>%
    kableExtra::kable_styling(full_width = F)
 
@@ -202,7 +204,7 @@ examined together to get a good sense of relative performance.
 
 ### Training Data ROC
 
-Train data accuracy is always perfect for models that
+Train data accuracy is **always near perfect** for models that
 have a large paremeter space such a random forest models.
 This assessment is only included here for reference purposes -
 we cannot judge the relative performance of models having
@@ -210,7 +212,8 @@ vastly different parameter spaces based on training data results.
 
 ```{r comp-models-CompROCTrain, message=F, warning=F, cache=TRUE, cache.vars='Set.Train.roc.mtx.lst', fig.height=6, fig.width=11, eval=T, fig.cap='Training Data ROC'}
 
-### BREAK CACHE
+### BREAK CACHE 
+
  # CHANGE THIS LINE TO CLEAR CACHE
  suppressMessages(require(pROC))
 
@@ -255,7 +258,7 @@ vastly different parameter spaces based on training data results.
           round(Set.Train.auc.vec[names(Set.Train.roc.mtx.lst)],3),sep=''),
         col=Model.col[names(Set.Train.roc.mtx.lst)],
         lty=1)
- title('Model Performance on Train Set')
+ title('Model Performance on Train Set \n(Biased assessment)')
 
 ```
 <!-- ######################################################################## -->
@@ -434,6 +437,27 @@ classify correctly.
 ```
 <!-- ######################################################################## -->
 
+Replot with just 5 classifiers to improve clarity with better resolution.
+
+```{r comp-models-CompOOFSet-TrainProbClass1-5models, cache=FALSE, cache.vars='', fig.height=12, fig.width=12, eval=T, fig.cap='Predicted Probabilities'}
+
+### BREAK CACHE
+
+  par(mfrow=c(5,1), mar=c(0,5,2,1), oma=c(5,0,1,0))
+
+  for(MOD in unique(Col.Models.vec)[1:5]) {
+   Mod.cols <- which(Col.Models.vec==MOD)
+
+   box.out <-
+   boxplot(t(Set.Train.indiv_osProbClass1.mtx[row.o,Mod.cols]),
+           col=ifelse(Train.Label.vec[row.o]==CLASS1,3,2),
+           xaxt='n', outline=F)
+   title(MOD)
+  }
+
+```
+<!-- ######################################################################## -->
+
 ### Compare Predicted Probabilities - Test Set
 
 TO DO
@@ -591,12 +615,13 @@ implicitly selects very few features and produces optimistic
 out-of-fold assessments of porformance.  This is typical in
 small sample size settings.
 
+<!--
 * auc alone can be misleading  
    - ROC plots AUC are similar for enetFit and glmnetFit, but Figure 
 \@ref(fig:comp-models-CompOOFSet-TrainProbClass1) shows that the enetFit
 model provides better separation between samples belonging to the two classes.
 These two assessments should be examined as a set.
-
+-->
 
 
 
